@@ -21,33 +21,33 @@
   // ======== 讲解文案 ========
   var SCRIPTS = {
     'index.html': {
-      '#about':       '纳西族世代居住在玉龙雪山脚下，创造了灿烂的东巴文化。让我带你走进他们的世界吧！',
-      '#dongba':      '东巴文是世界上唯一仍在使用的象形文字体系，一千四百余个字符，形意兼备，是人类文字的活化石！',
-      '#gallery':     '这些珍贵的文化展品，每一件都承载着纳西族千年的记忆与智慧。',
-      '#music':       '纳西古乐被誉为"中国音乐的活化石"，融合了道教与唐宋音乐传统，已传承五百余年。',
-      '#interactive': '试试在这里书写东巴文字吧！写好后点击AI猜字，让我来猜猜你写了什么～',
-      '#stories':     '每一册经书都是民族的记忆，每一幅画卷都是文明的见证。',
-      '#explore-nav': '准备好踏入千年时光了吗？点击下方卡片，开启你的探索之旅！'
+      '#about':       { text: '纳西族世代居住在玉龙雪山脚下，创造了灿烂的东巴文化。让我带你走进他们的世界吧！', gif: 'hello' },
+      '#dongba':      { text: '东巴文是世界上唯一仍在使用的象形文字体系，一千四百余个字符，形意兼备，是人类文字的活化石！', gif: 'introduce' },
+      '#gallery':     { text: '这些珍贵的文化展品，每一件都承载着纳西族千年的记忆与智慧。', gif: 'introduce' },
+      '#music':       { text: '纳西古乐被誉为"中国音乐的活化石"，融合了道教与唐宋音乐传统，已传承五百余年。', gif: 'introduce' },
+      '#interactive': { text: '试试在这里书写东巴文字吧！写好后点击AI猜字，让我来猜猜你写了什么～', gif: 'think' },
+      '#stories':     { text: '每一册经书都是民族的记忆，每一幅画卷都是文明的见证。', gif: 'introduce' },
+      '#explore-nav': { text: '准备好踏入千年时光了吗？点击下方卡片，开启你的探索之旅！', gif: 'hello' }
     },
     'dictionary.html': {
-      '.converter':       '在这里输入中文，就能转换为东巴象形文字！试试输入"山"或"水"看看效果。',
-      '.cat-browser':     '这是完整的东巴文字符对照表，按类别浏览，点击任意字符可查看详情。',
-      '.dict-canvas-section': '试试手写东巴文字，写好后点击AI猜字，让我来猜猜你写的是什么！'
+      '.converter':       { text: '在这里输入中文，就能转换为东巴象形文字！试试输入"山"或"水"看看效果。', gif: 'introduce' },
+      '.cat-browser':     { text: '这是完整的东巴文字符对照表，按类别浏览，点击任意字符可查看详情。', gif: 'introduce' },
+      '.dict-canvas-section': { text: '试试手写东巴文字，写好后点击AI猜字，让我来猜猜你写的是什么！', gif: 'think' }
     },
     'gallery.html': {
-      '.gallery-filters': '可以按类别筛选展品哦！有东巴文献、传统技艺和建筑服饰三个分类。',
-      '.gallery-grid':    '点击任意展品卡片可以查看大图和详细介绍，用键盘左右箭头还能切换展品。'
+      '.gallery-filters': { text: '可以按类别筛选展品哦！有东巴文献、传统技艺和建筑服饰三个分类。', gif: 'introduce' },
+      '.gallery-grid':    { text: '点击任意展品卡片可以查看大图和详细介绍，用键盘左右箭头还能切换展品。', gif: 'introduce' }
     },
     'music.html': {
-      '.music-intro':    '纳西古乐融合了道教法事音乐与儒教典礼音乐，被誉为"中国音乐活化石"。',
-      '.music-visualizer':   '点击播放，聆听穿越千年的声音。每一首曲子都有数百年的历史。',
-      '.instruments-section': '这些古老乐器形制独特——苏古笃、曲项琵琶、竹笛，音色悠远而神秘。',
-      '.music-timeline-section': '从唐宋遗音到当代传承，纳西古乐历经千年，薪火相传。'
+      '.music-intro':    { text: '纳西古乐融合了道教法事音乐与儒教典礼音乐，被誉为"中国音乐活化石"。', gif: 'introduce' },
+      '.music-visualizer':   { text: '点击播放，聆听穿越千年的声音。每一首曲子都有数百年的历史。', gif: 'hello' },
+      '.instruments-section': { text: '这些古老乐器形制独特——苏古笃、曲项琵琶、竹笛，音色悠远而神秘。', gif: 'introduce' },
+      '.music-timeline-section': { text: '从唐宋遗音到当代传承，纳西古乐历经千年，薪火相传。', gif: 'introduce' }
     },
     'explore.html': {
-      '.story-block:nth-of-type(1)': '《创世纪》是东巴经书的开篇之作，讲述了纳西族对天地起源的理解。',
-      '.story-block:nth-of-type(2)': '木氏土司统治丽江长达470年，留下了丰富的文化遗产与建筑瑰宝。',
-      '.heritage-timeline-section': '从远古祭祀到世界遗产，纳西文化在保护与传承中焕发新生。'
+      '.story-block:nth-of-type(1)': { text: '《创世纪》是东巴经书的开篇之作，讲述了纳西族对天地起源的理解。', gif: 'introduce' },
+      '.story-block:nth-of-type(2)': { text: '木氏土司统治丽江长达470年，留下了丰富的文化遗产与建筑瑰宝。', gif: 'introduce' },
+      '.heritage-timeline-section': { text: '从远古祭祀到世界遗产，纳西文化在保护与传承中焕发新生。', gif: 'hello' }
     }
   };
 
@@ -204,9 +204,15 @@
 
   // ======== GIF 切换 ========
   function setGif(name) {
-    if (!gifImg || state.currentGif === name) return;
+    if (!gifImg) return;
     state.currentGif = name;
-    gifImg.src = GIFS[name] || GIFS.relax;
+    var newSrc = GIFS[name] || GIFS.relax;
+    // Force GIF replay by appending timestamp when switching to same name
+    if (gifImg.src.replace(/[?].*/, '') === newSrc) {
+      gifImg.src = newSrc + '?t=' + Date.now();
+    } else {
+      gifImg.src = newSrc;
+    }
   }
 
   // ======== 气泡控制 ========
@@ -266,8 +272,8 @@
     return page || 'index.html';
   }
 
-  function speak(text, duration) {
-    setGif('introduce');
+  function speak(text, duration, gif) {
+    setGif(gif || 'introduce');
     showBubble(text, duration || 6000);
   }
 
@@ -299,10 +305,17 @@
 
         var selector = null;
         var text = null;
+        var gif = null;
         for (var i = 0; i < selectors.length; i++) {
           if (entry.target.matches && entry.target.matches(selectors[i])) {
             selector = selectors[i];
-            text = pageScripts[selector];
+            var item = pageScripts[selector];
+            if (typeof item === 'object') {
+              text = item.text;
+              gif = item.gif;
+            } else {
+              text = item;
+            }
             break;
           }
         }
@@ -315,7 +328,7 @@
         state.shownSections.push(key);
         saveState();
 
-        speak(text, 7000);
+        speak(text, 7000, gif);
       });
     }, { threshold: 0.35 });
 
