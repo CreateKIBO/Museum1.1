@@ -9,8 +9,15 @@
 <meta name="description" content="高清展示纳西族文化珍品，涵盖东巴经书、纳西古乐、扎染、古城建筑等。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/gallery-grid.css">
+  <link rel="stylesheet" href="css/scroll-float.css">
+  <link rel="stylesheet" href="css/scroll-reveal-effect.css">
+  <link rel="stylesheet" href="css/dongba-divider.css">
+  <link rel="stylesheet" href="css/ai-assistant.css">
   <style>
     /* Gallery Filter Tabs */
     .gallery-filters {
@@ -36,110 +43,6 @@
     .filter-btn.active {
       background: #1B3A5C;
       color: #F8F6F0;
-    }
-
-    /* Arc Gallery - curved perspective horizontal scroll */
-    .arc-gallery {
-      position: relative;
-      padding: 3rem 0;
-      overflow: hidden;
-    }
-    .arc-gallery::before,
-    .arc-gallery::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 120px;
-      z-index: 3;
-      pointer-events: none;
-    }
-    .arc-gallery::before {
-      left: 0;
-      background: linear-gradient(90deg, #F8F6F0, transparent);
-    }
-    .arc-gallery::after {
-      right: 0;
-      background: linear-gradient(-90deg, #F8F6F0, transparent);
-    }
-    .arc-gallery-track {
-      display: flex;
-      gap: 1.5rem;
-      padding: 0 4rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      perspective: 1000px;
-      -webkit-overflow-scrolling: touch;
-    }
-    .arc-gallery-track::-webkit-scrollbar { display: none; }
-
-    .gallery-item {
-      flex: 0 0 320px;
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      aspect-ratio: 4/3;
-      cursor: pointer;
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
-      scroll-snap-align: center;
-      transform-origin: center center;
-    }
-    .gallery-item:hover {
-      transform: translateY(-8px) scale(1.04);
-      box-shadow: 0 20px 50px rgba(27, 58, 92, 0.25);
-      z-index: 2;
-    }
-    .gallery-item .placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.6s ease;
-    }
-    .gallery-item:hover .placeholder {
-      transform: scale(1.08);
-    }
-    .gallery-item .placeholder span {
-      color: rgba(255,255,255,0.6);
-      font-size: 2.5rem;
-      font-family: 'Noto Serif SC', serif;
-      font-weight: 700;
-      user-select: none;
-    }
-    .gallery-item .item-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(26,26,24,0.85) 0%, rgba(26,26,24,0.15) 50%, transparent 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 1.5rem;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    .gallery-item:hover .item-overlay {
-      opacity: 1;
-    }
-    .item-overlay h3 {
-      color: #F8F6F0;
-      font-family: 'Noto Serif SC', serif;
-      font-size: 1.2rem;
-      margin-bottom: 0.3rem;
-    }
-    .item-overlay p {
-      color: rgba(248,246,240,0.75);
-      font-size: 0.85rem;
-      line-height: 1.5;
-    }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .gallery-item { flex: 0 0 260px; }
-    }
-    @media (max-width: 600px) {
-      .gallery-item { flex: 0 0 85vw; }
     }
 
     /* Lightbox - image fills entire card, text overlays */
@@ -394,11 +297,11 @@
   </div>
 
   <!-- Page Hero -->
-  <section class="page-hero" style="background: url('东巴文化/东巴画/东巴画.jpg') center/cover no-repeat;">
+  <section class="page-hero" style="background: url('素材/东巴文化/东巴画/东巴画.jpg') center/cover no-repeat;">
     <div style="position:absolute;inset:0;background: linear-gradient(135deg, rgba(27,58,92,0.7) 0%, rgba(15,36,64,0.65) 50%, rgba(26,26,24,0.6) 100%);"></div>
     <div class="page-hero-content" style="position:relative;z-index:1;text-align:center;padding:8rem 2rem 4rem;">
-      <h1 style="font-family:'Noto Serif SC',serif;font-size:3rem;color:#F8F6F0;margin-bottom:1rem;">数字展馆</h1>
-      <p style="color:rgba(248,246,240,0.8);font-size:1.1rem;max-width:640px;margin:0 auto;line-height:1.8;">高清展示纳西族文化珍品，涵盖东巴经书、纳西古乐、扎染、古城建筑等。</p>
+      <h1 style="font-family:'Noto Serif SC',serif;font-size:3rem;color:#F8F6F0;margin-bottom:1rem;" data-split data-split-delay="50" data-split-duration="0.7">数字展馆</h1>
+      <p class="scroll-reveal-effect sr-light" style="color:rgba(248,246,240,0.8);font-size:1.1rem;max-width:640px;margin:0 auto;line-height:1.8;" data-sr-blur="true" data-sr-blur-strength="3" data-sr-rotation="2">高清展示纳西族文化珍品，涵盖东巴经书、纳西古乐、扎染、古城建筑等。</p>
     </div>
   </section>
 
@@ -409,6 +312,45 @@
       <span style="margin:0 0.5rem;">/</span>
       <span style="color:#6B4226;">数字展馆</span>
     </div>
+  </div>
+
+  <!-- 东巴文侧边装饰 -->
+  <div class="dongba-side dongba-side--left">
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,36 14,12 20,22 26,8 38,36"/><line x1="1" y1="36" x2="39" y2="36"/></svg>
+      <span class="dongba-side-label">山</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="20" cy="14" r="4"/><circle cx="14" cy="18" r="4"/><circle cx="26" cy="18" r="4"/><circle cx="16" cy="24" r="4"/><circle cx="24" cy="24" r="4"/><circle cx="20" cy="19" r="2.5" fill="currentColor"/><line x1="20" y1="24" x2="20" y2="38"/></svg>
+      <span class="dongba-side-label">花</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c4-8 12-8 16 0c4-8 12-8 16 0"/><circle cx="20" cy="20" r="3"/><path d="M20 23l-3 8"/><path d="M20 23l3 8"/></svg>
+      <span class="dongba-side-label">鸟</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 28c-3 0-5-2-5-5s2-5 5-5c0-4 4-8 9-8c4 0 7 2 8 5c1-0.5 2-1 3-1c3 0 6 3 6 6c2 0 4 2 4 4s-2 4-4 4H8z"/></svg>
+      <span class="dongba-side-label">云</span>
+    </span>
+  </div>
+  <div class="dongba-side dongba-side--right">
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="20,4 24,15 36,15 26,22 30,34 20,26 10,34 14,22 4,15 16,15"/></svg>
+      <span class="dongba-side-label">星</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="20" cy="20" rx="14" ry="8"/><path d="M34 20l6-6v12l-6-6z"/><circle cx="13" cy="18" r="1.5" fill="currentColor"/><path d="M18 16c2 2 2 6 0 8"/></svg>
+      <span class="dongba-side-label">鱼</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="20" y1="38" x2="20" y2="18"/><circle cx="20" cy="13" r="9"/><line x1="14" y1="26" x2="20" y2="20"/><line x1="26" y1="26" x2="20" y2="20"/></svg>
+      <span class="dongba-side-label">木</span>
+    </span>
   </div>
 
   <!-- Page Body -->
@@ -423,62 +365,187 @@
         <button class="filter-btn" data-filter="arch">建筑服饰</button>
       </div>
 
-      <!-- Gallery Grid (Arc horizontal scroll) -->
-      <div class="arc-gallery">
-        <div class="arc-gallery-track" id="galleryGrid">
+      <!-- Gallery Card Grid -->
+      <div class="gallery-grid" id="galleryGrid">
 
-        <div class="gallery-item" data-category="dongba" data-index="0"
-             data-title="东巴经书" data-desc="东巴经书是纳西族东巴祭司用东巴象形文字书写的宗教典籍，内容涵盖神话、历史、哲学、天文、医学等领域，是研究纳西族文化的核心文献。">
-          <div class="placeholder placeholder-dongba-script"><span style="display:none;">东巴经书</span></div>
-          <div class="item-overlay"><h3>东巴经书</h3><p>东巴象形文字书写的宗教典籍，纳西族文化瑰宝</p></div>
+        <div class="gallery-card fade-in" data-category="dongba" data-index="0">
+          <img class="gallery-card-img" src="素材/东巴文化/东巴经书/东巴经书.jpg" alt="东巴经书" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">东巴文献</span>
+            <h3 class="gallery-card-title">东巴经书</h3>
+            <p class="gallery-card-desc">东巴经书是纳西族东巴教祭祀仪式中使用的经典，以东巴象形文字书写，记录了创世神话、祭祀规程与民族历史。</p>
+          </div>
         </div>
 
-        <div class="gallery-item" data-category="dongba" data-index="1"
-             data-title="纳西古乐乐谱" data-desc="纳西古乐融合了道教法事音乐、儒教典礼音乐与唐宋词牌曲，其乐谱工整严谨，记录了千年来音乐传承的脉络。">
-          <div class="placeholder placeholder-naxi-music"><span style="display:none;">纳西古乐</span></div>
-          <div class="item-overlay"><h3>纳西古乐乐谱</h3><p>千年古谱，中国音乐的活化石</p></div>
+        <div class="gallery-card fade-in" data-category="dongba" data-index="1">
+          <img class="gallery-card-img" src="素材/东巴文化/东巴经书/东巴经书2.jpg" alt="东巴经书手抄本" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">东巴文献</span>
+            <h3 class="gallery-card-title">东巴经书手抄本</h3>
+            <p class="gallery-card-desc">东巴祭司亲手抄写的经书，笔触古朴苍劲，是传承千年的活态文化遗产。</p>
+          </div>
         </div>
 
-        <div class="gallery-item" data-category="craft" data-index="2"
-             data-title="扎染" data-desc="扎染是纳西族传统手工印染技艺的代表，以蓝靛为染料，将布料扎结后浸染，拆线后形成独特的冰裂纹与晕色效果，纹样多为花鸟鱼虫与吉祥符号。">
-          <div class="placeholder placeholder-blue-calico"><span style="display:none;">扎染</span></div>
-          <div class="item-overlay"><h3>扎染</h3><p>传统手工扎结浸染技艺，蓝白之间的古朴之美</p></div>
+        <div class="gallery-card fade-in" data-category="dongba" data-index="2">
+          <img class="gallery-card-img" src="素材/东巴文化/东巴画/东巴画.jpg" alt="东巴画" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">东巴文献</span>
+            <h3 class="gallery-card-title">东巴画</h3>
+            <p class="gallery-card-desc">东巴画是东巴祭祀中绘制的宗教绘画，以矿物颜料绘制神灵、鬼怪与自然万物，色彩浓烈而神秘。</p>
+          </div>
         </div>
 
-        <div class="gallery-item" data-category="arch" data-index="3"
-             data-title="古城木楼" data-desc="丽江古城建筑融合纳西、汉、藏等多民族风格，以土木结构为主，飞檐翘角、雕花门窗，体现出人与自然和谐共处的建筑理念。">
-          <div class="placeholder placeholder-ancient-city"><span style="display:none;">古城木楼</span></div>
-          <div class="item-overlay"><h3>古城木楼</h3><p>纳西族传统建筑，世界文化遗产的活态见证</p></div>
+        <div class="gallery-card fade-in" data-category="dongba" data-index="3">
+          <img class="gallery-card-img" src="素材/东巴文化/东巴画/东巴画2.jpg" alt="东巴卷轴画" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">东巴文献</span>
+            <h3 class="gallery-card-title">东巴卷轴画</h3>
+            <p class="gallery-card-desc">东巴卷轴画又称神路图，描绘纳西族对生死轮回的理解，是东巴艺术的巅峰之作。</p>
+          </div>
         </div>
 
-        <div class="gallery-item" data-category="arch" data-index="4"
-             data-title="七星披肩" data-desc="七星披肩是纳西族妇女的传统服饰，披肩上绣有七颗星星，象征着纳西族妇女"披星戴月"的勤劳精神，是纳西族文化的重要标志。">
-          <div class="placeholder placeholder-naxi-costume"><span style="display:none;">七星披肩</span></div>
-          <div class="item-overlay"><h3>七星披肩</h3><p>纳西族妇女传统服饰，披星戴月的文化象征</p></div>
+        <div class="gallery-card fade-in" data-category="dongba" data-index="4">
+          <img class="gallery-card-img" src="素材/东巴文化/东巴画/东巴画3.jpg" alt="东巴神路图" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">东巴文献</span>
+            <h3 class="gallery-card-title">东巴神路图</h3>
+            <p class="gallery-card-desc">神路图长卷展现地狱、人间、天堂三界，是东巴教宇宙观的视觉化呈现。</p>
+          </div>
         </div>
 
-        <div class="gallery-item" data-category="dongba" data-index="5"
-             data-title="东巴画" data-desc="东巴画是东巴祭司在宗教仪式中使用的绘画艺术，以天然矿物颜料绘制，色彩浓烈，形象奇特，兼具宗教神圣感与艺术审美价值。">
-          <div class="placeholder placeholder-dongba-painting"><span style="display:none;">东巴画</span></div>
-          <div class="item-overlay"><h3>东巴画</h3><p>东巴祭司的神圣绘画，色彩浓烈的宗教艺术</p></div>
+        <div class="gallery-card fade-in" data-category="dongba" data-index="5">
+          <img class="gallery-card-img" src="素材/东巴文化/东巴木牌画/东巴木牌画.jpg" alt="东巴木牌画" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">东巴文献</span>
+            <h3 class="gallery-card-title">东巴木牌画</h3>
+            <p class="gallery-card-desc">木牌画是东巴祭祀时插于祭坛的木制彩绘牌，绘有神灵与自然精灵，粗犷而生动。</p>
+          </div>
         </div>
 
-        <div class="gallery-item" data-category="dongba" data-index="6"
-             data-title="东巴木牌画" data-desc="东巴木牌画是刻绘在木牌上的东巴图画文字，用于宗教仪式中的祭祀活动。每块木牌上绘有神灵、鬼怪或自然物象，线条粗犷有力。">
-          <div class="placeholder placeholder-wood-tablet"><span style="display:none;">木牌画</span></div>
-          <div class="item-overlay"><h3>东巴木牌画</h3><p>木牌上的图画文字，祭祀仪式的神圣载体</p></div>
+        <div class="gallery-card fade-in" data-category="dongba" data-index="6">
+          <img class="gallery-card-img" src="素材/东巴文化/东巴象形文字/东巴象形文字.jpg" alt="东巴象形文字" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">东巴文献</span>
+            <h3 class="gallery-card-title">东巴象形文字</h3>
+            <p class="gallery-card-desc">世界上唯一仍在使用的象形文字体系，一千四百余个字符，形意兼备，是人类文字活化石。</p>
+          </div>
         </div>
 
-        <div class="gallery-item" data-category="craft" data-index="7"
-             data-title="纳西银器" data-desc="纳西族银器工艺历史悠久，制品包括银饰、银壶、银碗等，纹饰精美，工艺精湛，兼具实用性与艺术性，是纳西族重要的手工艺品。">
-          <div class="placeholder placeholder-silverware"><span style="display:none;">纳西银器</span></div>
-          <div class="item-overlay"><h3>纳西银器</h3><p>精湛银器工艺，纳西族手工艺的杰出代表</p></div>
+        <div class="gallery-card fade-in" data-category="dongba" data-index="7">
+          <img class="gallery-card-img" src="素材/东巴文化/东巴祭司/hejiren.jpg" alt="东巴祭司" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">东巴文献</span>
+            <h3 class="gallery-card-title">东巴祭司</h3>
+            <p class="gallery-card-desc">东巴祭司是纳西族的知识分子与精神领袖，通晓经文、医药、历法与祭祀仪轨。</p>
+          </div>
         </div>
 
-        <div class="gallery-item" data-category="arch" data-index="8"
-             data-title="古城石桥" data-desc="丽江古城内分布着三百多座石桥，最早的建于明清时期，石桥与流水、民居相映成趣，构成了"小桥流水人家"的诗意画卷。">
-          <div class="placeholder placeholder-stone-bridge"><span style="display:none;">古城石桥</span></div>
-          <div class="item-overlay"><h3>古城石桥</h3><p>三百余座古石桥，小桥流水的诗意画卷</p></div>
+        <div class="gallery-card fade-in" data-category="craft" data-index="8">
+          <img class="gallery-card-img" src="素材/纳西古乐/纳西古乐.jpg" alt="纳西古乐" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">传统技艺</span>
+            <h3 class="gallery-card-title">纳西古乐</h3>
+            <p class="gallery-card-desc">纳西古乐融合道教法事音乐与儒教典礼音乐，被誉为"中国音乐活化石"，已传承五百余年。</p>
+          </div>
+        </div>
+
+        <div class="gallery-card fade-in" data-category="craft" data-index="9">
+          <img class="gallery-card-img" src="素材/纳西古乐/纳西古乐会.jpg" alt="纳西古乐会" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">传统技艺</span>
+            <h3 class="gallery-card-title">纳西古乐会</h3>
+            <p class="gallery-card-desc">丽江大研纳西古乐会由宣科先生创办，将古老乐章推向世界舞台，享誉海内外。</p>
+          </div>
+        </div>
+
+        <div class="gallery-card fade-in" data-category="craft" data-index="10">
+          <img class="gallery-card-img" src="素材/纳西古乐/乐器/竹笛_5.jpg" alt="纳西乐器" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">传统技艺</span>
+            <h3 class="gallery-card-title">纳西传统乐器</h3>
+            <p class="gallery-card-desc">苏古笃、曲项琵琶、竹笛等古老乐器，形制独特，音色悠远，承载着纳西族的音乐记忆。</p>
+          </div>
+        </div>
+
+        <div class="gallery-card fade-in" data-category="craft" data-index="11">
+          <img class="gallery-card-img" src="素材/纳西服饰/七星披肩/七星披肩.jpg" alt="七星披肩" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">传统技艺</span>
+            <h3 class="gallery-card-title">七星披肩</h3>
+            <p class="gallery-card-desc">纳西族妇女标志性服饰，以七颗星和日月纹样羊皮披肩象征"披星戴月"，寓意勤劳。</p>
+          </div>
+        </div>
+
+        <div class="gallery-card fade-in" data-category="craft" data-index="12">
+          <img class="gallery-card-img" src="素材/纳西服饰/蓝印花布/蓝印花布1.jpg" alt="蓝印花布" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">传统技艺</span>
+            <h3 class="gallery-card-title">蓝印花布</h3>
+            <p class="gallery-card-desc">纳西族传统扎染技艺，以靛蓝染料与手工扎结创造独特纹样，朴素而雅致。</p>
+          </div>
+        </div>
+
+        <div class="gallery-card fade-in" data-category="craft" data-index="13">
+          <img class="gallery-card-img" src="素材/纳西银器/丽江银器.jpg" alt="纳西银器" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">传统技艺</span>
+            <h3 class="gallery-card-title">纳西银器</h3>
+            <p class="gallery-card-desc">丽江银器工艺精湛，银壶、银碗、银饰兼具实用与审美，是纳西族重要的手工艺传统。</p>
+          </div>
+        </div>
+
+        <div class="gallery-card fade-in" data-category="arch" data-index="14">
+          <img class="gallery-card-img" src="素材/古城建筑/木楼/古城木楼.jpg" alt="古城木楼" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">建筑服饰</span>
+            <h3 class="gallery-card-title">古城木楼</h3>
+            <p class="gallery-card-desc">丽江古城木构建筑依水而建，穿斗式木架与飞檐翘角，体现纳西族与自然共生的智慧。</p>
+          </div>
+        </div>
+
+        <div class="gallery-card fade-in" data-category="arch" data-index="15">
+          <img class="gallery-card-img" src="素材/古城建筑/木楼/古城木楼2.jpg" alt="古城民居" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">建筑服饰</span>
+            <h3 class="gallery-card-title">古城民居</h3>
+            <p class="gallery-card-desc">三坊一照壁、四合五天井的纳西民居格局，融合汉藏建筑风格，庭院花木扶疏。</p>
+          </div>
+        </div>
+
+        <div class="gallery-card fade-in" data-category="arch" data-index="16">
+          <img class="gallery-card-img" src="素材/古城建筑/石桥/石桥.jpg" alt="古城石桥" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">建筑服饰</span>
+            <h3 class="gallery-card-title">古城石桥</h3>
+            <p class="gallery-card-desc">丽江古城三百五十四座石桥纵横交错，青石板路映照流水，构成独特的水乡画卷。</p>
+          </div>
+        </div>
+
+        <div class="gallery-card fade-in" data-category="arch" data-index="17">
+          <img class="gallery-card-img" src="素材/纳西服饰/纳西服饰.jpg" alt="纳西服饰" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">建筑服饰</span>
+            <h3 class="gallery-card-title">纳西传统服饰</h3>
+            <p class="gallery-card-desc">纳西族服饰色彩鲜明，女性披星戴月、男性短褂长靴，承载着民族审美与身份认同。</p>
+          </div>
+        </div>
+
+        <div class="gallery-card fade-in" data-category="dongba" data-index="18">
+          <img class="gallery-card-img" src="素材/历史事件/东巴古籍世界记忆遗产/文化遗产.jpg" alt="世界记忆遗产" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">东巴文献</span>
+            <h3 class="gallery-card-title">世界记忆遗产</h3>
+            <p class="gallery-card-desc">2003年东巴古籍文献被联合国教科文组织列入"世界记忆遗产名录"，是人类文明的瑰宝。</p>
+          </div>
+        </div>
+
+        <div class="gallery-card fade-in" data-category="arch" data-index="19">
+          <img class="gallery-card-img" src="素材/数字化保护/东巴文化数字化/东巴数字化.jpg" alt="东巴文化数字化" loading="lazy">
+          <div class="gallery-card-body">
+            <span class="gallery-card-tag">建筑服饰</span>
+            <h3 class="gallery-card-title">东巴文化数字化保护</h3>
+            <p class="gallery-card-desc">运用数字技术对东巴经书、象形文字进行高精度采集与永久保存，让千年遗产在数字时代永续传承。</p>
+          </div>
         </div>
 
       </div>
@@ -533,8 +600,151 @@
     <div class="footer-bottom"><p>&copy; 2026 纳西文化博物馆 &middot; 保留所有权利</p></div>
   </footer>
 
-  <script src="js/animations.js"></script>
-  <script src="js/lightbox.js"></script>
-  <script src="js/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/animations.js" defer></script>
+  <script src="js/split-text.js" defer></script>
+  <script src="js/scroll-float.js" defer></script>
+  <script src="js/scroll-reveal-effect.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/ai-assistant.js" defer></script>
+  <script>
+  (function() {
+    // Filter logic
+    var filterBtns = document.querySelectorAll('.filter-btn');
+    var cards = document.querySelectorAll('.gallery-card');
+
+    filterBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        filterBtns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var filter = btn.getAttribute('data-filter');
+
+        cards.forEach(function(card) {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.classList.remove('hidden');
+            card.classList.add('fade-in');
+          } else {
+            card.classList.add('hidden');
+            card.classList.remove('fade-in');
+          }
+        });
+      });
+    });
+
+    // Lightbox logic
+    var lightbox = document.getElementById('lightbox');
+    var lbImage = document.getElementById('lightboxImage');
+    var lbTitle = document.getElementById('lightboxTitle');
+    var lbDesc = document.getElementById('lightboxDesc');
+    var lbCategory = document.getElementById('lightboxCategory');
+    var lbCounter = document.getElementById('lightboxCounter');
+    var lbClose = document.getElementById('lightboxClose');
+    var lbPrev = document.getElementById('lightboxPrev');
+    var lbNext = document.getElementById('lightboxNext');
+    var lbThumbnails = document.getElementById('lightboxThumbnails');
+    var lbLike = document.getElementById('lightboxLike');
+    var visibleCards = [];
+    var currentIndex = 0;
+
+    function getVisibleCards() {
+      return Array.from(cards).filter(function(c) { return !c.classList.contains('hidden'); });
+    }
+
+    function openLightbox(idx) {
+      visibleCards = getVisibleCards();
+      currentIndex = idx;
+      updateLightbox();
+      lightbox.classList.add('active');
+    }
+
+    function updateLightbox() {
+      var card = visibleCards[currentIndex];
+      if (!card) return;
+      var img = card.querySelector('.gallery-card-img');
+      var title = card.querySelector('.gallery-card-title');
+      var desc = card.querySelector('.gallery-card-desc');
+      var tag = card.querySelector('.gallery-card-tag');
+
+      lbImage.style.backgroundImage = 'url(' + img.src + ')';
+      lbTitle.textContent = title.textContent;
+      lbDesc.textContent = desc.textContent;
+      lbCategory.textContent = tag.textContent;
+      lbCounter.textContent = (currentIndex + 1) + ' / ' + visibleCards.length;
+
+      // Thumbnails
+      lbThumbnails.innerHTML = '';
+      visibleCards.forEach(function(c, i) {
+        var thumb = document.createElement('div');
+        thumb.className = 'lightbox-thumb' + (i === currentIndex ? ' active' : '');
+        var thumbImg = c.querySelector('.gallery-card-img');
+        var inner = document.createElement('div');
+        inner.className = 'lightbox-thumb-img';
+        inner.style.backgroundImage = 'url(' + thumbImg.src + ')';
+        thumb.appendChild(inner);
+        thumb.addEventListener('click', function() {
+          currentIndex = i;
+          updateLightbox();
+        });
+        lbThumbnails.appendChild(thumb);
+      });
+    }
+
+    cards.forEach(function(card, i) {
+      card.addEventListener('click', function() {
+        var visible = getVisibleCards();
+        var idx = visible.indexOf(card);
+        if (idx >= 0) openLightbox(idx);
+      });
+    });
+
+    lbClose.addEventListener('click', function() { lightbox.classList.remove('active'); });
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) lightbox.classList.remove('active');
+    });
+
+    lbPrev.addEventListener('click', function() {
+      currentIndex = (currentIndex - 1 + visibleCards.length) % visibleCards.length;
+      updateLightbox();
+    });
+
+    lbNext.addEventListener('click', function() {
+      currentIndex = (currentIndex + 1) % visibleCards.length;
+      updateLightbox();
+    });
+
+    lbLike.addEventListener('click', function() {
+      lbLike.classList.toggle('liked');
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') lightbox.classList.remove('active');
+      if (e.key === 'ArrowLeft') { currentIndex = (currentIndex - 1 + visibleCards.length) % visibleCards.length; updateLightbox(); }
+      if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % visibleCards.length; updateLightbox(); }
+    });
+
+    // Body scroll lock
+    var observer = new MutationObserver(function() {
+      document.body.style.overflow = lightbox.classList.contains('active') ? 'hidden' : '';
+    });
+    observer.observe(lightbox, { attributes: true, attributeFilter: ['class'] });
+  })();
+  </script>
+<!-- AI助手 -->
+  <div class="ai-assistant" id="aiAssistant">
+    <div class="ai-assistant-bubble" id="aiBubble">
+      <div class="ai-bubble-text" id="aiBubbleText"></div>
+      <div class="ai-bubble-actions" id="aiBubbleActions" style="display:none;">
+        <button class="ai-btn-correct" id="aiBtnCorrect">猜对了</button>
+        <button class="ai-btn-wrong" id="aiBtnWrong">不对</button>
+      </div>
+      <button class="ai-bubble-close" id="aiBubbleClose">&times;</button>
+    </div>
+    <div class="ai-assistant-avatar" id="aiAvatar">
+      <img src="素材/ai_animation/relax.gif" alt="AI助手" id="aiGif">
+    </div>
+  </div>
 </body>
 </html>

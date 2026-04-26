@@ -1,13 +1,13 @@
 /* ai-recognize.js — AI东巴文字识别模块
  * 将用户绘制和参考SVG统一渲染为像素，在同一特征空间内做相似度比对
- * 优化：距离变换匹配、结构特征、多尺度网格、骨架归一化
+ * 优化：距离变换匹配、结构特征、多尺度网格、骨架归一化、轮廓特征
  */
 
 (function(global) {
   'use strict';
 
   var GRID_SIZE = 8;
-  var NORM_SIZE = 64;
+  var NORM_SIZE = 96;
   var CACHE_KEY = '__dongbaRenderCache';
 
   // ======== 图像预处理 ========
@@ -22,7 +22,7 @@
         if (brightness < 200) {
           mat[y * w + x] = 1;
           if (x < minX) minX = x;
-          if (x > maxX) maxX = x;
+        if (x > maxX) maxX = x;
           if (y < minY) minY = y;
           if (y > maxY) maxY = y;
         }
@@ -45,7 +45,7 @@
     var sw = Math.min(binary.w - sx, bb.w + pad * 2);
     var sh = Math.min(binary.h - sy, bb.h + pad * 2);
 
-    var margin = 6;
+    var margin = 8;
     var scale = Math.min((NORM_SIZE - margin * 2) / sw, (NORM_SIZE - margin * 2) / sh);
     var dw = sw * scale;
     var dh = sh * scale;
@@ -60,11 +60,11 @@
       for (var nx = 0; nx < NORM_SIZE; nx++) {
         var srcXf = sx + (nx - dx) / scale;
         var srcYf = sy + (ny - dy) / scale;
-        // 3x3 supersampling for better quality
+        // 5x5 supersampling for better quality
         var count = 0;
         var samples = 0;
-        for (var sy2 = -0.5; sy2 <= 0.5; sy2 += 0.5) {
-          for (var sx2 = -0.5; sx2 <= 0.5; sx2 += 0.5) {
+        for (var sy2 = -0.5; sy2 <= 0.5; sy2 += 0.25) {
+          for (var sx2 = -0.5; sx2 <= 0.5; sx2 += 0.25) {
             var sxi = Math.floor(srcXf + sx2);
             var syi = Math.floor(srcYf + sy2);
             samples++;
@@ -79,13 +79,12 @@
     return normMat;
   }
 
-  // 简单的形态学腐蚀（3x3）
+  // 形态学腐蚀（3x3）
   function erode(mat) {
     var out = new Uint8Array(NORM_SIZE * NORM_SIZE);
     for (var y = 1; y < NORM_SIZE - 1; y++) {
       for (var x = 1; x < NORM_SIZE - 1; x++) {
         if (mat[y * NORM_SIZE + x]) {
-          // Keep only if at least 5 neighbors are also filled
           var neighbors = 0;
           for (var dy = -1; dy <= 1; dy++) {
             for (var dx = -1; dx <= 1; dx++) {
@@ -99,7 +98,7 @@
     return out;
   }
 
-  // 简单的形态学膨胀（3x3）
+  // 形态学膨胀（3x3）
   function dilate(mat) {
     var out = new Uint8Array(NORM_SIZE * NORM_SIZE);
     for (var y = 1; y < NORM_SIZE - 1; y++) {
@@ -116,12 +115,12 @@
     return out;
   }
 
-  // 骨架化（迭代细化）- 将笔画细化到1像素宽
+  // 骨架化（Zhang-Suen迭代细化）
   function skeletonize(mat) {
     var current = new Uint8Array(mat);
     var changed = true;
     var iterations = 0;
-    var maxIter = 20;
+    var maxIter = 30;
 
     while (changed && iterations < maxIter) {
       changed = false;
@@ -144,7 +143,6 @@
           var B = p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9;
           if (B < 2 || B > 6) continue;
 
-          // Count 0→1 transitions
           var transitions = 0;
           var seq = [p2,p3,p4,p5,p6,p7,p8,p9,p2];
           for (var i = 0; i < 8; i++) {
@@ -152,7 +150,6 @@
           }
           if (transitions !== 1) continue;
 
-          // Zhang-Suen conditions (alternating)
           if (iterations % 2 === 1) {
             if (p2 && p4 && p6) continue;
             if (p4 && p6 && p8) continue;
@@ -170,17 +167,15 @@
     return current;
   }
 
-  // 计算距离变换（每个空白像素到最近笔画像素的距离）
+  // 距离变换
   function distanceTransform(mat) {
     var dist = new Float32Array(NORM_SIZE * NORM_SIZE);
     var INF = NORM_SIZE * 2;
 
-    // Initialize
     for (var i = 0; i < NORM_SIZE * NORM_SIZE; i++) {
       dist[i] = mat[i] ? 0 : INF;
     }
 
-    // Forward pass
     for (var y = 0; y < NORM_SIZE; y++) {
       for (var x = 0; x < NORM_SIZE; x++) {
         var idx = y * NORM_SIZE + x;
@@ -191,7 +186,6 @@
       }
     }
 
-    // Backward pass
     for (var y = NORM_SIZE - 1; y >= 0; y--) {
       for (var x = NORM_SIZE - 1; x >= 0; x--) {
         var idx = y * NORM_SIZE + x;
@@ -208,7 +202,6 @@
   // ======== SVG 渲染 ========
 
   function renderSvgToBinary(svgStr) {
-    // Replace currentColor with a concrete color for reliable rendering
     var processedSvg = svgStr.replace(/currentColor/g, '#1A1A18');
     var fullSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="' + NORM_SIZE + '" height="' + NORM_SIZE + '">' + processedSvg + '</svg>';
     var blob = new Blob([fullSvg], { type: 'image/svg+xml;charset=utf-8' });
@@ -260,10 +253,12 @@
         if (binary) {
           var skeleton = skeletonize(binary);
           var distMap = distanceTransform(binary);
+          var features = extractFeatures(binary, skeleton);
           cache.data[char.cn] = {
             binary: binary,
             skeleton: skeleton,
             distMap: distMap,
+            features: features,
             char: char
           };
         }
@@ -278,36 +273,40 @@
 
   // ======== 特征提取 ========
 
-  function extractFeatures(normMat) {
+  function extractFeatures(normMat, skelPrecomputed) {
     if (!normMat) return null;
 
     var features = {
       density: new Float32Array(GRID_SIZE * GRID_SIZE),
-      density16: new Float32Array(16 * 16),    // finer grid
+      density16: new Float32Array(16 * 16),
+      density32: new Float32Array(32 * 32),
       hProj: new Float32Array(NORM_SIZE),
       vProj: new Float32Array(NORM_SIZE),
-      radial: new Float32Array(4),
+      radial: new Float32Array(6),
       quadrants: new Float32Array(4),
       totalDensity: 0,
       aspectRatio: 1,
       cx: 0.5, cy: 0.5,
-      // Structural features
       endpoints: 0,
       junctions: 0,
-      crossings: 0
+      crossings: 0,
+      contourLen: 0,
+      hCross: new Float32Array(NORM_SIZE),
+      vCross: new Float32Array(NORM_SIZE)
     };
 
     var cellW = NORM_SIZE / GRID_SIZE;
     var cellH = NORM_SIZE / GRID_SIZE;
     var cellW16 = NORM_SIZE / 16;
     var cellH16 = NORM_SIZE / 16;
+    var cellW32 = NORM_SIZE / 32;
+    var cellH32 = NORM_SIZE / 32;
     var centerX = NORM_SIZE / 2, centerY = NORM_SIZE / 2;
     var maxRadius = Math.sqrt(centerX * centerX + centerY * centerY);
     var sumX = 0, sumY = 0, totalCount = 0;
     var bx0 = NORM_SIZE, by0 = NORM_SIZE, bx1 = 0, by1 = 0;
 
-    // Build skeleton for structural features
-    var skel = skeletonize(normMat);
+    var skel = skelPrecomputed || skeletonize(normMat);
 
     for (var y = 0; y < NORM_SIZE; y++) {
       for (var x = 0; x < NORM_SIZE; x++) {
@@ -331,9 +330,14 @@
         var gy16 = Math.min(15, (y / cellH16) | 0);
         features.density16[gy16 * 16 + gx16] += 1;
 
+        // 32x32 density grid
+        var gx32 = Math.min(31, (x / cellW32) | 0);
+        var gy32 = Math.min(31, (y / cellH32) | 0);
+        features.density32[gy32 * 32 + gx32] += 1;
+
         var dx = x - centerX, dy = y - centerY;
         var dist = Math.sqrt(dx * dx + dy * dy) / maxRadius;
-        var ring = Math.min(3, (dist * 4) | 0);
+        var ring = Math.min(5, (dist * 6) | 0);
         features.radial[ring] += 1;
 
         var qi = (y < centerY ? 0 : 2) + (x < centerX ? 0 : 1);
@@ -341,6 +345,21 @@
 
         features.hProj[y] += 1;
         features.vProj[x] += 1;
+
+        // Contour detection (border pixels)
+        if (x === 0 || x === NORM_SIZE-1 || y === 0 || y === NORM_SIZE-1 ||
+            !normMat[(y-1)*NORM_SIZE+x] || !normMat[(y+1)*NORM_SIZE+x] ||
+            !normMat[y*NORM_SIZE+(x-1)] || !normMat[y*NORM_SIZE+(x+1)]) {
+          features.contourLen++;
+        }
+
+        // Horizontal/vertical crossing counts
+        if (x > 0 && !normMat[y * NORM_SIZE + (x-1)] && v) {
+          features.hCross[y]++;
+        }
+        if (y > 0 && !normMat[(y-1) * NORM_SIZE + x] && v) {
+          features.vCross[x]++;
+        }
 
         // Structural: analyze skeleton neighbors
         if (skel[y * NORM_SIZE + x] && y > 0 && y < NORM_SIZE-1 && x > 0 && x < NORM_SIZE-1) {
@@ -360,8 +379,10 @@
     // Normalize
     var cellArea = cellW * cellH;
     var cellArea16 = cellW16 * cellH16;
+    var cellArea32 = cellW32 * cellH32;
     for (var i = 0; i < features.density.length; i++) features.density[i] /= cellArea;
     for (var i = 0; i < features.density16.length; i++) features.density16[i] /= cellArea16;
+    for (var i = 0; i < features.density32.length; i++) features.density32[i] /= cellArea32;
     for (var i = 0; i < features.hProj.length; i++) features.hProj[i] /= NORM_SIZE;
     for (var i = 0; i < features.vProj.length; i++) features.vProj[i] /= NORM_SIZE;
     for (var i = 0; i < features.radial.length; i++) features.radial[i] /= totalCount;
@@ -411,6 +432,7 @@
   function computeSimilarity(fDraw, fRef) {
     var densitySim = cosineSim(fDraw.density, fRef.density);
     var density16Sim = cosineSim(fDraw.density16, fRef.density16);
+    var density32Sim = cosineSim(fDraw.density32, fRef.density32);
     var hProjSim = crossCorrelate(fDraw.hProj, fRef.hProj);
     var vProjSim = crossCorrelate(fDraw.vProj, fRef.vProj);
     var radialSim = cosineSim(fDraw.radial, fRef.radial);
@@ -425,7 +447,7 @@
     var arDiff = Math.abs(fDraw.aspectRatio - fRef.aspectRatio);
     var arSim = Math.max(0, 1 - arDiff * 0.8);
 
-    // Structural similarity: endpoints and junctions count ratio
+    // Structural similarity
     var epSim = 1;
     if (fRef.endpoints > 0 || fDraw.endpoints > 0) {
       var epMax = Math.max(fDraw.endpoints, fRef.endpoints, 1);
@@ -437,26 +459,37 @@
       jnSim = 1 - Math.abs(fDraw.junctions - fRef.junctions) / jnMax;
     }
 
+    // Crossing pattern similarity
+    var hCrossSim = crossCorrelate(fDraw.hCross, fRef.hCross);
+    var vCrossSim = crossCorrelate(fDraw.vCross, fRef.vCross);
+
+    // Contour length similarity
+    var contMax = Math.max(fDraw.contourLen, fRef.contourLen, 1);
+    var contSim = 1 - Math.abs(fDraw.contourLen - fRef.contourLen) / contMax;
+
     var score =
-      densitySim   * 0.15 +
-      density16Sim * 0.18 +
-      hProjSim     * 0.10 +
-      vProjSim     * 0.10 +
-      radialSim    * 0.08 +
-      quadSim      * 0.06 +
-      centroidSim  * 0.05 +
-      densSim      * 0.05 +
-      arSim        * 0.05 +
-      epSim        * 0.04 +
-      jnSim        * 0.04;
+      densitySim   * 0.08 +
+      density16Sim * 0.10 +
+      density32Sim * 0.12 +
+      hProjSim     * 0.06 +
+      vProjSim     * 0.06 +
+      radialSim    * 0.04 +
+      quadSim      * 0.03 +
+      centroidSim  * 0.03 +
+      densSim      * 0.03 +
+      arSim        * 0.03 +
+      epSim        * 0.03 +
+      jnSim        * 0.03 +
+      hCrossSim    * 0.04 +
+      vCrossSim    * 0.04 +
+      contSim      * 0.02;
 
     return score;
   }
 
-  // ======== 距离变换匹配（容错像素比对） ========
+  // ======== 距离变换匹配 ========
 
   function dtSimilarity(matA, distMapB) {
-    // For each stroke pixel in A, look up distance in B's distance map
     var totalDist = 0;
     var countA = 0;
     for (var i = 0; i < NORM_SIZE * NORM_SIZE; i++) {
@@ -467,13 +500,13 @@
     }
     if (countA === 0) return 0;
 
-    // Average distance, normalized by NORM_SIZE, then convert to similarity
     var avgDist = totalDist / countA;
-    var sim = Math.max(0, 1 - avgDist / 12);
+    // Adaptive normalization based on character size
+    var normFactor = NORM_SIZE * 0.15;
+    var sim = Math.max(0, 1 - avgDist / normFactor);
     return sim;
   }
 
-  // 双向距离变换匹配
   function bidirectionalDtSim(matA, distMapA, matB, distMapB) {
     var simAB = dtSimilarity(matA, distMapB);
     var simBA = dtSimilarity(matB, distMapA);
@@ -500,10 +533,11 @@
     var normMat = normalizeBinary(binary);
     if (!normMat) return Promise.resolve([]);
 
-    var drawFeatures = extractFeatures(normMat);
+    // Pre-compute drawing features once
+    var drawSkel = skeletonize(normMat);
+    var drawFeatures = extractFeatures(normMat, drawSkel);
     if (!drawFeatures) return Promise.resolve([]);
 
-    // Distance transform for user drawing
     var drawDistMap = distanceTransform(normMat);
 
     return ensureCache().then(function(cache) {
@@ -517,7 +551,8 @@
         var entry = cache.data[key];
         if (!entry.binary) continue;
 
-        var refFeatures = extractFeatures(entry.binary);
+        // Use pre-computed features from cache
+        var refFeatures = entry.features;
         if (!refFeatures) continue;
 
         // 1. Feature-level similarity
@@ -526,9 +561,8 @@
         // 2. Bidirectional distance transform matching
         var dtSim = bidirectionalDtSim(normMat, drawDistMap, entry.binary, entry.distMap);
 
-        // 3. Skeleton overlap (structural shape match)
+        // 3. Skeleton overlap
         var skelMatch = 0, skelTotal = 0;
-        var drawSkel = skeletonize(normMat);
         for (var j = 0; j < NORM_SIZE * NORM_SIZE; j++) {
           if (drawSkel[j] || entry.skeleton[j]) {
             skelTotal++;
@@ -537,10 +571,10 @@
         }
         var skelSim = skelTotal > 0 ? skelMatch / skelTotal : 0;
 
-        // Combined score with tuned weights
-        var confidence = featureSim * 0.30 + dtSim * 0.40 + skelSim * 0.30;
+        // Combined score — DT matching has highest weight
+        var confidence = featureSim * 0.25 + dtSim * 0.45 + skelSim * 0.30;
 
-        if (confidence > 0.12) {
+        if (confidence > 0.10) {
           results.push({
             cn: entry.char.cn,
             pinyin: entry.char.pinyin,

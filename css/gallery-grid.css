@@ -1,0 +1,106 @@
+/* gallery-grid.css — 数字展馆卡片网格布局 */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.8rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(27, 58, 92, 0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+}
+
+.gallery-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(27, 58, 92, 0.18);
+}
+
+.gallery-card-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.gallery-card:hover .gallery-card-img {
+  transform: scale(1.06);
+}
+
+.gallery-card-body {
+  padding: 1.2rem 1.4rem;
+  position: relative;
+}
+
+.gallery-card-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: #C5A55A;
+  letter-spacing: 0.08em;
+  padding: 0.2em 0.6em;
+  border: 1px solid rgba(197, 165, 90, 0.4);
+  border-radius: 2px;
+  margin-bottom: 0.5rem;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+.gallery-card-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.15rem;
+  color: #1B3A5C;
+  margin-bottom: 0.4rem;
+  line-height: 1.4;
+}
+
+.gallery-card-desc {
+  font-size: 0.85rem;
+  color: #6B4226;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Filter active state animation */
+.gallery-card.hidden {
+  display: none;
+}
+
+.gallery-card.fade-in {
+  animation: cardFadeIn 0.4s ease forwards;
+}
+
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .gallery-card-body {
+    padding: 1rem;
+  }
+  .gallery-card-title {
+    font-size: 1rem;
+  }
+}

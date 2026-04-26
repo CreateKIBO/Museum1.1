@@ -7,8 +7,15 @@
   <title>东巴文字典 — 纳西文化博物馆</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/magnet-lines.css">
+  <link rel="stylesheet" href="css/scroll-float.css">
+  <link rel="stylesheet" href="css/scroll-reveal-effect.css">
+  <link rel="stylesheet" href="css/dongba-divider.css">
+  <link rel="stylesheet" href="css/ai-assistant.css">
   <style>
     /* Dictionary-specific styles */
     .converter { max-width:900px; margin:0 auto var(--space-xl); }
@@ -56,7 +63,28 @@
     .result-punct { font-size:1.5rem; color:var(--color-stone); display:flex; align-items:center; justify-content:center; width:40px; }
 
     /* Category browser */
-    .cat-browser { margin-top:var(--space-xl); }
+    .cat-browser { margin-top:0; }
+
+    /* Section divider between converter and cat-browser */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem auto;
+      max-width: 600px;
+    }
+    .section-divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(197,165,90,0.4), transparent);
+    }
+    .section-divider-icon {
+      width: 28px;
+      height: 28px;
+      color: #C5A55A;
+      opacity: 0.5;
+      flex-shrink: 0;
+    }
     .cat-tabs { display:flex; gap:0.8rem; margin-bottom:var(--space-lg); flex-wrap:wrap; }
     .cat-tab {
       padding:0.5em 1.5em; font-size:0.85rem; border:1px solid var(--color-mist);
@@ -207,16 +235,55 @@
 
   <!-- Page Hero -->
   <section class="page-hero">
-    <div class="page-hero-bg" style="background: url('东巴文化/东巴经书/东巴经书.jpg') center/cover no-repeat;"></div>
+    <div class="page-hero-bg" style="background: url('素材/东巴文化/东巴经书/东巴经书.jpg') center/cover no-repeat;"></div>
     <div class="page-hero-overlay" style="background: radial-gradient(ellipse at center, rgba(15,36,64,0.6) 30%, rgba(15,36,64,0.85) 100%);"></div>
     <div class="page-hero-content anim-fade-up">
       <span class="section-tag">在线工具</span>
-      <h1 class="section-title section-title-light">东巴文字典</h1>
-      <p class="page-hero-desc">输入中文文字，即时转换为东巴象形文字。浏览完整字符对照表，探索千年文字的奥秘。</p>
+      <h1 class="section-title section-title-light" data-split data-split-delay="50" data-split-duration="0.7">东巴文字典</h1>
+      <p class="page-hero-desc scroll-reveal-effect sr-light" data-sr-blur="true" data-sr-blur-strength="3" data-sr-rotation="2">输入中文文字，即时转换为东巴象形文字。浏览完整字符对照表，探索千年文字的奥秘。</p>
     </div>
   </section>
 
   <div class="breadcrumb"><a href="index.html">首页</a><span>›</span>东巴文字典</div>
+
+  <!-- 东巴文侧边装饰 -->
+  <div class="dongba-side dongba-side--left">
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="20" cy="20" r="7"/><line x1="20" y1="2" x2="20" y2="9"/><line x1="20" y1="31" x2="20" y2="38"/><line x1="2" y1="20" x2="9" y2="20"/><line x1="31" y1="20" x2="38" y2="20"/><line x1="7.3" y1="7.3" x2="12.2" y2="12.2"/><line x1="27.8" y1="27.8" x2="32.7" y2="32.7"/><line x1="32.7" y1="7.3" x2="27.8" y2="12.2"/><line x1="12.2" y1="27.8" x2="7.3" y2="32.7"/></svg>
+      <span class="dongba-side-label">日</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20c6-10 12-14 16-14s10 4 16 14c-6 10-12 14-16 14S10 30 4 20z"/><circle cx="20" cy="20" r="5"/><circle cx="20" cy="20" r="2" fill="currentColor"/></svg>
+      <span class="dongba-side-label">目</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 20V8c0-2 1-3 2-3s2 1 2 3v10"/><path d="M18 17V6c0-2 1-3 2-3s2 1 2 3v11"/><path d="M22 17V6c0-2 1-3 2-3s2 1 2 3v12"/><path d="M26 20V10c0-2 1-3 2-3s2 1 2 3v12"/><path d="M8 22c0 8 5 14 12 14s12-6 12-14v-4c0-2-1-3-2-3s-2 1-2 3"/></svg>
+      <span class="dongba-side-label">手</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 4c-2 6-10 10-10 18c0 6 4 12 10 14c6-2 10-8 10-14c0-8-8-12-10-18z"/><path d="M20 22c-1 3-4 5-4 8c0 2 2 4 4 4c2 0 4-2 4-4c0-3-3-5-4-8z"/></svg>
+      <span class="dongba-side-label">火</span>
+    </span>
+  </div>
+  <div class="dongba-side dongba-side--right">
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="20" y1="38" x2="20" y2="18"/><circle cx="20" cy="13" r="9"/><line x1="14" y1="26" x2="20" y2="20"/><line x1="26" y1="26" x2="20" y2="20"/></svg>
+      <span class="dongba-side-label">木</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 14c4-4 8 4 12 0s8 4 12 0s8 4 12 0"/><path d="M4 22c4-4 8 4 12 0s8 4 12 0s8 4 12 0"/><path d="M4 30c4-4 8 4 12 0s8 4 12 0s8 4 12 0"/></svg>
+      <span class="dongba-side-label">水</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M24 6C16 6 10 12.3 10 20s6 14 14 14c-4.5-3-7-8-7-14s2.5-11 7-14z"/></svg>
+      <span class="dongba-side-label">月</span>
+    </span>
+  </div>
 
   <!-- Converter -->
   <div class="page-body">
@@ -243,9 +310,15 @@
       </div>
     </div>
 
+    <div class="section-divider">
+      <span class="section-divider-line"></span>
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="section-divider-icon"><path d="M20 4c-2 6-10 10-10 18c0 6 4 12 10 14c6-2 10-8 10-14c0-8-8-12-10-18z"/><path d="M20 22c-1 3-4 5-4 8c0 2 2 4 4 4c2 0 4-2 4-4c0-3-3-5-4-8z"/></svg>
+      <span class="section-divider-line"></span>
+    </div>
+
     <!-- Category Browser -->
     <div class="cat-browser anim-fade-up">
-      <h2 class="section-title" style="font-size:1.8rem;">字符对照表</h2>
+      <h2 class="section-title" style="font-size:1.8rem;" data-split data-split-delay="60" data-split-duration="0.6">字符对照表</h2>
       <p style="color:var(--color-stone);font-size:0.85rem;margin-bottom:1rem;line-height:1.6;">以下为部分收录字符，东巴文字体系庞大，本字典仅收录常用基础字符，将持续扩充。</p>
       <div class="cat-tabs">
         <button class="cat-tab active" data-cat="all">全部</button>
@@ -263,7 +336,9 @@
     <!-- Interactive Canvas -->
     <div class="dict-canvas-section anim-fade-up">
       <div class="dict-canvas-wrap">
-        <h2 class="section-title" style="font-size:1.8rem;">书写象形文字</h2>
+        <!-- MagnetLines 磁力线装饰 -->
+        <div class="magnet-lines-container"></div>
+        <h2 class="section-title" style="font-size:1.8rem;" data-split data-split-delay="70" data-split-duration="0.7">书写象形文字</h2>
         <p style="color:var(--color-stone);margin-bottom:1.5rem;">用鼠标或手指在画布上书写东巴象形文字，感受千年文字的笔触与韵律。</p>
         <canvas id="dongbaCanvas" width="900" height="500"></canvas>
         <div class="canvas-controls">
@@ -320,11 +395,18 @@
     <div class="footer-bottom"><p>&copy; 2026 纳西文化博物馆 &middot; 保留所有权利</p></div>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/dongba-db.js"></script>
-  <script src="js/animations.js"></script>
+  <script src="js/animations.js" defer></script>
   <script src="js/canvas-draw.js"></script>
   <script src="js/ai-recognize.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/split-text.js" defer></script>
+  <script src="js/magnet-lines.js" defer></script>
+  <script src="js/scroll-float.js" defer></script>
+  <script src="js/scroll-reveal-effect.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/ai-assistant.js" defer></script>
   <script>
   (function(){
     // Converter
@@ -442,10 +524,14 @@
 
       recognizeBtn.addEventListener('click', function() {
         if (typeof RecognizeDongba === 'undefined') return;
-        resultList.innerHTML = '<p style="text-align:center;color:var(--color-gold);padding:1rem;">正在识别中...</p>';
-        resultPanel.style.display = 'block';
-        RecognizeDongba.recognize(aiCanvas).then(renderResults).catch(function() {
-          renderResults([]);
+        RecognizeDongba.recognize(aiCanvas).then(function(results) {
+          if (typeof AiAssistant !== 'undefined') {
+            AiAssistant.showRecognizeResult(results);
+          }
+        }).catch(function() {
+          if (typeof AiAssistant !== 'undefined') {
+            AiAssistant.showRecognizeResult([]);
+          }
         });
       });
 
@@ -455,5 +541,19 @@
     }
   })();
   </script>
+  <!-- AI助手 -->
+  <div class="ai-assistant" id="aiAssistant">
+    <div class="ai-assistant-bubble" id="aiBubble">
+      <div class="ai-bubble-text" id="aiBubbleText"></div>
+      <div class="ai-bubble-actions" id="aiBubbleActions" style="display:none;">
+        <button class="ai-btn-correct" id="aiBtnCorrect">猜对了</button>
+        <button class="ai-btn-wrong" id="aiBtnWrong">不对</button>
+      </div>
+      <button class="ai-bubble-close" id="aiBubbleClose">&times;</button>
+    </div>
+    <div class="ai-assistant-avatar" id="aiAvatar">
+      <img src="素材/ai_animation/relax.gif" alt="AI助手" id="aiGif">
+    </div>
+  </div>
 </body>
 </html>

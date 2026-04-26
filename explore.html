@@ -9,8 +9,14 @@
 <meta name="description" content="深入了解纳西族文化的前世今生，探索东巴祭司的传承之路。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/scroll-float.css">
+  <link rel="stylesheet" href="css/scroll-reveal-effect.css">
+  <link rel="stylesheet" href="css/dongba-divider.css">
+  <link rel="stylesheet" href="css/ai-assistant.css">
   <style>
     /* Story Blocks */
     .story-block {
@@ -278,11 +284,11 @@
   </div>
 
   <!-- Page Hero -->
-  <section class="page-hero" style="background: url('古城建筑/木楼/古城木楼.jpg') center/cover no-repeat;">
+  <section class="page-hero" style="background: url('素材/古城建筑/木楼/古城木楼.jpg') center/cover no-repeat;">
     <div style="position:absolute;inset:0;background: linear-gradient(135deg, rgba(15,36,64,0.75) 0%, rgba(27,58,92,0.6) 50%, rgba(194,59,34,0.5) 100%);"></div>
     <div class="page-hero-content" style="position:relative;z-index:1;text-align:center;padding:8rem 2rem 4rem;">
-      <h1 style="font-family:'Noto Serif SC',serif;font-size:3rem;color:#F8F6F0;margin-bottom:1rem;">文化探索</h1>
-      <p style="color:rgba(248,246,240,0.8);font-size:1.1rem;max-width:640px;margin:0 auto;line-height:1.8;">深入了解纳西族文化的前世今生，探索东巴祭司的传承之路。</p>
+      <h1 style="font-family:'Noto Serif SC',serif;font-size:3rem;color:#F8F6F0;margin-bottom:1rem;" data-split data-split-delay="50" data-split-duration="0.7">文化探索</h1>
+      <p class="scroll-reveal-effect sr-light" style="color:rgba(248,246,240,0.8);font-size:1.1rem;max-width:640px;margin:0 auto;line-height:1.8;" data-sr-blur="true" data-sr-blur-strength="3" data-sr-rotation="2">深入了解纳西族文化的前世今生，探索东巴祭司的传承之路。</p>
     </div>
   </section>
 
@@ -295,13 +301,52 @@
     </div>
   </div>
 
+  <!-- 东巴文侧边装饰 -->
+  <div class="dongba-side dongba-side--left">
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,36 14,12 20,22 26,8 38,36"/><line x1="1" y1="36" x2="39" y2="36"/></svg>
+      <span class="dongba-side-label">山</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 14c4-4 8 4 12 0s8 4 12 0s8 4 12 0"/><path d="M4 22c4-4 8 4 12 0s8 4 12 0s8 4 12 0"/><path d="M4 30c4-4 8 4 12 0s8 4 12 0s8 4 12 0"/></svg>
+      <span class="dongba-side-label">水</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="20" cy="20" r="7"/><line x1="20" y1="2" x2="20" y2="9"/><line x1="20" y1="31" x2="20" y2="38"/><line x1="2" y1="20" x2="9" y2="20"/><line x1="31" y1="20" x2="38" y2="20"/><line x1="7.3" y1="7.3" x2="12.2" y2="12.2"/><line x1="27.8" y1="27.8" x2="32.7" y2="32.7"/><line x1="32.7" y1="7.3" x2="27.8" y2="12.2"/><line x1="12.2" y1="27.8" x2="7.3" y2="32.7"/></svg>
+      <span class="dongba-side-label">日</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="20" cy="10" r="5"/><line x1="20" y1="15" x2="20" y2="28"/><line x1="12" y1="20" x2="28" y2="20"/><line x1="20" y1="28" x2="13" y2="37"/><line x1="20" y1="28" x2="27" y2="37"/></svg>
+      <span class="dongba-side-label">人</span>
+    </span>
+  </div>
+  <div class="dongba-side dongba-side--right">
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="20" y1="38" x2="20" y2="18"/><circle cx="20" cy="13" r="9"/><line x1="14" y1="26" x2="20" y2="20"/><line x1="26" y1="26" x2="20" y2="20"/></svg>
+      <span class="dongba-side-label">木</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c4-8 12-8 16 0c4-8 12-8 16 0"/><circle cx="20" cy="20" r="3"/><path d="M20 23l-3 8"/><path d="M20 23l3 8"/></svg>
+      <span class="dongba-side-label">鸟</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 4c-2 6-10 10-10 18c0 6 4 12 10 14c6-2 10-8 10-14c0-8-8-12-10-18z"/><path d="M20 22c-1 3-4 5-4 8c0 2 2 4 4 4c2 0 4-2 4-4c0-3-3-5-4-8z"/></svg>
+      <span class="dongba-side-label">火</span>
+    </span>
+  </div>
+
   <!-- Page Body -->
   <section class="page-body" style="padding:4rem 2rem;">
     <div style="max-width:1200px;margin:0 auto;">
 
       <!-- Story 1: Left Image + Right Text -->
       <div class="story-block">
-        <div class="story-image" style="background-image:url('东巴文化/东巴画/东巴画.jpg');background-size:cover;background-position:center;">
+        <div class="story-image" style="background-image:url('素材/东巴文化/东巴画/东巴画.jpg');background-size:cover;background-position:center;">
           <span style="display:none;">创世纪</span>
         </div>
         <div class="story-text">
@@ -316,7 +361,7 @@
 
       <!-- Story 2: Right Image + Left Text (reversed) -->
       <div class="story-block">
-        <div class="story-image" style="background-image:url('古城建筑/木楼/古城木楼.jpg');background-size:cover;background-position:center;">
+        <div class="story-image" style="background-image:url('素材/古城建筑/木楼/古城木楼.jpg');background-size:cover;background-position:center;">
           <span style="display:none;">木府</span>
         </div>
         <div class="story-text">
@@ -331,7 +376,7 @@
 
       <!-- Story 3: Left Image + Right Text -->
       <div class="story-block">
-        <div class="story-image" style="background-image:url('数字化保护/东巴文化数字化/东巴文化数字化_4.jpg');background-size:cover;background-position:center;">
+        <div class="story-image" style="background-image:url('素材/数字化保护/东巴文化数字化/东巴文化数字化_4.jpg');background-size:cover;background-position:center;">
           <span style="display:none;">数字化保护</span>
         </div>
         <div class="story-text">
@@ -346,42 +391,42 @@
 
       <!-- Heritage Timeline -->
       <div class="heritage-timeline-section">
-        <h2>文化遗产时间线</h2>
+        <h2 data-split data-split-delay="60" data-split-duration="0.7">文化遗产时间线</h2>
         <div class="heritage-timeline">
 
           <div class="heritage-milestone">
             <div class="ms-year">公元前</div>
             <div class="ms-title">纳西族起源</div>
             <div class="ms-desc">纳西族先民从西北地区南迁至金沙江流域，在此繁衍生息，逐渐形成独特的民族文化体系。东巴象形文字的雏形在这一时期开始萌芽。</div>
-            <div class="ms-img" style="background-image:url('历史事件/纳西族起源/纳西族起源.jpg')" role="img" aria-label="纳西族起源"></div>
+            <div class="ms-img" style="background-image:url('素材/历史事件/纳西族起源/纳西族起源.jpg')" role="img" aria-label="纳西族起源"></div>
           </div>
 
           <div class="heritage-milestone">
             <div class="ms-year">唐宋</div>
             <div class="ms-title">东巴文成熟</div>
             <div class="ms-desc">东巴象形文字体系在唐宋时期趋于成熟，形成了完整的书写系统。大量东巴经书在这一时期被书写记录，内容涵盖宗教、哲学、历史、医学等领域。</div>
-            <div class="ms-img" style="background-image:url('东巴文化/东巴象形文字/东巴象形文字.jpg')" role="img" aria-label="东巴象形文字"></div>
+            <div class="ms-img" style="background-image:url('素材/东巴文化/东巴象形文字/东巴象形文字.jpg')" role="img" aria-label="东巴象形文字"></div>
           </div>
 
           <div class="heritage-milestone">
             <div class="ms-year">1253</div>
             <div class="ms-title">忽必烈南征，纳西归附</div>
             <div class="ms-desc">忽必烈率蒙古大军南征大理，途经丽江，纳西族首领麦良归附元朝。此后纳西土司制度确立，木氏家族开始长达数百年的统治，促进了纳西文化的繁荣发展。</div>
-            <div class="ms-img" style="background-image:url('历史事件/忽必烈南征/忽必烈南征.jpg')" role="img" aria-label="忽必烈南征"></div>
+            <div class="ms-img" style="background-image:url('素材/历史事件/忽必烈南征/忽必烈南征.jpg')" role="img" aria-label="忽必烈南征"></div>
           </div>
 
           <div class="heritage-milestone">
             <div class="ms-year">1997</div>
             <div class="ms-title">丽江古城列入世界遗产</div>
             <div class="ms-desc">联合国教科文组织将丽江古城列入世界文化遗产名录，肯定了其独特的历史文化价值。这一荣誉为纳西文化的保护与传承带来了国际关注与资源支持。</div>
-            <div class="ms-img" style="background-image:url('古城建筑/木楼/古城木楼.jpg')" role="img" aria-label="丽江古城"></div>
+            <div class="ms-img" style="background-image:url('素材/古城建筑/木楼/古城木楼.jpg')" role="img" aria-label="丽江古城"></div>
           </div>
 
           <div class="heritage-milestone">
             <div class="ms-year">2003</div>
             <div class="ms-title">东巴古籍列入世界记忆遗产</div>
             <div class="ms-desc">纳西族东巴古籍文献被联合国教科文组织列入"世界记忆遗产名录"，这是对东巴文化作为人类共同记忆的国际认可，极大推动了东巴文化的保护与研究工作。</div>
-            <div class="ms-img" style="background-image:url('历史事件/东巴古籍世界记忆遗产/文化遗产.jpg')" role="img" aria-label="东巴古籍世界记忆遗产"></div>
+            <div class="ms-img" style="background-image:url('素材/历史事件/东巴古籍世界记忆遗产/文化遗产.jpg')" role="img" aria-label="东巴古籍世界记忆遗产"></div>
           </div>
 
           <div class="heritage-timeline-line" aria-hidden="true"></div>
@@ -404,8 +449,14 @@
     <div class="footer-bottom"><p>&copy; 2026 纳西文化博物馆 &middot; 保留所有权利</p></div>
   </footer>
 
-  <script src="js/animations.js"></script>
-  <script src="js/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/animations.js" defer></script>
+  <script src="js/split-text.js" defer></script>
+  <script src="js/scroll-float.js" defer></script>
+  <script src="js/scroll-reveal-effect.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/ai-assistant.js" defer></script>
   <script>
   (function(){
     var timeline = document.querySelector('.heritage-timeline');
@@ -438,5 +489,19 @@
     }
   })();
   </script>
+<!-- AI助手 -->
+  <div class="ai-assistant" id="aiAssistant">
+    <div class="ai-assistant-bubble" id="aiBubble">
+      <div class="ai-bubble-text" id="aiBubbleText"></div>
+      <div class="ai-bubble-actions" id="aiBubbleActions" style="display:none;">
+        <button class="ai-btn-correct" id="aiBtnCorrect">猜对了</button>
+        <button class="ai-btn-wrong" id="aiBtnWrong">不对</button>
+      </div>
+      <button class="ai-bubble-close" id="aiBubbleClose">&times;</button>
+    </div>
+    <div class="ai-assistant-avatar" id="aiAvatar">
+      <img src="素材/ai_animation/relax.gif" alt="AI助手" id="aiGif">
+    </div>
+  </div>
 </body>
 </html>

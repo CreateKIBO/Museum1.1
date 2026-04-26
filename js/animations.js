@@ -28,56 +28,7 @@
   animElements.forEach((el) => observer.observe(el));
 })();
 
-/* 打字机效果 */
-(function() {
-  'use strict';
-
-  const typingElement = document.getElementById('heroTyping');
-  if (!typingElement) return;
-
-  const texts = ['活着的象形文字', '人类文明的活化石', '千年文化的传承'];
-  let textIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  let typingSpeed = 120;
-
-  function type() {
-    const currentText = texts[textIndex];
-
-    if (isDeleting) {
-      typingElement.textContent = currentText.substring(0, charIndex - 1);
-      charIndex--;
-      typingSpeed = 60;
-    } else {
-      typingElement.textContent = currentText.substring(0, charIndex + 1);
-      charIndex++;
-      typingSpeed = 120;
-    }
-
-    // 添加光标
-    if (!typingElement.querySelector('.typewriter-cursor')) {
-      const cursor = document.createElement('span');
-      cursor.className = 'typewriter-cursor';
-      typingElement.appendChild(cursor);
-    }
-
-    if (!isDeleting && charIndex === currentText.length) {
-      typingSpeed = 2000; // 暂停时间
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      textIndex = (textIndex + 1) % texts.length;
-      typingSpeed = 500;
-    }
-
-    setTimeout(type, typingSpeed);
-  }
-
-  // 延迟启动打字效果
-  setTimeout(type, 1500);
-})();
-
-/* 文字聚焦效果 */
+/* 文字聚焦效果 (legacy — for .focus-text-container elements) */
 (function() {
   'use strict';
 
@@ -107,7 +58,7 @@
   });
 })();
 
-/* 滚动揭示文字动画 */
+/* 滚动揭示文字动画 (legacy — for .scroll-reveal-text elements) */
 (function() {
   'use strict';
 

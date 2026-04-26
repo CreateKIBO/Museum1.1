@@ -54,6 +54,17 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* --- Performance: contain layout for major sections --- */
+.hero, .dongba-section, .gallery, .music, .interactive, .stories, .explore-nav {
+  contain: layout style;
+}
+
+/* --- Performance: content-visibility for off-screen sections --- */
+.about, .dongba-section, .gallery, .music, .interactive, .stories, .explore-nav {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -341,7 +352,7 @@ body:hover .custom-cursor { opacity: 0.6; }
       rgba(27,58,92,0.3) 70%,
       rgba(248,246,240,0.2) 100%
     ),
-    url('../东巴文化/东巴象形文字/东巴象形文字.jpg') center/cover no-repeat;
+    url('../素材/东巴文化/东巴象形文字/东巴象形文字.jpg') center/cover no-repeat;
   animation: kenBurns 25s ease-in-out infinite alternate;
 }
 @keyframes kenBurns {
@@ -571,7 +582,7 @@ body:hover .custom-cursor { opacity: 0.6; }
 .placeholder-lijiang {
   background:
     linear-gradient(180deg, rgba(107,66,38,0.2) 0%, rgba(27,58,92,0.3) 100%),
-    url('../古城建筑/木楼/古城木楼.jpg') center/cover no-repeat;
+    url('../素材/古城建筑/木楼/古城木楼.jpg') center/cover no-repeat;
   position: relative;
 }
 .placeholder-lijiang::after {
@@ -781,55 +792,55 @@ body:hover .custom-cursor { opacity: 0.6; }
 /* Gallery placeholder backgrounds — real images with gradient fallback */
 .placeholder-dongba-script {
   background: linear-gradient(135deg, #EDE8DF 0%, #C5A55A 40%, #8C8478 100%);
-  background-image: url('../东巴文化/东巴经书/东巴经书.jpg');
+  background-image: url('../素材/东巴文化/东巴经书/东巴经书.jpg');
   background-size: cover;
   background-position: center;
 }
 .placeholder-naxi-music {
   background: linear-gradient(135deg, #1A1A18 0%, #6B4226 50%, #1B3A5C 100%);
-  background-image: url('../纳西古乐/纳西古乐.jpg');
+  background-image: url('../素材/纳西古乐/纳西古乐.jpg');
   background-size: cover;
   background-position: center;
 }
 .placeholder-blue-calico {
   background: linear-gradient(135deg, #1B3A5C 0%, #2d5a8a 40%, #F8F6F0 60%, #1B3A5C 100%);
-  background-image: url('../纳西服饰/蓝印花布/蓝印花布1.jpg');
+  background-image: url('../素材/纳西服饰/蓝印花布/蓝印花布1.jpg');
   background-size: cover;
   background-position: center;
 }
 .placeholder-ancient-city {
   background: linear-gradient(135deg, #8C8478 0%, #6B4226 50%, #D4CFC6 100%);
-  background-image: url('../古城建筑/木楼/古城木楼.jpg');
+  background-image: url('../素材/古城建筑/木楼/古城木楼.jpg');
   background-size: cover;
   background-position: center;
 }
 .placeholder-naxi-costume {
   background: linear-gradient(135deg, #C23B22 0%, #6B4226 40%, #C5A55A 80%, #1B3A5C 100%);
-  background-image: url('../纳西服饰/七星披肩/七星披肩.jpg');
+  background-image: url('../素材/纳西服饰/七星披肩/七星披肩.jpg');
   background-size: cover;
   background-position: center;
 }
 .placeholder-dongba-painting {
   background: linear-gradient(135deg, #C23B22 0%, #C5A55A 40%, #1B3A5C 100%);
-  background-image: url('../东巴文化/东巴画/东巴画.jpg');
+  background-image: url('../素材/东巴文化/东巴画/东巴画.jpg');
   background-size: cover;
   background-position: center;
 }
 .placeholder-wood-tablet {
   background: linear-gradient(135deg, #3a2518 0%, #6B4226 50%, #3a2518 100%);
-  background-image: url('../东巴文化/东巴木牌画/东巴木牌画.jpg');
+  background-image: url('../素材/东巴文化/东巴木牌画/东巴木牌画.jpg');
   background-size: cover;
   background-position: center;
 }
 .placeholder-silverware {
   background: linear-gradient(135deg, #D4CFC6 0%, #8C8478 50%, #C5A55A 100%);
-  background-image: url('../纳西银器/丽江银器.jpg');
+  background-image: url('../素材/纳西银器/丽江银器.jpg');
   background-size: cover;
   background-position: center;
 }
 .placeholder-stone-bridge {
   background: linear-gradient(135deg, #8C8478 0%, #1B3A5C 50%, #D4CFC6 100%);
-  background-image: url('../古城建筑/石桥/石桥.jpg');
+  background-image: url('../素材/古城建筑/石桥/石桥.jpg');
   background-size: cover;
   background-position: center;
 }
@@ -1250,7 +1261,7 @@ body:hover .custom-cursor { opacity: 0.6; }
 .placeholder-dongba-ritual {
   background:
     linear-gradient(135deg, rgba(15,36,64,0.3) 0%, rgba(194,59,34,0.2) 40%, rgba(197,165,90,0.2) 100%),
-    url('../东巴文化/东巴祭司/hejiren.jpg') center/cover no-repeat;
+    url('../素材/东巴文化/东巴祭司/hejiren.jpg') center/cover no-repeat;
   width: 100%;
   height: 100%;
   min-height: 350px;
@@ -1258,7 +1269,7 @@ body:hover .custom-cursor { opacity: 0.6; }
 .placeholder-naxi-orchestra {
   background:
     linear-gradient(135deg, rgba(26,26,24,0.3) 0%, rgba(107,66,38,0.2) 50%, rgba(197,165,90,0.2) 100%),
-    url('../纳西古乐/纳西古乐会.jpg') center/cover no-repeat;
+    url('../素材/纳西古乐/纳西古乐会.jpg') center/cover no-repeat;
   width: 100%;
   height: 100%;
   min-height: 350px;
