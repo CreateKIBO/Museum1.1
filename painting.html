@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#1B3A5C">
-  <title>数字展馆 — 纳西文化博物馆</title>
+  <title>东巴画 — 纳西文化博物馆</title>
     <meta name="theme-color" content="#1B3A5C">
-<meta name="description" content="高清展示纳西族文化珍品，涵盖东巴经书、纳西古乐、扎染、古城建筑等。">
+<meta name="description" content="欣赏纳西族东巴绘画艺术，涵盖卷轴画、神路图与木牌画，色彩浓烈神秘。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
@@ -45,7 +45,7 @@
       color: #F8F6F0;
     }
 
-    /* Lightbox - image fills entire card, text overlays */
+    /* Lightbox */
     .lightbox-overlay {
       position: fixed;
       inset: 0;
@@ -100,8 +100,6 @@
       font-family: 'Noto Serif SC', serif;
       font-weight: 700;
     }
-
-    /* Info overlay on top of image */
     .lightbox-info-overlay {
       position: absolute;
       bottom: 0;
@@ -176,7 +174,6 @@
       border-color: rgba(194,59,34,0.5);
       color: #F8F6F0;
     }
-
     .lightbox-close {
       position: absolute;
       top: 1.5rem;
@@ -227,8 +224,6 @@
     }
     .lightbox-prev { left: 2rem; }
     .lightbox-next { right: 2rem; }
-
-    /* Thumbnails */
     .lightbox-thumbnails {
       position: absolute;
       bottom: 1.5rem;
@@ -279,8 +274,8 @@
         <li><a href="index.html">首页</a></li>
         <li><a href="dictionary.html">东巴文字典</a></li>
         <li><a href="music.html">纳西古乐</a></li>
-        <li><a href="painting.html">东巴画</a></li>
-        <li><a href="gallery.html" style="color:var(--color-gold)">数字展馆</a></li>
+        <li><a href="painting.html" style="color:var(--color-gold)">东巴画</a></li>
+        <li><a href="gallery.html">数字展馆</a></li>
         <li><a href="explore.html">文化探索</a></li>
       </ul>
       <button class="nav-toggle" id="navToggle" aria-label="菜单"><span></span><span></span><span></span></button>
@@ -300,10 +295,10 @@
 
   <!-- Page Hero -->
   <section class="page-hero" style="background: url('素材/东巴文化/东巴画/东巴画.jpg') center/cover no-repeat;">
-    <div style="position:absolute;inset:0;background: linear-gradient(135deg, rgba(27,58,92,0.7) 0%, rgba(15,36,64,0.65) 50%, rgba(26,26,24,0.6) 100%);"></div>
+    <div style="position:absolute;inset:0;background: linear-gradient(135deg, rgba(194,59,34,0.55) 0%, rgba(107,66,38,0.5) 50%, rgba(27,58,92,0.45) 100%);"></div>
     <div class="page-hero-content" style="position:relative;z-index:1;text-align:center;padding:8rem 2rem 4rem;">
-      <h1 style="font-family:'Noto Serif SC',serif;font-size:3rem;color:#F8F6F0;margin-bottom:1rem;" data-split data-split-delay="50" data-split-duration="0.7">数字展馆</h1>
-      <p class="scroll-reveal-effect sr-light" style="color:rgba(248,246,240,0.8);font-size:1.1rem;max-width:640px;margin:0 auto;line-height:1.8;" data-sr-blur="true" data-sr-blur-strength="3" data-sr-rotation="2">高清展示纳西族文化珍品，涵盖东巴经书、纳西古乐、扎染、古城建筑等。</p>
+      <h1 style="font-family:'Noto Serif SC',serif;font-size:3rem;color:#F8F6F0;margin-bottom:1rem;" data-split data-split-delay="50" data-split-duration="0.7">东巴画</h1>
+      <p class="scroll-reveal-effect sr-light" style="color:rgba(248,246,240,0.8);font-size:1.1rem;max-width:640px;margin:0 auto;line-height:1.8;" data-sr-blur="true" data-sr-blur-strength="3" data-sr-rotation="2">欣赏纳西族东巴绘画艺术，涵盖卷轴画、神路图与木牌画，色彩浓烈神秘。</p>
     </div>
   </section>
 
@@ -312,7 +307,7 @@
     <div style="max-width:1200px;margin:0 auto;font-size:0.85rem;color:#8C8478;">
       <a href="index.html" style="color:#1B3A5C;text-decoration:none;">首页</a>
       <span style="margin:0 0.5rem;">/</span>
-      <span style="color:#6B4226;">数字展馆</span>
+      <span style="color:#6B4226;">东巴画</span>
     </div>
   </div>
 
@@ -362,191 +357,47 @@
       <!-- Filter Tabs -->
       <div class="gallery-filters">
         <button class="filter-btn active" data-filter="all">全部</button>
-        <button class="filter-btn" data-filter="dongba">东巴文献</button>
-        <button class="filter-btn" data-filter="craft">传统技艺</button>
-        <button class="filter-btn" data-filter="arch">建筑服饰</button>
+        <button class="filter-btn" data-filter="scroll">卷轴画</button>
+        <button class="filter-btn" data-filter="road">神路图</button>
+        <button class="filter-btn" data-filter="board">木牌画</button>
       </div>
 
       <!-- Gallery Card Grid -->
       <div class="gallery-grid" id="galleryGrid">
 
-        <div class="gallery-card fade-in" data-category="dongba" data-index="0">
-          <img class="gallery-card-img" src="素材/东巴文化/东巴经书/东巴经书.jpg" alt="东巴经书" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">东巴文献</span>
-            <h3 class="gallery-card-title">东巴经书</h3>
-            <p class="gallery-card-desc">东巴经书是纳西族东巴教祭祀仪式中使用的经典，以东巴象形文字书写，记录了创世神话、祭祀规程与民族历史。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="dongba" data-index="1">
-          <img class="gallery-card-img" src="素材/东巴文化/东巴经书/东巴经书2.jpg" alt="东巴经书手抄本" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">东巴文献</span>
-            <h3 class="gallery-card-title">东巴经书手抄本</h3>
-            <p class="gallery-card-desc">东巴祭司亲手抄写的经书，笔触古朴苍劲，是传承千年的活态文化遗产。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="dongba" data-index="2">
+        <div class="gallery-card fade-in" data-category="scroll" data-index="0">
           <img class="gallery-card-img" src="素材/东巴文化/东巴画/东巴画.jpg" alt="东巴画" loading="lazy">
           <div class="gallery-card-body">
-            <span class="gallery-card-tag">东巴文献</span>
+            <span class="gallery-card-tag">卷轴画</span>
             <h3 class="gallery-card-title">东巴画</h3>
-            <p class="gallery-card-desc">东巴画是东巴祭祀中绘制的宗教绘画，以矿物颜料绘制神灵、鬼怪与自然万物，色彩浓烈而神秘。</p>
+            <p class="gallery-card-desc">东巴画是东巴祭司绘制的宗教绘画，以矿物颜料绘制神灵、鬼怪与自然万物，色彩浓烈而神秘。</p>
           </div>
         </div>
 
-        <div class="gallery-card fade-in" data-category="dongba" data-index="3">
+        <div class="gallery-card fade-in" data-category="scroll" data-index="1">
           <img class="gallery-card-img" src="素材/东巴文化/东巴画/东巴画2.jpg" alt="东巴卷轴画" loading="lazy">
           <div class="gallery-card-body">
-            <span class="gallery-card-tag">东巴文献</span>
+            <span class="gallery-card-tag">卷轴画</span>
             <h3 class="gallery-card-title">东巴卷轴画</h3>
-            <p class="gallery-card-desc">东巴卷轴画又称神路图，描绘纳西族对生死轮回的理解，是东巴艺术的巅峰之作。</p>
+            <p class="gallery-card-desc">东巴卷轴画描绘纳西族对生死轮回的理解，画面宏大精细，是东巴艺术的巅峰之作。</p>
           </div>
         </div>
 
-        <div class="gallery-card fade-in" data-category="dongba" data-index="4">
+        <div class="gallery-card fade-in" data-category="road" data-index="2">
           <img class="gallery-card-img" src="素材/东巴文化/东巴画/东巴画3.jpg" alt="东巴神路图" loading="lazy">
           <div class="gallery-card-body">
-            <span class="gallery-card-tag">东巴文献</span>
+            <span class="gallery-card-tag">神路图</span>
             <h3 class="gallery-card-title">东巴神路图</h3>
-            <p class="gallery-card-desc">神路图长卷展现地狱、人间、天堂三界，是东巴教宇宙观的视觉化呈现。</p>
+            <p class="gallery-card-desc">神路图长卷展现地狱、人间、天堂三界，是东巴教宇宙观的视觉化呈现，长达十余米。</p>
           </div>
         </div>
 
-        <div class="gallery-card fade-in" data-category="dongba" data-index="5">
+        <div class="gallery-card fade-in" data-category="board" data-index="3">
           <img class="gallery-card-img" src="素材/东巴文化/东巴木牌画/东巴木牌画.jpg" alt="东巴木牌画" loading="lazy">
           <div class="gallery-card-body">
-            <span class="gallery-card-tag">东巴文献</span>
+            <span class="gallery-card-tag">木牌画</span>
             <h3 class="gallery-card-title">东巴木牌画</h3>
             <p class="gallery-card-desc">木牌画是东巴祭祀时插于祭坛的木制彩绘牌，绘有神灵与自然精灵，粗犷而生动。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="dongba" data-index="6">
-          <img class="gallery-card-img" src="素材/东巴文化/东巴象形文字/东巴象形文字.jpg" alt="东巴象形文字" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">东巴文献</span>
-            <h3 class="gallery-card-title">东巴象形文字</h3>
-            <p class="gallery-card-desc">世界上唯一仍在使用的象形文字体系，一千四百余个字符，形意兼备，是人类文字活化石。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="dongba" data-index="7">
-          <img class="gallery-card-img" src="素材/东巴文化/东巴祭司/hejiren.jpg" alt="东巴祭司" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">东巴文献</span>
-            <h3 class="gallery-card-title">东巴祭司</h3>
-            <p class="gallery-card-desc">东巴祭司是纳西族的知识分子与精神领袖，通晓经文、医药、历法与祭祀仪轨。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="craft" data-index="8">
-          <img class="gallery-card-img" src="素材/纳西古乐/纳西古乐.jpg" alt="纳西古乐" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">传统技艺</span>
-            <h3 class="gallery-card-title">纳西古乐</h3>
-            <p class="gallery-card-desc">纳西古乐融合道教法事音乐与儒教典礼音乐，被誉为"中国音乐活化石"，已传承五百余年。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="craft" data-index="9">
-          <img class="gallery-card-img" src="素材/纳西古乐/纳西古乐会.jpg" alt="纳西古乐会" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">传统技艺</span>
-            <h3 class="gallery-card-title">纳西古乐会</h3>
-            <p class="gallery-card-desc">丽江大研纳西古乐会由宣科先生创办，将古老乐章推向世界舞台，享誉海内外。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="craft" data-index="10">
-          <img class="gallery-card-img" src="素材/纳西古乐/乐器/竹笛_5.jpg" alt="纳西乐器" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">传统技艺</span>
-            <h3 class="gallery-card-title">纳西传统乐器</h3>
-            <p class="gallery-card-desc">苏古笃、曲项琵琶、竹笛等古老乐器，形制独特，音色悠远，承载着纳西族的音乐记忆。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="craft" data-index="11">
-          <img class="gallery-card-img" src="素材/纳西服饰/七星披肩/七星披肩.jpg" alt="七星披肩" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">传统技艺</span>
-            <h3 class="gallery-card-title">七星披肩</h3>
-            <p class="gallery-card-desc">纳西族妇女标志性服饰，以七颗星和日月纹样羊皮披肩象征"披星戴月"，寓意勤劳。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="craft" data-index="12">
-          <img class="gallery-card-img" src="素材/纳西服饰/蓝印花布/蓝印花布1.jpg" alt="蓝印花布" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">传统技艺</span>
-            <h3 class="gallery-card-title">蓝印花布</h3>
-            <p class="gallery-card-desc">纳西族传统扎染技艺，以靛蓝染料与手工扎结创造独特纹样，朴素而雅致。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="craft" data-index="13">
-          <img class="gallery-card-img" src="素材/纳西银器/丽江银器.jpg" alt="纳西银器" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">传统技艺</span>
-            <h3 class="gallery-card-title">纳西银器</h3>
-            <p class="gallery-card-desc">丽江银器工艺精湛，银壶、银碗、银饰兼具实用与审美，是纳西族重要的手工艺传统。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="arch" data-index="14">
-          <img class="gallery-card-img" src="素材/古城建筑/木楼/古城木楼.jpg" alt="古城木楼" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">建筑服饰</span>
-            <h3 class="gallery-card-title">古城木楼</h3>
-            <p class="gallery-card-desc">丽江古城木构建筑依水而建，穿斗式木架与飞檐翘角，体现纳西族与自然共生的智慧。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="arch" data-index="15">
-          <img class="gallery-card-img" src="素材/古城建筑/木楼/古城木楼2.jpg" alt="古城民居" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">建筑服饰</span>
-            <h3 class="gallery-card-title">古城民居</h3>
-            <p class="gallery-card-desc">三坊一照壁、四合五天井的纳西民居格局，融合汉藏建筑风格，庭院花木扶疏。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="arch" data-index="16">
-          <img class="gallery-card-img" src="素材/古城建筑/石桥/石桥.jpg" alt="古城石桥" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">建筑服饰</span>
-            <h3 class="gallery-card-title">古城石桥</h3>
-            <p class="gallery-card-desc">丽江古城三百五十四座石桥纵横交错，青石板路映照流水，构成独特的水乡画卷。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="arch" data-index="17">
-          <img class="gallery-card-img" src="素材/纳西服饰/纳西服饰.jpg" alt="纳西服饰" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">建筑服饰</span>
-            <h3 class="gallery-card-title">纳西传统服饰</h3>
-            <p class="gallery-card-desc">纳西族服饰色彩鲜明，女性披星戴月、男性短褂长靴，承载着民族审美与身份认同。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="dongba" data-index="18">
-          <img class="gallery-card-img" src="素材/历史事件/东巴古籍世界记忆遗产/文化遗产.jpg" alt="世界记忆遗产" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">东巴文献</span>
-            <h3 class="gallery-card-title">世界记忆遗产</h3>
-            <p class="gallery-card-desc">2003年东巴古籍文献被联合国教科文组织列入"世界记忆遗产名录"，是人类文明的瑰宝。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="arch" data-index="19">
-          <img class="gallery-card-img" src="素材/数字化保护/东巴文化数字化/东巴数字化.jpg" alt="东巴文化数字化" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">建筑服饰</span>
-            <h3 class="gallery-card-title">东巴文化数字化保护</h3>
-            <p class="gallery-card-desc">运用数字技术对东巴经书、象形文字进行高精度采集与永久保存，让千年遗产在数字时代永续传承。</p>
           </div>
         </div>
 

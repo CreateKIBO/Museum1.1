@@ -1325,8 +1325,8 @@ body:hover .custom-cursor { opacity: 0.6; }
 }
 .explore-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
 }
 .explore-card {
   display: flex;

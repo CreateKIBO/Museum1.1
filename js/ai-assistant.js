@@ -38,6 +38,10 @@
       '.gallery-filters': { text: '可以按类别筛选展品哦！有东巴文献、传统技艺和建筑服饰三个分类。', gif: 'introduce' },
       '.gallery-grid':    { text: '点击任意展品卡片可以查看大图和详细介绍，用键盘左右箭头还能切换展品。', gif: 'introduce' }
     },
+    'painting.html': {
+      '.gallery-filters': { text: '可以按类别筛选东巴画哦！有卷轴画、神路图和木牌画三个分类。', gif: 'introduce' },
+      '.gallery-grid':    { text: '点击任意画作卡片可以查看大图和详细介绍，用键盘左右箭头还能切换展品。', gif: 'introduce' }
+    },
     'music.html': {
       '.music-intro':    { text: '纳西古乐融合了道教法事音乐与儒教典礼音乐，被誉为"中国音乐活化石"。', gif: 'introduce' },
       '.music-visualizer':   { text: '点击播放，聆听穿越千年的声音。每一首曲子都有数百年的历史。', gif: 'hello' },
