@@ -39,8 +39,10 @@
       '.gallery-grid':    { text: '点击任意展品卡片可以查看大图和详细介绍，用键盘左右箭头还能切换展品。', gif: 'introduce' }
     },
     'painting.html': {
-      '.gallery-filters': { text: '可以按类别筛选东巴画哦！有卷轴画、神路图和木牌画三个分类。', gif: 'introduce' },
-      '.gallery-grid':    { text: '点击任意画作卡片可以查看大图和详细介绍，用键盘左右箭头还能切换展品。', gif: 'introduce' }
+      '.painting-intro': { text: '东巴画以矿物颜料绘制，色彩历经数百年仍鲜艳如初，堪称绘画奇迹！', gif: 'introduce' },
+      '.painting-feature': { text: '神路图是东巴画中最震撼的作品——十余米长卷展现地狱、人间、天堂三界！', gif: 'hello' },
+      '.painting-showcase-section': { text: '卷轴画、神路图、木牌画——三种画型各有千秋，点击卡片了解更多。', gif: 'introduce' },
+      '.painting-timeline-section': { text: '从远古岩画到当代非遗，东巴画千年传承不息。', gif: 'introduce' }
     },
     'music.html': {
       '.music-intro':    { text: '纳西古乐融合了道教法事音乐与儒教典礼音乐，被誉为"中国音乐活化石"。', gif: 'introduce' },

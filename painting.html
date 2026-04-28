@@ -13,252 +13,268 @@
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/gallery-grid.css">
   <link rel="stylesheet" href="css/scroll-float.css">
   <link rel="stylesheet" href="css/scroll-reveal-effect.css">
   <link rel="stylesheet" href="css/dongba-divider.css">
   <link rel="stylesheet" href="css/ai-assistant.css">
   <style>
-    /* Gallery Filter Tabs */
-    .gallery-filters {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 3rem;
-      flex-wrap: wrap;
+    /* Painting Intro */
+    .painting-intro {
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      text-align: center;
     }
-    .filter-btn {
-      padding: 0.6rem 1.6rem;
-      border: 2px solid #1B3A5C;
-      background: transparent;
-      color: #1B3A5C;
-      font-family: 'Noto Sans SC', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 500;
-      border-radius: 2rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .filter-btn:hover,
-    .filter-btn.active {
-      background: #1B3A5C;
-      color: #F8F6F0;
+    .painting-intro p {
+      font-size: 1.05rem;
+      color: #4a4a48;
+      line-height: 2;
+      margin-bottom: 1.2rem;
     }
 
-    /* Lightbox */
-    .lightbox-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: rgba(15, 36, 64, 0.95);
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-    }
-    .lightbox-overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-    .lightbox-content {
+    /* Feature Highlight Box */
+    .painting-feature {
       max-width: 900px;
-      width: 92%;
-      border-radius: 16px;
+      margin: 0 auto 4rem;
+      background: linear-gradient(135deg, #1A1A18 0%, #2A1A10 40%, #1B3A5C 100%);
+      border-radius: 20px;
+      padding: 3rem;
+      text-align: center;
+      position: relative;
       overflow: hidden;
-      transform: scale(0.9) translateY(20px);
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
-      position: relative;
+      box-shadow: 0 20px 60px rgba(27, 58, 92, 0.3);
     }
-    .lightbox-overlay.active .lightbox-content {
-      transform: scale(1) translateY(0);
-    }
-    .lightbox-content .lb-image {
-      width: 100%;
-      min-height: 500px;
-      height: 65vh;
-      display: flex;
-      align-items: flex-end;
-      position: relative;
-      background-size: cover;
-      background-position: center;
-    }
-    .lightbox-content .lb-image::before {
+    .painting-feature::before {
       content: '';
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(180deg, rgba(15,36,64,0.15) 0%, transparent 25%, transparent 40%, rgba(26,26,24,0.85) 100%);
-      pointer-events: none;
+      background: radial-gradient(ellipse at 30% 30%, rgba(197,165,90,0.15) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 70%, rgba(194,59,34,0.1) 0%, transparent 50%);
     }
-    .lightbox-content .lb-image span {
-      color: rgba(255,255,255,0.5);
-      font-size: 3rem;
-      font-family: 'Noto Serif SC', serif;
-      font-weight: 700;
-    }
-    .lightbox-info-overlay {
+    .painting-feature::after {
+      content: '';
       position: absolute;
-      bottom: 0;
+      top: 0;
       left: 0;
       right: 0;
-      padding: 2.5rem;
-      z-index: 2;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(197,165,90,0.5), transparent);
     }
-    .lightbox-info-overlay .info-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.6rem;
+    .painting-feature-label {
+      position: relative;
+      color: rgba(248,246,240,0.6);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
     }
-    .lightbox-info-overlay .lb-category {
-      font-size: 0.75rem;
+    .painting-feature-title {
+      position: relative;
       color: #C5A55A;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      padding: 0.3em 0.8em;
-      border: 1px solid rgba(197, 165, 90, 0.4);
-      border-radius: 2px;
-      background: rgba(0,0,0,0.3);
-      backdrop-filter: blur(4px);
-    }
-    .lightbox-info-overlay .lb-counter {
-      font-size: 0.8rem;
-      color: rgba(248, 246, 240, 0.6);
-      background: rgba(0,0,0,0.3);
-      padding: 0.3em 0.8em;
-      border-radius: 4px;
-    }
-    .lightbox-info-overlay h3 {
-      color: #F8F6F0;
       font-family: 'Noto Serif SC', serif;
-      font-size: 1.8rem;
-      margin-bottom: 0.6rem;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
     }
-    .lightbox-info-overlay p {
+    .painting-feature-img {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+    .painting-feature-img img {
+      width: 100%;
+      display: block;
+    }
+    .painting-feature-desc {
+      position: relative;
       color: rgba(248,246,240,0.85);
       font-size: 0.95rem;
       line-height: 1.8;
       max-width: 600px;
-      text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+      margin: 0 auto;
     }
-    .lightbox-info-overlay .lb-actions {
-      display: flex;
-      gap: 0.8rem;
-      margin-top: 1rem;
+
+    /* Painting Showcase Cards */
+    .painting-showcase-section {
+      margin-bottom: 4rem;
     }
-    .lb-action-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.5rem 1rem;
-      background: rgba(248,246,240,0.15);
-      border: 1px solid rgba(248,246,240,0.25);
-      color: #F8F6F0;
-      font-size: 0.8rem;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(4px);
+    .painting-showcase-section h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.8rem;
+      color: #1B3A5C;
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
     }
-    .lb-action-btn:hover {
-      background: rgba(248,246,240,0.25);
-      transform: translateY(-2px);
-    }
-    .lb-action-btn.liked {
-      background: rgba(194,59,34,0.3);
-      border-color: rgba(194,59,34,0.5);
-      color: #F8F6F0;
-    }
-    .lightbox-close {
+    .painting-showcase-section h2::after {
+      content: '';
       position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(248, 246, 240, 0.2);
-      color: #F8F6F0;
-      font-size: 1.5rem;
-      cursor: pointer;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      z-index: 10;
-      backdrop-filter: blur(4px);
-    }
-    .lightbox-close:hover {
-      background: rgba(248, 246, 240, 0.2);
-      transform: rotate(90deg);
-    }
-    .lightbox-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(248, 246, 240, 0.2);
-      color: #F8F6F0;
-      font-size: 1.5rem;
-      cursor: pointer;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      z-index: 10;
-      backdrop-filter: blur(4px);
-    }
-    .lightbox-nav:hover {
-      background: rgba(197, 165, 90, 0.3);
-      border-color: #C5A55A;
-      color: #C5A55A;
-      transform: translateY(-50%) scale(1.1);
-    }
-    .lightbox-prev { left: 2rem; }
-    .lightbox-next { right: 2rem; }
-    .lightbox-thumbnails {
-      position: absolute;
-      bottom: 1.5rem;
+      bottom: -0.5rem;
       left: 50%;
       transform: translateX(-50%);
-      display: flex;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: rgba(26, 26, 24, 0.8);
-      border-radius: 2rem;
-      backdrop-filter: blur(8px);
-      z-index: 10;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #C5A55A, #C23B22);
+      border-radius: 2px;
     }
-    .lightbox-thumb {
-      width: 48px;
-      height: 48px;
-      border-radius: 4px;
+    .painting-showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    @media (max-width: 768px) {
+      .painting-showcase-grid { grid-template-columns: 1fr; }
+    }
+    .painting-card {
+      background: linear-gradient(135deg, #F8F6F0, #EDE8DF);
+      border-radius: 16px;
       overflow: hidden;
+      box-shadow: 0 8px 30px rgba(27,58,92,0.1);
+      transition: all 0.4s ease;
+      position: relative;
       cursor: pointer;
-      border: 2px solid transparent;
+    }
+    .painting-card::after {
+      content: '查看详情 →';
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 0.75rem;
+      color: #C5A55A;
+      opacity: 0;
+      transform: translateX(-10px);
       transition: all 0.3s ease;
-      opacity: 0.5;
     }
-    .lightbox-thumb:hover {
-      opacity: 0.8;
-    }
-    .lightbox-thumb.active {
-      border-color: #C5A55A;
+    .painting-card:hover::after {
       opacity: 1;
+      transform: translateX(0);
     }
-    .lightbox-thumb-img {
+    .painting-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #1B3A5C, #C5A55A);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .painting-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(27,58,92,0.2);
+    }
+    .painting-card:hover::before { opacity: 1; }
+    .painting-card-img {
       width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .painting-card-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(26,26,24,0.2) 100%);
+    }
+    .painting-card-info {
+      padding: 1.5rem;
+      position: relative;
+    }
+    .painting-card-info h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.2rem;
+      color: #1B3A5C;
+      margin-bottom: 0.5rem;
+    }
+    .painting-card-info p {
+      font-size: 0.9rem;
+      color: #4a4a48;
+      line-height: 1.7;
+    }
+
+    /* Painting Timeline */
+    .painting-timeline-section {
+      margin-bottom: 2rem;
+    }
+    .painting-timeline-section h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.8rem;
+      color: #1B3A5C;
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    .painting-timeline-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #C5A55A, #C23B22);
+      border-radius: 2px;
+    }
+    .timeline {
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+      padding-left: 2.5rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, #1B3A5C, #C5A55A, #C23B22);
+      border-radius: 2px;
+    }
+    .timeline-entry {
+      position: relative;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: timelineFadeIn 0.6s ease forwards;
+    }
+    .timeline-entry:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-entry:nth-child(2) { animation-delay: 0.2s; }
+    .timeline-entry:nth-child(3) { animation-delay: 0.3s; }
+    .timeline-entry:nth-child(4) { animation-delay: 0.4s; }
+    .timeline-entry:nth-child(5) { animation-delay: 0.5s; }
+    @keyframes timelineFadeIn {
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .timeline-entry::before {
+      content: '';
+      position: absolute;
+      left: -2.5rem;
+      top: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #C23B22, #C5A55A);
+      border: 3px solid #EDE8DF;
+      box-shadow: 0 0 0 3px rgba(194,59,34,0.3);
+      z-index: 1;
+    }
+    .timeline-entry .tl-era {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #C23B22;
+      margin-bottom: 0.3rem;
+    }
+    .timeline-entry .tl-text {
+      font-size: 0.95rem;
+      color: #4a4a48;
+      line-height: 1.7;
     }
   </style>
 </head>
@@ -298,7 +314,7 @@
     <div style="position:absolute;inset:0;background: linear-gradient(135deg, rgba(194,59,34,0.55) 0%, rgba(107,66,38,0.5) 50%, rgba(27,58,92,0.45) 100%);"></div>
     <div class="page-hero-content" style="position:relative;z-index:1;text-align:center;padding:8rem 2rem 4rem;">
       <h1 style="font-family:'Noto Serif SC',serif;font-size:3rem;color:#F8F6F0;margin-bottom:1rem;" data-split data-split-delay="50" data-split-duration="0.7">东巴画</h1>
-      <p class="scroll-reveal-effect sr-light" style="color:rgba(248,246,240,0.8);font-size:1.1rem;max-width:640px;margin:0 auto;line-height:1.8;" data-sr-blur="true" data-sr-blur-strength="3" data-sr-rotation="2">欣赏纳西族东巴绘画艺术，涵盖卷轴画、神路图与木牌画，色彩浓烈神秘。</p>
+      <p class="scroll-reveal-effect sr-light" style="color:rgba(248,246,240,0.8);font-size:1.1rem;max-width:640px;margin:0 auto;line-height:1.8;" data-sr-blur="true" data-sr-blur-strength="3" data-sr-rotation="2">色彩浓烈，笔触神秘，纳西族千年绘画艺术的视觉盛宴。</p>
     </div>
   </section>
 
@@ -354,91 +370,89 @@
   <section class="page-body" style="padding:4rem 2rem;">
     <div style="max-width:1200px;margin:0 auto;">
 
-      <!-- Filter Tabs -->
-      <div class="gallery-filters">
-        <button class="filter-btn active" data-filter="all">全部</button>
-        <button class="filter-btn" data-filter="scroll">卷轴画</button>
-        <button class="filter-btn" data-filter="road">神路图</button>
-        <button class="filter-btn" data-filter="board">木牌画</button>
+      <!-- Introduction -->
+      <div class="painting-intro">
+        <p>东巴画是纳西族东巴祭司在宗教仪式中绘制的绘画艺术，以矿物颜料与竹笔为工具，描绘神灵、鬼怪、自然万物与生死轮回。它是纳西族精神世界的视觉化呈现，色彩浓烈、构图神秘，兼具宗教庄严与艺术之美。</p>
+        <p>东巴画主要分为卷轴画、神路图与木牌画三大类型。卷轴画以长卷形式展现东巴神话故事，神路图描绘地狱、人间、天堂三界的宇宙观，木牌画则是祭祀时插于祭坛的彩绘木牌。每一幅画作都承载着纳西族对天地、生死与灵魂的深刻理解。</p>
+        <p>东巴画的绘制技法独具特色：画师以竹笔蘸取矿物颜料，在纸、布或木板上作画。红色用朱砂，黄色用雄黄，蓝色用石青，绿色用石绿，黑色用墨烟——这些天然矿物颜料历经数百年仍鲜艳如初，使东巴画成为中国古代绘画中色彩保存最为完好的艺术形式之一。</p>
       </div>
 
-      <!-- Gallery Card Grid -->
-      <div class="gallery-grid" id="galleryGrid">
-
-        <div class="gallery-card fade-in" data-category="scroll" data-index="0">
-          <img class="gallery-card-img" src="素材/东巴文化/东巴画/东巴画.jpg" alt="东巴画" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">卷轴画</span>
-            <h3 class="gallery-card-title">东巴画</h3>
-            <p class="gallery-card-desc">东巴画是东巴祭司绘制的宗教绘画，以矿物颜料绘制神灵、鬼怪与自然万物，色彩浓烈而神秘。</p>
-          </div>
+      <!-- Feature Highlight — 神路图 -->
+      <div class="painting-feature">
+        <div class="painting-feature-label">重点展品</div>
+        <div class="painting-feature-title">东巴神路图 — 生死轮回的视觉史诗</div>
+        <div class="painting-feature-img">
+          <img src="素材/东巴文化/东巴画/东巴画2.jpg" alt="东巴神路图" loading="lazy">
         </div>
-
-        <div class="gallery-card fade-in" data-category="scroll" data-index="1">
-          <img class="gallery-card-img" src="素材/东巴文化/东巴画/东巴画2.jpg" alt="东巴卷轴画" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">卷轴画</span>
-            <h3 class="gallery-card-title">东巴卷轴画</h3>
-            <p class="gallery-card-desc">东巴卷轴画描绘纳西族对生死轮回的理解，画面宏大精细，是东巴艺术的巅峰之作。</p>
-          </div>
+        <div class="painting-feature-desc">
+          神路图是东巴画中最具代表性的作品，长达十余米的长卷从左至右依次展现地狱、人间与天堂三界。地狱部分描绘鬼怪狰狞、刑罚残酷的场景；人间部分展现世俗生活的烟火气息；天堂部分呈现神灵祥和、莲花绽放的净土世界。整幅画卷是东巴教宇宙观与生死轮回思想的视觉化呈现，被誉为"纳西族的清明上河图"。
         </div>
-
-        <div class="gallery-card fade-in" data-category="road" data-index="2">
-          <img class="gallery-card-img" src="素材/东巴文化/东巴画/东巴画3.jpg" alt="东巴神路图" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">神路图</span>
-            <h3 class="gallery-card-title">东巴神路图</h3>
-            <p class="gallery-card-desc">神路图长卷展现地狱、人间、天堂三界，是东巴教宇宙观的视觉化呈现，长达十余米。</p>
-          </div>
-        </div>
-
-        <div class="gallery-card fade-in" data-category="board" data-index="3">
-          <img class="gallery-card-img" src="素材/东巴文化/东巴木牌画/东巴木牌画.jpg" alt="东巴木牌画" loading="lazy">
-          <div class="gallery-card-body">
-            <span class="gallery-card-tag">木牌画</span>
-            <h3 class="gallery-card-title">东巴木牌画</h3>
-            <p class="gallery-card-desc">木牌画是东巴祭祀时插于祭坛的木制彩绘牌，绘有神灵与自然精灵，粗犷而生动。</p>
-          </div>
-        </div>
-
       </div>
+
+      <!-- Painting Showcase -->
+      <div class="painting-showcase-section">
+        <h2 data-split data-split-delay="60" data-split-duration="0.7">画作类型</h2>
+        <div class="painting-showcase-grid">
+
+          <div class="painting-card">
+            <div class="painting-card-img" style="background-image:url('素材/东巴文化/东巴画/东巴画.jpg');background-size:cover;background-position:center;">
+            </div>
+            <div class="painting-card-info">
+              <h3>卷轴画</h3>
+              <p>东巴卷轴画是祭司绘制的宗教长卷，以矿物颜料描绘神灵鬼怪与神话故事。画面宏大精细，色彩浓烈神秘，构图对称庄严，是东巴艺术的巅峰之作。每幅卷轴画都对应一部东巴经书，图文互证，相得益彰。</p>
+            </div>
+          </div>
+
+          <div class="painting-card">
+            <div class="painting-card-img" style="background-image:url('素材/东巴文化/东巴画/东巴画3.jpg');background-size:cover;background-position:center;">
+            </div>
+            <div class="painting-card-info">
+              <h3>神路图</h3>
+              <p>神路图长卷展现地狱、人间、天堂三界，是东巴教宇宙观的视觉化呈现。长达十余米的画卷中，鬼怪狰狞、人间烟火、天堂祥和依次铺展，笔触精细而震撼，堪称纳西族绘画的百科全书。</p>
+            </div>
+          </div>
+
+          <div class="painting-card">
+            <div class="painting-card-img" style="background-image:url('素材/东巴文化/东巴木牌画/东巴木牌画.jpg');background-size:cover;background-position:center;">
+            </div>
+            <div class="painting-card-info">
+              <h3>木牌画</h3>
+              <p>木牌画是东巴祭祀时插于祭坛的木制彩绘牌，绘有神灵与自然精灵。以松木为底、矿物颜料彩绘，线条粗犷有力，风格质朴而生动。每块木牌画都是一次祭祀仪式的见证，仪式结束后便随祭火化为灰烬，因此存世极少。</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Painting History Timeline -->
+      <div class="painting-timeline-section">
+        <h2 data-split data-split-delay="70" data-split-duration="0.7">东巴画历史</h2>
+        <div class="timeline">
+          <div class="timeline-entry">
+            <div class="tl-era">远古起源</div>
+            <div class="tl-text">东巴画随东巴教的产生而萌芽，最初以简单的符号与图腾记录祭祀仪式。纳西族先民在岩壁与木板上刻画日月星辰与神灵形象，逐渐发展为具有独立审美价值的绘画艺术。</div>
+          </div>
+          <div class="timeline-entry">
+            <div class="tl-era">唐宋成熟</div>
+            <div class="tl-text">受藏传佛教唐卡绘画与中原佛教艺术影响，东巴画技法日趋成熟。卷轴画与神路图在这一时期形成完整体系，矿物颜料的运用使色彩更加浓烈持久，竹笔线条更加精细流畅。</div>
+          </div>
+          <div class="timeline-entry">
+            <div class="tl-era">明清鼎盛</div>
+            <div class="tl-text">木氏土司大力扶持东巴文化，东巴画进入鼎盛时期。画师群体专业化，神路图长卷可达十余米，绘画技艺达到前所未有的高度。这一时期的东巴画色彩最为丰富，构图最为复杂，被称为"东巴画的黄金时代"。</div>
+          </div>
+          <div class="timeline-entry">
+            <div class="tl-era">近代传承</div>
+            <div class="tl-text">随着社会变迁，东巴画一度面临失传危机。少数东巴祭司坚持在偏远山村延续绘画传统，将技艺口传心授给下一代，使千年画脉未曾断绝。</div>
+          </div>
+          <div class="timeline-entry">
+            <div class="tl-era">当代保护</div>
+            <div class="tl-text">东巴画被列入国家级非物质文化遗产名录，新一代画师在传承传统技法的同时融入当代审美。数字化高清采集与影像存档工作同步推进，让千年画作在数字时代永续传承。</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
-
-  <!-- Lightbox -->
-  <div class="lightbox-overlay" id="lightbox">
-    <button class="lightbox-close" id="lightboxClose">&times;</button>
-    <button class="lightbox-nav lightbox-prev" id="lightboxPrev">&#8249;</button>
-    <button class="lightbox-nav lightbox-next" id="lightboxNext">&#8250;</button>
-    <div class="lightbox-content">
-      <div class="lb-image" id="lightboxImage">
-        <div class="lightbox-info-overlay">
-          <div class="info-header">
-            <span class="lb-category" id="lightboxCategory"></span>
-            <span class="lb-counter" id="lightboxCounter"></span>
-          </div>
-          <h3 id="lightboxTitle"></h3>
-          <p id="lightboxDesc"></p>
-          <div class="lb-actions">
-            <button class="lb-action-btn" id="lightboxLike">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
-              <span>收藏</span>
-            </button>
-            <button class="lb-action-btn" id="lightboxShare">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-              </svg>
-              <span>分享</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="lightbox-thumbnails" id="lightboxThumbnails"></div>
-  </div>
 
   <footer class="footer">
     <div class="footer-container">
@@ -461,130 +475,6 @@
   <script src="js/scroll-reveal-effect.js" defer></script>
   <script src="js/main.js" defer></script>
   <script src="js/ai-assistant.js" defer></script>
-  <script>
-  (function() {
-    // Filter logic
-    var filterBtns = document.querySelectorAll('.filter-btn');
-    var cards = document.querySelectorAll('.gallery-card');
-
-    filterBtns.forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        filterBtns.forEach(function(b) { b.classList.remove('active'); });
-        btn.classList.add('active');
-        var filter = btn.getAttribute('data-filter');
-
-        cards.forEach(function(card) {
-          if (filter === 'all' || card.getAttribute('data-category') === filter) {
-            card.classList.remove('hidden');
-            card.classList.add('fade-in');
-          } else {
-            card.classList.add('hidden');
-            card.classList.remove('fade-in');
-          }
-        });
-      });
-    });
-
-    // Lightbox logic
-    var lightbox = document.getElementById('lightbox');
-    var lbImage = document.getElementById('lightboxImage');
-    var lbTitle = document.getElementById('lightboxTitle');
-    var lbDesc = document.getElementById('lightboxDesc');
-    var lbCategory = document.getElementById('lightboxCategory');
-    var lbCounter = document.getElementById('lightboxCounter');
-    var lbClose = document.getElementById('lightboxClose');
-    var lbPrev = document.getElementById('lightboxPrev');
-    var lbNext = document.getElementById('lightboxNext');
-    var lbThumbnails = document.getElementById('lightboxThumbnails');
-    var lbLike = document.getElementById('lightboxLike');
-    var visibleCards = [];
-    var currentIndex = 0;
-
-    function getVisibleCards() {
-      return Array.from(cards).filter(function(c) { return !c.classList.contains('hidden'); });
-    }
-
-    function openLightbox(idx) {
-      visibleCards = getVisibleCards();
-      currentIndex = idx;
-      updateLightbox();
-      lightbox.classList.add('active');
-    }
-
-    function updateLightbox() {
-      var card = visibleCards[currentIndex];
-      if (!card) return;
-      var img = card.querySelector('.gallery-card-img');
-      var title = card.querySelector('.gallery-card-title');
-      var desc = card.querySelector('.gallery-card-desc');
-      var tag = card.querySelector('.gallery-card-tag');
-
-      lbImage.style.backgroundImage = 'url(' + img.src + ')';
-      lbTitle.textContent = title.textContent;
-      lbDesc.textContent = desc.textContent;
-      lbCategory.textContent = tag.textContent;
-      lbCounter.textContent = (currentIndex + 1) + ' / ' + visibleCards.length;
-
-      // Thumbnails
-      lbThumbnails.innerHTML = '';
-      visibleCards.forEach(function(c, i) {
-        var thumb = document.createElement('div');
-        thumb.className = 'lightbox-thumb' + (i === currentIndex ? ' active' : '');
-        var thumbImg = c.querySelector('.gallery-card-img');
-        var inner = document.createElement('div');
-        inner.className = 'lightbox-thumb-img';
-        inner.style.backgroundImage = 'url(' + thumbImg.src + ')';
-        thumb.appendChild(inner);
-        thumb.addEventListener('click', function() {
-          currentIndex = i;
-          updateLightbox();
-        });
-        lbThumbnails.appendChild(thumb);
-      });
-    }
-
-    cards.forEach(function(card, i) {
-      card.addEventListener('click', function() {
-        var visible = getVisibleCards();
-        var idx = visible.indexOf(card);
-        if (idx >= 0) openLightbox(idx);
-      });
-    });
-
-    lbClose.addEventListener('click', function() { lightbox.classList.remove('active'); });
-    lightbox.addEventListener('click', function(e) {
-      if (e.target === lightbox) lightbox.classList.remove('active');
-    });
-
-    lbPrev.addEventListener('click', function() {
-      currentIndex = (currentIndex - 1 + visibleCards.length) % visibleCards.length;
-      updateLightbox();
-    });
-
-    lbNext.addEventListener('click', function() {
-      currentIndex = (currentIndex + 1) % visibleCards.length;
-      updateLightbox();
-    });
-
-    lbLike.addEventListener('click', function() {
-      lbLike.classList.toggle('liked');
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-      if (!lightbox.classList.contains('active')) return;
-      if (e.key === 'Escape') lightbox.classList.remove('active');
-      if (e.key === 'ArrowLeft') { currentIndex = (currentIndex - 1 + visibleCards.length) % visibleCards.length; updateLightbox(); }
-      if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % visibleCards.length; updateLightbox(); }
-    });
-
-    // Body scroll lock
-    var observer = new MutationObserver(function() {
-      document.body.style.overflow = lightbox.classList.contains('active') ? 'hidden' : '';
-    });
-    observer.observe(lightbox, { attributes: true, attributeFilter: ['class'] });
-  })();
-  </script>
 <!-- AI助手 -->
   <div class="ai-assistant" id="aiAssistant">
     <div class="ai-assistant-bubble" id="aiBubble">
