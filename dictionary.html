@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/scroll-reveal-effect.css">
   <link rel="stylesheet" href="css/dongba-divider.css">
   <link rel="stylesheet" href="css/ai-assistant.css">
+  <link rel="stylesheet" href="css/page-hero-fullscreen.css">
   <style>
     /* Dictionary-specific styles */
     .converter { max-width:900px; margin:0 auto var(--space-xl); }
@@ -236,14 +237,51 @@
     </ul>
   </div>
 
-  <!-- Page Hero -->
-  <section class="page-hero">
-    <div class="page-hero-bg" style="background: url('素材/东巴文化/东巴经书/东巴经书.jpg') center/cover no-repeat;"></div>
-    <div class="page-hero-overlay" style="background: radial-gradient(ellipse at center, rgba(15,36,64,0.6) 30%, rgba(15,36,64,0.85) 100%);"></div>
-    <div class="page-hero-content anim-fade-up">
-      <span class="section-tag">在线工具</span>
-      <h1 class="section-title section-title-light" data-split data-split-delay="50" data-split-duration="0.7">东巴文字典</h1>
-      <p class="page-hero-desc scroll-reveal-effect sr-light" data-sr-blur="true" data-sr-blur-strength="3" data-sr-rotation="2">输入中文文字，即时转换为东巴象形文字。浏览完整字符对照表，探索千年文字的奥秘。</p>
+  <!-- Hero Section — 全屏沉浸式 -->
+  <section class="page-hero-fullscreen" id="dictHero">
+    <div class="page-hero-fullscreen-bg">
+      <img src="素材/东巴文化/东巴经书/东巴经书.jpg" alt="东巴文字典背景" class="page-hero-fullscreen-bg-img">
+      <div class="page-hero-fullscreen-overlay" style="background: radial-gradient(ellipse at 50% 30%, transparent 20%, rgba(15,36,64,0.6) 70%), linear-gradient(180deg, rgba(15,36,64,0.3) 0%, rgba(15,36,64,0.5) 50%, rgba(107,66,38,0.7) 100%);"></div>
+    </div>
+
+    <!-- 浮动东巴文装饰 -->
+    <div class="page-hero-fullscreen-float">
+      <svg class="phf-float phf-f1" width="55" height="55" viewBox="0 0 100 100">
+        <circle cx="20" cy="20" r="7" fill="none" stroke="rgba(197,165,90,0.3)" stroke-width="3"/>
+        <line x1="20" y1="2" x2="20" y2="9" stroke="rgba(197,165,90,0.3)" stroke-width="3"/>
+        <line x1="20" y1="31" x2="20" y2="38" stroke="rgba(197,165,90,0.3)" stroke-width="3"/>
+        <line x1="2" y1="20" x2="9" y2="20" stroke="rgba(197,165,90,0.3)" stroke-width="3"/>
+        <line x1="31" y1="20" x2="38" y2="20" stroke="rgba(197,165,90,0.3)" stroke-width="3"/>
+      </svg>
+      <svg class="phf-float phf-f2" width="50" height="50" viewBox="0 0 100 100">
+        <path d="M4 20c4-8 12-8 16 0c4-8 12-8 16 0" fill="none" stroke="rgba(197,165,90,0.25)" stroke-width="4"/>
+        <circle cx="20" cy="20" r="3" fill="rgba(197,165,90,0.2)"/>
+      </svg>
+      <svg class="phf-float phf-f3" width="45" height="45" viewBox="0 0 100 100">
+        <path d="M20 4 L24 15 L36 15 L26 22 L30 34 L20 26 L10 34 L14 22 L4 15 L16 15 Z" fill="none" stroke="rgba(197,165,90,0.2)" stroke-width="3"/>
+      </svg>
+      <svg class="phf-float phf-f4" width="40" height="40" viewBox="0 0 100 100">
+        <path d="M8 28c-3 0-5-2-5-5s2-5 5-5c0-4 4-8 9-8c4 0 7 2 8 5c1-0.5 2-1 3-1c3 0 6 3 6 6c2 0 4 2 4 4s-2 4-4 4H8z" fill="none" stroke="rgba(197,165,90,0.25)" stroke-width="3"/>
+      </svg>
+    </div>
+
+    <div class="page-hero-fullscreen-content">
+      <p class="page-hero-fullscreen-subtitle anim-fade" data-delay="0">DONGBA DICTIONARY</p>
+      <h1 class="page-hero-fullscreen-title">
+        <span class="page-hero-fullscreen-title-line anim-fade" data-delay="200">东巴文字典</span>
+        <span class="page-hero-fullscreen-title-line anim-fade gradient-text" data-delay="400">千年文字</span>
+      </h1>
+      <p class="page-hero-fullscreen-desc anim-fade" data-delay="600">输入中文文字，即时转换为东巴象形文字。<br>浏览完整字符对照表，探索千年文字的奥秘。</p>
+      <a href="#converter" class="page-hero-fullscreen-cta anim-fade" data-delay="800">开始探索</a>
+    </div>
+
+    <div class="page-hero-fullscreen-scroll">
+      <span>向下探索</span>
+      <div class="page-hero-fullscreen-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </div>
     </div>
   </section>
 

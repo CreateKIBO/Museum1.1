@@ -39,9 +39,7 @@
       '.gallery-grid':    { text: '点击任意展品卡片可以查看大图和详细介绍，用键盘左右箭头还能切换展品。', gif: 'introduce' }
     },
     'painting.html': {
-      '.painting-hero': { text: '欢迎来到东巴画的世界！这些千年画作色彩至今鲜艳如初，是不是很震撼？', gif: 'hello' },
       '.painting-intro': { text: '东巴画以矿物颜料绘制，色彩历经数百年仍鲜艳如初，堪称绘画奇迹！', gif: 'introduce' },
-      '.painting-feature': { text: '神路图是东巴画中最震撼的作品——十余米长卷展现地狱、人间、天堂三界！', gif: 'hello' },
       '.painting-showcase-section': { text: '卷轴画、神路图、木牌画——三种画型各有千秋，点击卡片了解更多。', gif: 'introduce' },
       '.painting-timeline-section': { text: '从远古岩画到当代非遗，东巴画千年传承不息。', gif: 'introduce' }
     },
