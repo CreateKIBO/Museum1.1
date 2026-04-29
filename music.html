@@ -109,10 +109,10 @@
     .play-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
-      padding: 1rem 2.5rem;
+      gap: 0.8rem;
+      padding: 0.8rem 2.2rem;
       background: linear-gradient(135deg, rgba(197,165,90,0.2), rgba(197,165,90,0.1));
-      border: 1px solid rgba(197,165,90,0.5);
+      border: 1.5px solid rgba(197,165,90,0.5);
       color: #C5A55A;
       font-family: 'Noto Sans SC', sans-serif;
       font-size: 0.95rem;
@@ -135,7 +135,16 @@
       transform: scale(1.05);
       box-shadow: 0 10px 30px rgba(197,165,90,0.3);
     }
-    .play-btn svg { width: 20px; height: 20px; position: relative; z-index: 1; }
+    .play-btn .dongba-sing-icon {
+      width: 28px;
+      height: 28px;
+      position: relative;
+      z-index: 1;
+    }
+    .play-btn .dongba-sing-icon svg {
+      width: 100%;
+      height: 100%;
+    }
     .play-btn span { position: relative; z-index: 1; }
     /* Instrument Cards */
     .instruments-section {
@@ -277,8 +286,8 @@
       left: 8px;
       top: 0;
       bottom: 0;
-      width: 3px;
-      background: linear-gradient(to bottom, #1B3A5C, #C5A55A, #C23B22);
+      width: 2px;
+      background: rgba(197,165,90,0.3);
       border-radius: 2px;
     }
     .timeline-entry {
@@ -308,6 +317,23 @@
       border: 3px solid #EDE8DF;
       box-shadow: 0 0 0 3px rgba(194,59,34,0.3);
       z-index: 1;
+    }
+    .tl-dongba-icon {
+      position: absolute;
+      left: -2.8rem;
+      top: -2px;
+      width: 32px;
+      height: 32px;
+      z-index: 2;
+      color: #F8F6F0;
+      background: linear-gradient(135deg, #C23B22, #C5A55A);
+      border-radius: 6px;
+      padding: 4px;
+      box-shadow: 0 0 0 3px rgba(194,59,34,0.2);
+    }
+    .tl-dongba-icon svg {
+      width: 100%;
+      height: 100%;
     }
     .timeline-entry .tl-era {
       font-family: 'Noto Serif SC', serif;
@@ -471,7 +497,14 @@
         </div>
         <div class="play-btn-wrap">
           <button class="play-btn" id="playBtn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6,3 20,12 6,21"/></svg>
+            <span class="dongba-sing-icon">
+              <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                <ellipse cx="50" cy="45" rx="22" ry="18"/>
+                <path d="M35 30 Q40 10 55 15" stroke-width="2"/>
+                <path d="M55 30 Q60 10 75 15" stroke-width="2"/>
+                <line x1="50" y1="63" x2="50" y2="80"/>
+              </svg>
+            </span>
             播放古乐
           </button>
           <audio id="bgMusic" preload="none" src="素材/纳西古乐/音乐文件/naxi_music_web.mp3"></audio>
@@ -530,18 +563,38 @@
         <h2 data-split data-split-delay="70" data-split-duration="0.7">古乐历史</h2>
         <div class="timeline">
           <div class="timeline-entry">
+            <div class="tl-dongba-icon">
+              <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <circle cx="20" cy="20" r="7"/><line x1="20" y1="2" x2="20" y2="9"/><line x1="20" y1="31" x2="20" y2="38"/><line x1="2" y1="20" x2="9" y2="20"/><line x1="31" y1="20" x2="38" y2="20"/>
+              </svg>
+            </div>
             <div class="tl-era">唐宋时期</div>
             <div class="tl-text">道教法事音乐与儒教典礼音乐随文化交流传入丽江，与纳西族本土音乐融合，形成纳西古乐的雏形。唐宋词牌曲的旋律被纳西族艺人吸收传承，成为古乐的重要组成。</div>
           </div>
           <div class="timeline-entry">
+            <div class="tl-dongba-icon">
+              <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <line x1="20" y1="38" x2="20" y2="18"/><circle cx="20" cy="13" r="9"/><line x1="14" y1="26" x2="20" y2="20"/><line x1="26" y1="26" x2="20" y2="20"/>
+              </svg>
+            </div>
             <div class="tl-era">明清传承</div>
             <div class="tl-text">纳西土司木氏家族大力扶持古乐发展，设立专门乐班，修建演奏场所。古乐成为丽江社会生活中不可或缺的文化活动，在宫廷与民间广泛传承。</div>
           </div>
           <div class="timeline-entry">
+            <div class="tl-dongba-icon">
+              <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M20 4c-2 6-10 10-10 18c0 6 4 12 10 14c6-2 10-8 10-14c0-8-8-12-10-18z"/><path d="M20 22c-1 3-4 5-4 8c0 2 2 4 4 4c2 0 4-2 4-4c0-3-3-5-4-8z"/>
+              </svg>
+            </div>
             <div class="tl-era">1980年代复兴</div>
             <div class="tl-text">在宣科等文化人士的推动下，丽江大研纳西古乐会成立，开始系统整理古乐谱、恢复传统曲目，并举办公开演出，使沉寂多年的纳西古乐重新焕发生机。</div>
           </div>
           <div class="timeline-entry">
+            <div class="tl-dongba-icon">
+              <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="2,36 14,12 20,22 26,8 38,36"/><line x1="1" y1="36" x2="39" y2="36"/>
+              </svg>
+            </div>
             <div class="tl-era">当代保护</div>
             <div class="tl-text">纳西古乐被列入国家级非物质文化遗产名录，建立了完善的传承人培养机制。数字化录音与影像存档工作同步推进，确保千年古韵永续传承。</div>
           </div>
@@ -589,15 +642,18 @@
     }
 
     var playing = false;
+    var dongbaSingSvg = '<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><ellipse cx="50" cy="45" rx="22" ry="18"/><path d="M35 30 Q40 10 55 15" stroke-width="2"/><path d="M55 30 Q60 10 75 15" stroke-width="2"/><line x1="50" y1="63" x2="50" y2="80"/></svg>';
+    var pauseSvg = '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>';
+
     playBtn.addEventListener('click', function(){
       playing = !playing;
       if(playing){
         bars.classList.add('playing');
-        playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg> <span>暂停</span>';
+        playBtn.innerHTML = '<span class="dongba-sing-icon">' + dongbaSingSvg + '</span> <span>暂停</span>';
         if(bgMusic) bgMusic.play();
       } else {
         bars.classList.remove('playing');
-        playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><polygon points="6,3 20,12 6,21"/></svg> <span>播放古乐</span>';
+        playBtn.innerHTML = '<span class="dongba-sing-icon">' + dongbaSingSvg + '</span> <span>播放古乐</span>';
         if(bgMusic) bgMusic.pause();
       }
     });
