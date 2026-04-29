@@ -64,7 +64,10 @@
     shownSections: [],
     currentGif: 'relax',
     recognizeResults: null,
-    recognizeIndex: 0
+    recognizeIndex: 0,
+    lastSpokenText: null,
+    lastSpokenGif: null,
+    lastSpokenDuration: null
   };
 
   // ======== 拖拽 ========
@@ -278,8 +281,11 @@
   }
 
   function speak(text, duration, gif) {
-    setGif(gif || 'introduce');
-    showBubble(text, duration || 6000);
+    state.lastSpokenText = text;
+    state.lastSpokenGif = gif || 'introduce';
+    state.lastSpokenDuration = duration || 6000;
+    setGif(state.lastSpokenGif);
+    showBubble(text, state.lastSpokenDuration);
   }
 
   function greet() {
@@ -440,6 +446,33 @@
       if (bubble.classList.contains('visible')) {
         hideBubble();
         setGif('relax');
+      } else if (state.lastSpokenText) {
+        // 有最近讲解内容，询问是否重新讲解
+        setGif('hello');
+        showBubble(
+          '需要我再讲解一遍刚才的内容吗？<br>' +
+          '<div class="ai-reexplain-actions">' +
+            '<button class="ai-btn-reexplain ai-btn-yes" id="aiBtnReexplainYes">再讲一遍</button>' +
+            '<button class="ai-btn-reexplain ai-btn-no" id="aiBtnReexplainNo">不用了</button>' +
+          '</div>',
+          0
+        );
+        // 绑定按钮事件
+        var btnYes = document.getElementById('aiBtnReexplainYes');
+        var btnNo = document.getElementById('aiBtnReexplainNo');
+        if (btnYes) {
+          btnYes.addEventListener('click', function(e) {
+            e.stopPropagation();
+            speak(state.lastSpokenText, state.lastSpokenDuration, state.lastSpokenGif);
+          });
+        }
+        if (btnNo) {
+          btnNo.addEventListener('click', function(e) {
+            e.stopPropagation();
+            setGif('relax');
+            showBubble('好的！需要帮助时再点击我哦～', 4000);
+          });
+        }
       } else {
         setGif('hello');
         showBubble('有什么想了解的吗？继续浏览页面，我会为你讲解哦～', 5000);

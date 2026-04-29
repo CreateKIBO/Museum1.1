@@ -249,6 +249,40 @@
   color: #C23B22;
 }
 
+/* 重新讲解按钮 */
+.ai-reexplain-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+  justify-content: center;
+}
+.ai-btn-reexplain {
+  padding: 0.4rem 1rem;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 1.2rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s ease;
+}
+.ai-btn-yes {
+  background: #1B3A5C;
+  color: #F8F6F0;
+}
+.ai-btn-yes:hover {
+  background: #2d5a8a;
+  transform: translateY(-1px);
+}
+.ai-btn-no {
+  background: #EDE8DF;
+  color: #6B4226;
+}
+.ai-btn-no:hover {
+  background: #D4CFC6;
+  transform: translateY(-1px);
+}
+
 /* 点击头像打开/关闭气泡的提示 */
 .ai-assistant-avatar::after {
   content: '';

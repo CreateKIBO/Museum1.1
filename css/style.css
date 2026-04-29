@@ -1444,7 +1444,7 @@ body:hover .custom-cursor { opacity: 0.6; }
 /* ==================== Section 10: Footer ==================== */
 .footer {
   background: var(--color-dark);
-  padding: var(--space-xl) 0 var(--space-md);
+  padding: 3rem 0 1.5rem;
   color: rgba(248,246,240,0.5);
 }
 .footer-container {
@@ -1453,7 +1453,7 @@ body:hover .custom-cursor { opacity: 0.6; }
   padding: 0 var(--space-md);
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: var(--space-lg);
+  gap: 2rem;
 }
 .footer-logo {
   display: flex;
@@ -1463,7 +1463,7 @@ body:hover .custom-cursor { opacity: 0.6; }
   font-family: var(--font-serif);
   font-size: 1.1rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 .footer-desc {
   font-size: 0.85rem;
@@ -1474,10 +1474,10 @@ body:hover .custom-cursor { opacity: 0.6; }
   font-family: var(--font-serif);
   color: var(--color-snow);
   font-size: 0.95rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
 }
 .footer-nav ul { list-style: none; }
-.footer-nav li { margin-bottom: 0.6rem; }
+.footer-nav li { margin-bottom: 0.3rem; }
 .footer-nav a {
   font-size: 0.85rem;
   color: rgba(248,246,240,0.4);
@@ -1518,8 +1518,8 @@ body:hover .custom-cursor { opacity: 0.6; }
 
 .footer-bottom {
   max-width: 1400px;
-  margin: var(--space-lg) auto 0;
-  padding: var(--space-md) var(--space-md) 0;
+  margin: 1.5rem auto 0;
+  padding: 1rem var(--space-md) 0;
   border-top: 1px solid rgba(248,246,240,0.08);
   text-align: center;
   font-size: 0.8rem;

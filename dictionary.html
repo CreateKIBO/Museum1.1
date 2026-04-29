@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#1B3A5C">
-  <title>东巴文字典 — 纳西文化博物馆</title>
+  <title>东巴文字典 — 东巴数藏</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
@@ -65,6 +65,41 @@
 
     /* Category browser */
     .cat-browser { margin-top:0; }
+    .cat-browser-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(135deg, rgba(27,58,92,0.06), rgba(197,165,90,0.06));
+      border: 1px solid var(--color-mist);
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      color: var(--color-indigo);
+      transition: all 0.3s;
+      margin-bottom: 1rem;
+    }
+    .cat-browser-toggle:hover {
+      background: linear-gradient(135deg, rgba(27,58,92,0.1), rgba(197,165,90,0.1));
+      border-color: var(--color-gold);
+    }
+    .cat-browser-toggle svg {
+      transition: transform 0.3s;
+    }
+    .cat-browser-toggle.expanded svg {
+      transform: rotate(180deg);
+    }
+    .cat-browser-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .cat-browser-body.expanded {
+      max-height: 5000px;
+    }
 
     /* Section divider between converter and cat-browser */
     .section-divider {
@@ -213,7 +248,7 @@
     <div class="nav-container">
       <a href="index.html" class="nav-logo">
         <svg width="32" height="32" viewBox="0 0 100 100"><circle cx="50" cy="20" r="14" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="50" y1="34" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/><line x1="28" y1="52" x2="72" y2="52" stroke="#C5A55A" stroke-width="4"/><line x1="33" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/><line x1="67" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/></svg>
-        <span class="logo-text">纳西文化博物馆</span>
+        <span class="logo-text">东巴数藏</span>
       </a>
       <ul class="nav-links">
         <li><a href="index.html">首页</a></li>
@@ -328,6 +363,11 @@
 
   <!-- Converter -->
   <div class="page-body">
+    <!-- Introduction -->
+    <div class="dict-intro anim-fade-up">
+      <p>东巴文是世界上唯一仍在使用的象形文字体系，由纳西族东巴祭司创造并传承千年。一千四百余个字符形意兼备——画山为山、画水为水、画人为人，每一个符号都是一幅微型图画，承载着纳西族对自然与生命的深刻理解。在这里，你可以输入中文即时转换为东巴象形文字，浏览完整的字符对照表，或亲手书写让AI来辨认。</p>
+    </div>
+
     <!-- Disclaimer Banner -->
     <div class="disclaimer-banner anim-fade-up" style="max-width:900px;margin:0 auto var(--space-lg);padding:1rem 1.5rem;background:rgba(194,59,34,0.06);border:1px solid rgba(194,59,34,0.2);border-radius:8px;display:flex;align-items:flex-start;gap:0.8rem;">
       <span style="font-size:1.2rem;color:var(--color-vermilion);flex-shrink:0;">&#9888;</span>
@@ -361,24 +401,31 @@
     <div class="cat-browser anim-fade-up">
       <h2 class="section-title" style="font-size:1.8rem;" data-split data-split-delay="60" data-split-duration="0.6">字符对照表</h2>
       <p style="color:var(--color-stone);font-size:0.85rem;margin-bottom:1rem;line-height:1.6;">以下为部分收录字符，东巴文字体系庞大，本字典仅收录常用基础字符，将持续扩充。</p>
-      <div class="cat-tabs">
-        <button class="cat-tab active" data-cat="all">全部</button>
-        <button class="cat-tab" data-cat="nature">自然</button>
-        <button class="cat-tab" data-cat="people">人物</button>
-        <button class="cat-tab" data-cat="animal">动物</button>
-        <button class="cat-tab" data-cat="object">物品</button>
-        <button class="cat-tab" data-cat="verb">动词</button>
-        <button class="cat-tab" data-cat="number">数字</button>
-        <button class="cat-tab" data-cat="color">颜色</button>
+      <button class="cat-browser-toggle" id="catBrowserToggle">
+        <span>展开字符对照表</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="cat-browser-body" id="catBrowserBody">
+        <div class="cat-tabs">
+          <button class="cat-tab active" data-cat="all">全部</button>
+          <button class="cat-tab" data-cat="nature">自然</button>
+          <button class="cat-tab" data-cat="people">人物</button>
+          <button class="cat-tab" data-cat="animal">动物</button>
+          <button class="cat-tab" data-cat="object">物品</button>
+          <button class="cat-tab" data-cat="verb">动词</button>
+          <button class="cat-tab" data-cat="number">数字</button>
+          <button class="cat-tab" data-cat="color">颜色</button>
+          <button class="cat-tab" data-cat="adj">形容</button>
+        </div>
+        <div class="cat-grid" id="catGrid"></div>
       </div>
-      <div class="cat-grid" id="catGrid"></div>
     </div>
 
     <!-- Interactive Canvas -->
     <div class="dict-canvas-section anim-fade-up">
       <div class="dict-canvas-wrap">
         <!-- MagnetLines 磁力线装饰 -->
-        <div class="magnet-lines-container"></div>
+        <div class="dongba-float-container"></div>
         <h2 class="section-title" style="font-size:1.8rem;" data-split data-split-delay="70" data-split-duration="0.7">书写象形文字</h2>
         <p style="color:var(--color-stone);margin-bottom:1.5rem;">用鼠标或手指在画布上书写东巴象形文字，感受千年文字的笔触与韵律。</p>
         <canvas id="dongbaCanvas" width="900" height="500"></canvas>
@@ -426,14 +473,13 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <a href="index.html" class="footer-logo"><svg width="32" height="32" viewBox="0 0 100 100"><circle cx="50" cy="20" r="14" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="50" y1="34" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/><line x1="28" y1="52" x2="72" y2="52" stroke="#C5A55A" stroke-width="4"/><line x1="33" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/><line x1="67" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/></svg><span>纳西文化博物馆</span></a>
-        <p class="footer-desc">守护千年东巴文明，传承纳西文化精髓。</p>
+        <a href="index.html" class="footer-logo"><svg width="32" height="32" viewBox="0 0 100 100"><circle cx="50" cy="20" r="14" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="50" y1="34" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/><line x1="28" y1="52" x2="72" y2="52" stroke="#C5A55A" stroke-width="4"/><line x1="33" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/><line x1="67" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/></svg><span>东巴数藏</span></a>
+        <p class="footer-desc">纳西文化数字馆</p>
       </div>
       <div class="footer-nav"><h4>探索</h4><ul><li><a href="dictionary.html">东巴文字典</a></li><li><a href="music.html">纳西古乐</a></li><li><a href="painting.html">东巴画</a></li><li><a href="gallery.html">数字展馆</a></li><li><a href="explore.html">文化探索</a></li></ul></div>
       <div class="footer-nav"><h4>页面</h4><ul><li><a href="index.html">首页</a></li><li><a href="dictionary.html">东巴文字典</a></li><li><a href="music.html">纳西古乐</a></li><li><a href="painting.html">东巴画</a></li><li><a href="gallery.html">数字展馆</a></li><li><a href="explore.html">文化探索</a></li></ul></div>
-      <div class="footer-social"><h4>关注我们</h4><div class="social-icons"><a href="#" aria-label="微信"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 11a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-2.5 3c-3.5 0-6.5-2.5-6.5-5.5S7.5 3 11 3s6.5 2.5 6.5 5.5-3 5.5-6.5 5.5z"/></svg></a></div></div>
     </div>
-    <div class="footer-bottom"><p>&copy; 2026 纳西文化博物馆 &middot; 保留所有权利</p></div>
+    <div class="footer-bottom"><p>&copy; 2026 丽江文化旅游学院 &middot; 保留所有权利</p></div>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -487,6 +533,14 @@
     // Category browser
     var grid = document.getElementById('catGrid');
     var tabs = document.querySelectorAll('.cat-tab');
+    var catToggle = document.getElementById('catBrowserToggle');
+    var catBody = document.getElementById('catBrowserBody');
+
+    catToggle.addEventListener('click', function() {
+      var isExpanded = catBody.classList.toggle('expanded');
+      catToggle.classList.toggle('expanded', isExpanded);
+      catToggle.querySelector('span').textContent = isExpanded ? '收起字符对照表' : '展开字符对照表';
+    });
 
     function renderGrid(cat){
       var filtered = cat === 'all' ? DONGBA_DB : DONGBA_DB.filter(function(d){ return d.cat === cat; });
