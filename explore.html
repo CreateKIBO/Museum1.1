@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1B3A5C">
+  <title>文化探索 — 东巴数藏</title>
+    <meta name="theme-color" content="#1B3A5C">
+<meta name="description" content="深入了解纳西族文化的前世今生，探索东巴祭司的传承之路。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/scroll-reveal-effect.css">
+  <link rel="stylesheet" href="css/dongba-divider.css">
+  <link rel="stylesheet" href="css/ai-assistant.css">
+  <style>
+    /* Story Blocks */
+    .story-block {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      margin-bottom: 4rem;
+      padding-bottom: 4rem;
+      border-bottom: 1px solid #EDE8DF;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .story-block.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .story-block:last-of-type {
+      border-bottom: none;
+    }
+    .story-block:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+    .story-image {
+      flex: 0 0 45%;
+      aspect-ratio: 4/3;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+    .story-block:hover .story-image {
+      transform: scale(1.02);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+    }
+    .story-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(197,165,90,0.1), transparent);
+      pointer-events: none;
+    }
+    .story-image span {
+      color: rgba(255,255,255,0.5);
+      font-size: 2rem;
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 700;
+    }
+    .story-text {
+      flex: 1;
+    }
+    .story-text h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.6rem;
+      color: #1B3A5C;
+      margin-bottom: 1rem;
+      position: relative;
+      padding-left: 1.2rem;
+    }
+    .story-text h2::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.2em;
+      bottom: 0.2em;
+      width: 4px;
+      background: linear-gradient(180deg, #1B3A5C, #C5A55A);
+      border-radius: 2px;
+    }
+    .story-text p {
+      font-size: 1rem;
+      color: #4a4a48;
+      line-height: 1.9;
+      margin-bottom: 1rem;
+    }
+    .story-text blockquote {
+      border-left: 3px solid #C5A55A;
+      padding: 1rem 1.5rem;
+      margin: 1.2rem 0;
+      background: linear-gradient(135deg, rgba(197,165,90,0.06), rgba(197,165,90,0.02));
+      border-radius: 0 12px 12px 0;
+      position: relative;
+    }
+    .story-text blockquote::before {
+      content: '\201C';
+      position: absolute;
+      top: -0.2rem;
+      left: 0.5rem;
+      font-size: 2.5rem;
+      color: rgba(197,165,90,0.2);
+      font-family: serif;
+      line-height: 1;
+    }
+    .story-text blockquote p {
+      font-style: italic;
+      color: #6B4226;
+      font-size: 0.95rem;
+      margin-bottom: 0;
+      line-height: 1.8;
+    }
+    @media (max-width: 768px) {
+      .story-block,
+      .story-block:nth-child(even) {
+        flex-direction: column;
+      }
+      .story-image {
+        flex: none;
+        width: 100%;
+      }
+    }
+    /* Heritage Timeline - Horizontal */
+    .heritage-timeline-section {
+      margin-top: 3rem;
+    }
+    .heritage-timeline-section h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.8rem;
+      color: #1B3A5C;
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    .heritage-timeline-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #1B3A5C, #C5A55A, #C23B22);
+      border-radius: 2px;
+    }
+    .heritage-timeline {
+      position: relative;
+      display: flex;
+      overflow-x: auto;
+      padding: 0;
+      gap: 0;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      scrollbar-color: #C5A55A #EDE8DF;
+    }
+    .heritage-timeline::-webkit-scrollbar { height: 6px; }
+    .heritage-timeline::-webkit-scrollbar-track { background: #EDE8DF; border-radius: 3px; }
+    .heritage-timeline::-webkit-scrollbar-thumb { background: #C5A55A; border-radius: 3px; }
+    .heritage-timeline-line {
+      position: absolute;
+      left: 0;
+      top: 8px;
+      height: 3px;
+      background: linear-gradient(to right, #1B3A5C, #C5A55A, #C23B22);
+      z-index: 0;
+      pointer-events: none;
+      border-radius: 2px;
+    }
+    .heritage-milestone {
+      position: relative;
+      flex: 0 0 280px;
+      padding-top: 28px;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      padding-bottom: 1.5rem;
+      scroll-snap-align: start;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: milestoneIn 0.6s ease forwards;
+    }
+    .heritage-milestone:nth-child(1) { animation-delay: 0.1s; }
+    .heritage-milestone:nth-child(2) { animation-delay: 0.2s; }
+    .heritage-milestone:nth-child(3) { animation-delay: 0.3s; }
+    .heritage-milestone:nth-child(4) { animation-delay: 0.4s; }
+    .heritage-milestone:nth-child(5) { animation-delay: 0.5s; }
+    @keyframes milestoneIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .heritage-milestone::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #C23B22, #C5A55A);
+      border: 3px solid #EDE8DF;
+      box-shadow: 0 0 0 3px rgba(194,59,34,0.3);
+      z-index: 1;
+    }
+    .heritage-milestone .ms-year {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #C23B22;
+      margin-bottom: 0.3rem;
+      text-align: center;
+    }
+    .heritage-milestone .ms-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1B3A5C;
+      margin-bottom: 0.3rem;
+      text-align: center;
+    }
+    .heritage-milestone .ms-desc {
+      font-size: 0.85rem;
+      color: #4a4a48;
+      line-height: 1.7;
+    }
+    .ms-img {
+      margin-top: 0.8rem;
+      border-radius: 10px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      background-size: cover;
+      background-position: center;
+      background-color: #EDE8DF;
+      transition: transform 0.4s ease;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    .heritage-milestone:hover .ms-img {
+      transform: scale(1.05);
+    }
+    @media (max-width: 768px) {
+      .heritage-milestone {
+        flex: 0 0 240px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <svg width="32" height="32" viewBox="0 0 100 100"><circle cx="50" cy="20" r="14" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="50" y1="34" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/><line x1="28" y1="52" x2="72" y2="52" stroke="#C5A55A" stroke-width="4"/><line x1="33" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/><line x1="67" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/></svg>
+        <span class="logo-text">东巴数藏</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="dictionary.html">东巴文字典</a></li>
+        <li><a href="music.html">纳西古乐</a></li>
+        <li><a href="painting.html">东巴画</a></li>
+        <li><a href="gallery.html">数字展馆</a></li>
+        <li><a href="explore.html" style="color:var(--color-gold)">文化探索</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="菜单"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="dictionary.html">东巴文字典</a></li>
+      <li><a href="music.html">纳西古乐</a></li>
+      <li><a href="painting.html">东巴画</a></li>
+      <li><a href="gallery.html">数字展馆</a></li>
+      <li><a href="explore.html">文化探索</a></li>
+    </ul>
+  </div>
+
+  <!-- Page Hero -->
+  <section class="page-hero" style="background: url('素材/古城建筑/木楼/古城木楼.jpg') center/cover no-repeat;">
+    <div style="position:absolute;inset:0;background: linear-gradient(135deg, rgba(15,36,64,0.75) 0%, rgba(27,58,92,0.6) 50%, rgba(194,59,34,0.5) 100%);"></div>
+    <div class="page-hero-content" style="position:relative;z-index:1;text-align:center;padding:8rem 2rem 4rem;">
+      <h1 style="font-family:'Noto Serif SC',serif;font-size:3rem;color:#F8F6F0;margin-bottom:1rem;" data-split data-split-delay="50" data-split-duration="0.7">文化探索</h1>
+      <p class="scroll-reveal-effect sr-light" style="color:rgba(248,246,240,0.8);font-size:1.1rem;max-width:640px;margin:0 auto;line-height:1.8;" data-sr-blur="true" data-sr-blur-strength="3" data-sr-rotation="2">深入了解纳西族文化的前世今生，探索东巴祭司的传承之路。</p>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <div style="background:#F8F6F0;padding:1rem 2rem;border-bottom:1px solid #EDE8DF;">
+    <div style="max-width:1200px;margin:0 auto;font-size:0.85rem;color:#8C8478;">
+      <a href="index.html" style="color:#1B3A5C;text-decoration:none;">首页</a>
+      <span style="margin:0 0.5rem;">/</span>
+      <span style="color:#6B4226;">文化探索</span>
+    </div>
+  </div>
+
+  <!-- 东巴文侧边装饰 -->
+  <div class="dongba-side dongba-side--left">
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,36 14,12 20,22 26,8 38,36"/><line x1="1" y1="36" x2="39" y2="36"/></svg>
+      <span class="dongba-side-label">山</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 14c4-4 8 4 12 0s8 4 12 0s8 4 12 0"/><path d="M4 22c4-4 8 4 12 0s8 4 12 0s8 4 12 0"/><path d="M4 30c4-4 8 4 12 0s8 4 12 0s8 4 12 0"/></svg>
+      <span class="dongba-side-label">水</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="20" cy="20" r="7"/><line x1="20" y1="2" x2="20" y2="9"/><line x1="20" y1="31" x2="20" y2="38"/><line x1="2" y1="20" x2="9" y2="20"/><line x1="31" y1="20" x2="38" y2="20"/><line x1="7.3" y1="7.3" x2="12.2" y2="12.2"/><line x1="27.8" y1="27.8" x2="32.7" y2="32.7"/><line x1="32.7" y1="7.3" x2="27.8" y2="12.2"/><line x1="12.2" y1="27.8" x2="7.3" y2="32.7"/></svg>
+      <span class="dongba-side-label">日</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="20" cy="10" r="5"/><line x1="20" y1="15" x2="20" y2="28"/><line x1="12" y1="20" x2="28" y2="20"/><line x1="20" y1="28" x2="13" y2="37"/><line x1="20" y1="28" x2="27" y2="37"/></svg>
+      <span class="dongba-side-label">人</span>
+    </span>
+  </div>
+  <div class="dongba-side dongba-side--right">
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="20" y1="38" x2="20" y2="18"/><circle cx="20" cy="13" r="9"/><line x1="14" y1="26" x2="20" y2="20"/><line x1="26" y1="26" x2="20" y2="20"/></svg>
+      <span class="dongba-side-label">木</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c4-8 12-8 16 0c4-8 12-8 16 0"/><circle cx="20" cy="20" r="3"/><path d="M20 23l-3 8"/><path d="M20 23l3 8"/></svg>
+      <span class="dongba-side-label">鸟</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 4c-2 6-10 10-10 18c0 6 4 12 10 14c6-2 10-8 10-14c0-8-8-12-10-18z"/><path d="M20 22c-1 3-4 5-4 8c0 2 2 4 4 4c2 0 4-2 4-4c0-3-3-5-4-8z"/></svg>
+      <span class="dongba-side-label">火</span>
+    </span>
+  </div>
+
+  <!-- Page Body -->
+  <section class="page-body" style="padding:4rem 2rem;">
+    <div style="max-width:1200px;margin:0 auto;">
+
+      <!-- Story 1: Left Image + Right Text -->
+      <div class="story-block">
+        <div class="story-image" style="background-image:url('素材/东巴文化/东巴画/东巴画.jpg');background-size:cover;background-position:center;">
+          <span style="display:none;">创世纪</span>
+        </div>
+        <div class="story-text">
+          <h2>纳西族创世史诗《创世纪》</h2>
+          <p>《创世纪》是东巴经书中最宏大的篇章，讲述了纳西族先民对宇宙起源与人类诞生的理解。史诗从天地混沌之初讲起，描述了九位天神开天辟地、万物生长、洪水滔天，直至人类始祖从天而降、繁衍后代的壮阔历程。</p>
+          <blockquote>
+            <p>"天是天神开的，地是地神辟的。白云造天，黑土造地。天开了，地辟了，太阳出来了，月亮出来了。"——《创世纪》开篇</p>
+          </blockquote>
+          <p>这部史诗不仅是宗教经典，更是纳西族历史、哲学与宇宙观的集大成之作，被誉为"东方创世纪"，在民族文化研究中占有不可替代的地位。</p>
+        </div>
+      </div>
+
+      <!-- Story 2: Right Image + Left Text (reversed) -->
+      <div class="story-block">
+        <div class="story-image" style="background-image:url('素材/古城建筑/木楼/古城木楼.jpg');background-size:cover;background-position:center;">
+          <span style="display:none;">木府</span>
+        </div>
+        <div class="story-text">
+          <h2>木氏土司与丽江古城的兴衰</h2>
+          <p>自元代忽必烈南征始，纳西族首领麦良归附，木氏家族获封土司，开始了对丽江长达四百七十年的世袭统治。木氏土司兼具政治智慧与文化远见，一方面效忠中央王朝，另一方面大力推崇东巴文化与纳西传统，使丽江成为滇西北的政治文化中心。</p>
+          <blockquote>
+            <p>"凤诏每来红日近，鹤书不到白云闲。"——木府楹联，道出木氏土司与朝廷的密切关系。</p>
+          </blockquote>
+          <p>清代雍正年间改土归流，木氏土司制度终结。但木氏留下的丽江古城格局、万卷楼藏书、以及推崇多元文化的开放精神，至今仍深刻影响着这片土地。</p>
+        </div>
+      </div>
+
+      <!-- Story 3: Left Image + Right Text -->
+      <div class="story-block">
+        <div class="story-image" style="background-image:url('素材/数字化保护/东巴文化数字化/东巴文化数字化_4.jpg');background-size:cover;background-position:center;">
+          <span style="display:none;">数字化保护</span>
+        </div>
+        <div class="story-text">
+          <h2>东巴文化的数字化保护</h2>
+          <p>进入二十一世纪，数字技术为文化遗产保护开辟了全新的路径。东巴文化的数字化保护工作涵盖了多个层面：东巴经书的高清扫描与数字化存储、东巴象形文字的Unicode编码与国际标准制定、三维扫描技术对东巴法器与仪式场景的完整记录。</p>
+          <blockquote>
+            <p>"数字技术不是传统文化的替代，而是为其搭建了一座通往未来的桥梁。每一个被数字化的东巴文字，都是一颗种在未来的种子。"——东巴文化数字化项目负责人</p>
+          </blockquote>
+          <p>通过建立东巴文化数字档案库，配合人工智能辅助的经文翻译系统，研究效率得到了显著提升。同时，虚拟现实与增强现实技术的应用，让更多公众能够身临其境地感受东巴文化的独特魅力，为文化传承注入了新的活力。</p>
+        </div>
+      </div>
+
+      <!-- Heritage Timeline -->
+      <div class="heritage-timeline-section">
+        <h2 data-split data-split-delay="60" data-split-duration="0.7">文化遗产时间线</h2>
+        <div class="heritage-timeline">
+
+          <div class="heritage-milestone">
+            <div class="ms-year">公元前</div>
+            <div class="ms-title">纳西族起源</div>
+            <div class="ms-desc">纳西族先民从西北地区南迁至金沙江流域，在此繁衍生息，逐渐形成独特的民族文化体系。东巴象形文字的雏形在这一时期开始萌芽。</div>
+            <div class="ms-img" style="background-image:url('素材/历史事件/纳西族起源/纳西族起源.jpg')" role="img" aria-label="纳西族起源"></div>
+          </div>
+
+          <div class="heritage-milestone">
+            <div class="ms-year">唐宋</div>
+            <div class="ms-title">东巴文成熟</div>
+            <div class="ms-desc">东巴象形文字体系在唐宋时期趋于成熟，形成了完整的书写系统。大量东巴经书在这一时期被书写记录，内容涵盖宗教、哲学、历史、医学等领域。</div>
+            <div class="ms-img" style="background-image:url('素材/东巴文化/东巴象形文字/东巴象形文字.jpg')" role="img" aria-label="东巴象形文字"></div>
+          </div>
+
+          <div class="heritage-milestone">
+            <div class="ms-year">1253</div>
+            <div class="ms-title">忽必烈南征，纳西归附</div>
+            <div class="ms-desc">忽必烈率蒙古大军南征大理，途经丽江，纳西族首领麦良归附元朝。此后纳西土司制度确立，木氏家族开始长达数百年的统治，促进了纳西文化的繁荣发展。</div>
+            <div class="ms-img" style="background-image:url('素材/历史事件/忽必烈南征/忽必烈南征.jpg')" role="img" aria-label="忽必烈南征"></div>
+          </div>
+
+          <div class="heritage-milestone">
+            <div class="ms-year">1997</div>
+            <div class="ms-title">丽江古城列入世界遗产</div>
+            <div class="ms-desc">联合国教科文组织将丽江古城列入世界文化遗产名录，肯定了其独特的历史文化价值。这一荣誉为纳西文化的保护与传承带来了国际关注与资源支持。</div>
+            <div class="ms-img" style="background-image:url('素材/古城建筑/木楼/古城木楼.jpg')" role="img" aria-label="丽江古城"></div>
+          </div>
+
+          <div class="heritage-milestone">
+            <div class="ms-year">2003</div>
+            <div class="ms-title">东巴古籍列入世界记忆遗产</div>
+            <div class="ms-desc">纳西族东巴古籍文献被联合国教科文组织列入"世界记忆遗产名录"，这是对东巴文化作为人类共同记忆的国际认可，极大推动了东巴文化的保护与研究工作。</div>
+            <div class="ms-img" style="background-image:url('素材/历史事件/东巴古籍世界记忆遗产/文化遗产.jpg')" role="img" aria-label="东巴古籍世界记忆遗产"></div>
+          </div>
+
+          <div class="heritage-timeline-line" aria-hidden="true"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo"><svg width="32" height="32" viewBox="0 0 100 100"><circle cx="50" cy="20" r="14" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="50" y1="34" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/><line x1="28" y1="52" x2="72" y2="52" stroke="#C5A55A" stroke-width="4"/><line x1="33" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/><line x1="67" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/></svg><span>东巴数藏</span></a>
+        <p class="footer-desc">纳西文化数字馆</p>
+      </div>
+      <div class="footer-nav"><h4>探索</h4><ul><li><a href="dictionary.html">东巴文字典</a></li><li><a href="music.html">纳西古乐</a></li><li><a href="painting.html">东巴画</a></li><li><a href="gallery.html">数字展馆</a></li><li><a href="explore.html">文化探索</a></li></ul></div>
+      <div class="footer-nav"><h4>页面</h4><ul><li><a href="index.html">首页</a></li><li><a href="dictionary.html">东巴文字典</a></li><li><a href="music.html">纳西古乐</a></li><li><a href="painting.html">东巴画</a></li><li><a href="gallery.html">数字展馆</a></li><li><a href="explore.html">文化探索</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 丽江文化旅游学院 &middot; 保留所有权利</p></div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/animations.js" defer></script>
+  <script src="js/split-text.js" defer></script>
+  <script src="js/scroll-reveal-effect.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/ai-assistant.js" defer></script>
+  <script>
+  (function(){
+    var timeline = document.querySelector('.heritage-timeline');
+    var line = document.querySelector('.heritage-timeline-line');
+    if(!timeline || !line) return;
+    function resizeLine(){
+      var milestones = timeline.querySelectorAll('.heritage-milestone');
+      if(!milestones.length) return;
+      var last = milestones[milestones.length - 1];
+      var w = last.offsetLeft + last.offsetWidth / 2 + 8;
+      line.style.width = w + 'px';
+    }
+    resizeLine();
+    window.addEventListener('resize', resizeLine);
+
+    // Story block scroll animation
+    var storyBlocks = document.querySelectorAll('.story-block');
+    if (storyBlocks.length) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      storyBlocks.forEach(function(block) {
+        observer.observe(block);
+      });
+    }
+  })();
+  </script>
+<!-- AI助手 -->
+  <div class="ai-assistant" id="aiAssistant">
+    <div class="ai-assistant-bubble" id="aiBubble">
+      <div class="ai-bubble-text" id="aiBubbleText"></div>
+      <div class="ai-bubble-actions" id="aiBubbleActions" style="display:none;">
+        <button class="ai-btn-correct" id="aiBtnCorrect">猜对了</button>
+        <button class="ai-btn-wrong" id="aiBtnWrong">不对</button>
+      </div>
+      <button class="ai-bubble-close" id="aiBubbleClose">&times;</button>
+    </div>
+    <div class="ai-assistant-avatar" id="aiAvatar">
+      <img src="素材/ai_animation/relax.gif" alt="AI助手" id="aiGif">
+    </div>
+  </div>
+</body>
+</html>

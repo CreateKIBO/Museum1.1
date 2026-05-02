@@ -1,0 +1,100 @@
+/* dongba-divider.css — 东巴文装饰符号
+ * 侧边栏：固定在页面左右两侧，垂直排列
+ */
+
+.dongba-side {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  pointer-events: none;
+}
+
+.dongba-side--left {
+  left: 1rem;
+}
+
+.dongba-side--right {
+  right: 1rem;
+}
+
+.dongba-side-symbol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: sideFadeIn 0.6s ease forwards;
+}
+
+.dongba-side--left .dongba-side-symbol:nth-child(1) { animation-delay: 0.05s; }
+.dongba-side--left .dongba-side-symbol:nth-child(2) { animation-delay: 0.12s; }
+.dongba-side--left .dongba-side-symbol:nth-child(3) { animation-delay: 0.19s; }
+.dongba-side--left .dongba-side-symbol:nth-child(4) { animation-delay: 0.26s; }
+
+.dongba-side--right .dongba-side-symbol:nth-child(1) { animation-delay: 0.15s; }
+.dongba-side--right .dongba-side-symbol:nth-child(2) { animation-delay: 0.22s; }
+.dongba-side--right .dongba-side-symbol:nth-child(3) { animation-delay: 0.29s; }
+
+@keyframes sideFadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dongba-side-symbol svg {
+  width: 32px;
+  height: 32px;
+  color: #C5A55A;
+  opacity: 0.35;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: all;
+}
+
+.dongba-side-symbol:hover svg {
+  opacity: 0.75;
+  transform: scale(1.15) rotate(5deg);
+}
+
+.dongba-side-label {
+  font-size: 0.55rem;
+  color: #8C8478;
+  letter-spacing: 0.05em;
+  font-family: 'Noto Sans SC', sans-serif;
+  opacity: 0.6;
+}
+
+.dongba-side-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(197,165,90,0.25);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .dongba-side {
+    gap: 0.8rem;
+  }
+  .dongba-side--left {
+    left: 0.4rem;
+  }
+  .dongba-side--right {
+    right: 0.4rem;
+  }
+  .dongba-side-symbol svg {
+    width: 22px;
+    height: 22px;
+  }
+  .dongba-side-label {
+    font-size: 0.45rem;
+  }
+}
+
+/* Hide on very narrow screens */
+@media (max-width: 420px) {
+  .dongba-side { display: none; }
+}

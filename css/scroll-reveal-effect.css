@@ -1,0 +1,19 @@
+/* scroll-reveal-effect.css — Styles for ScrollReveal text animation */
+
+.scroll-reveal-effect {
+  margin: 20px 0;
+  line-height: 1.5;
+}
+
+.scroll-reveal-effect .sr-word {
+  display: inline-block;
+  will-change: opacity;
+}
+
+.scroll-reveal-effect.sr-light {
+  color: #F8F6F0;
+}
+
+.scroll-reveal-effect.sr-dark {
+  color: #1A1A18;
+}

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>东巴数藏 — 发现千年活着的象形文字</title>
+  <meta name="description" content="探索纳西族千年文化，感受东巴象形文字的神秘魅力，聆听纳西古乐的千年回响。">
+  <meta name="theme-color" content="#1B3A5C">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/grid-motion.css">
+  <link rel="stylesheet" href="css/true-focus.css">
+  <link rel="stylesheet" href="css/scroll-reveal-effect.css">
+  <link rel="stylesheet" href="css/dongba-divider.css">
+  <link rel="stylesheet" href="css/ai-assistant.css">
+  <script>
+    // Font loading optimization
+    if ('fonts' in document) {
+      Promise.race([
+        document.fonts.ready,
+        new Promise(function(r) { setTimeout(r, 3000); })
+      ]).then(function() { document.body.classList.add('fonts-loaded'); });
+    }
+  </script>
+</head>
+<body>
+
+  <!-- 滚动进度条 -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- GridMotion 动态网格背景 -->
+  <div class="grid-motion-bg"></div>
+
+  <!-- 自定义光标 -->
+  <div class="custom-cursor" id="customCursor">
+    <svg width="24" height="24" viewBox="0 0 100 100">
+      <circle cx="50" cy="20" r="12" fill="none" stroke="currentColor" stroke-width="3"/>
+      <line x1="50" y1="32" x2="50" y2="75" stroke="currentColor" stroke-width="3"/>
+      <line x1="30" y1="50" x2="70" y2="50" stroke="currentColor" stroke-width="3"/>
+      <line x1="35" y1="90" x2="50" y2="75" stroke="currentColor" stroke-width="3"/>
+      <line x1="65" y1="90" x2="50" y2="75" stroke="currentColor" stroke-width="3"/>
+    </svg>
+  </div>
+
+  <!-- 导航栏 -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <span class="logo-dongba">
+          <svg width="32" height="32" viewBox="0 0 100 100">
+            <circle cx="50" cy="20" r="14" fill="none" stroke="#C5A55A" stroke-width="4"/>
+            <line x1="50" y1="34" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/>
+            <line x1="28" y1="52" x2="72" y2="52" stroke="#C5A55A" stroke-width="4"/>
+            <line x1="33" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/>
+            <line x1="67" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/>
+          </svg>
+        </span>
+        <span class="logo-text">东巴数藏</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="dictionary.html">东巴文字典</a></li>
+        <li><a href="music.html">纳西古乐</a></li>
+        <li><a href="painting.html">东巴画</a></li>
+        <li><a href="gallery.html">数字展馆</a></li>
+        <li><a href="explore.html">文化探索</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="菜单">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 移动端菜单 -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="dictionary.html">东巴文字典</a></li>
+      <li><a href="music.html">纳西古乐</a></li>
+      <li><a href="painting.html">东巴画</a></li>
+      <li><a href="gallery.html">数字展馆</a></li>
+      <li><a href="explore.html">文化探索</a></li>
+    </ul>
+  </div>
+
+  <!-- ==================== Section 1: Hero ==================== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <video class="hero-bg-video" autoplay muted loop playsinline>
+        <source src="素材/background.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay"></div>
+    </div>
+
+    <!-- 浮动东巴文装饰 -->
+    <div class="hero-dongba-float">
+      <svg class="dongba-float d1" width="60" height="60" viewBox="0 0 100 100">
+        <circle cx="50" cy="25" r="18" fill="none" stroke="rgba(197,165,90,0.3)" stroke-width="3"/>
+        <line x1="50" y1="43" x2="50" y2="85" stroke="rgba(197,165,90,0.3)" stroke-width="3"/>
+        <line x1="25" y1="58" x2="75" y2="58" stroke="rgba(197,165,90,0.3)" stroke-width="3"/>
+        <line x1="30" y1="95" x2="50" y2="85" stroke="rgba(197,165,90,0.3)" stroke-width="3"/>
+        <line x1="70" y1="95" x2="50" y2="85" stroke="rgba(197,165,90,0.3)" stroke-width="3"/>
+      </svg>
+      <svg class="dongba-float d2" width="50" height="50" viewBox="0 0 100 100">
+        <path d="M50 10 L80 50 L50 90 L20 50 Z" fill="none" stroke="rgba(197,165,90,0.2)" stroke-width="3"/>
+        <line x1="50" y1="10" x2="50" y2="90" stroke="rgba(197,165,90,0.2)" stroke-width="2"/>
+      </svg>
+      <svg class="dongba-float d3" width="45" height="45" viewBox="0 0 100 100">
+        <path d="M10 60 Q30 20 50 40 Q70 60 90 30" fill="none" stroke="rgba(197,165,90,0.25)" stroke-width="4"/>
+        <path d="M10 75 Q30 40 50 55 Q70 75 90 50" fill="none" stroke="rgba(197,165,90,0.2)" stroke-width="3"/>
+      </svg>
+      <svg class="dongba-float d4" width="55" height="55" viewBox="0 0 100 100">
+        <path d="M20 80 Q20 30 50 20 Q80 30 80 80" fill="none" stroke="rgba(197,165,90,0.2)" stroke-width="3"/>
+        <line x1="30" y1="50" x2="70" y2="50" stroke="rgba(197,165,90,0.15)" stroke-width="2"/>
+      </svg>
+      <svg class="dongba-float d5" width="40" height="40" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="8" fill="rgba(197,165,90,0.3)"/>
+        <line x1="50" y1="20" x2="50" y2="42" stroke="rgba(197,165,90,0.25)" stroke-width="2"/>
+        <line x1="50" y1="58" x2="50" y2="80" stroke="rgba(197,165,90,0.25)" stroke-width="2"/>
+        <line x1="20" y1="50" x2="42" y2="50" stroke="rgba(197,165,90,0.25)" stroke-width="2"/>
+        <line x1="58" y1="50" x2="80" y2="50" stroke="rgba(197,165,90,0.25)" stroke-width="2"/>
+      </svg>
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-subtitle anim-fade" data-delay="0">纳西文化数字馆</p>
+      <h1 class="hero-title">
+        <span class="hero-title-line anim-fade" data-delay="200">发现千年</span>
+        <span class="hero-title-line anim-fade gradient-text" data-delay="400" id="heroTyping"></span>
+      </h1>
+      <p class="hero-desc anim-fade" data-delay="600">在玉龙雪山脚下，一个古老民族用象形文字书写天地万物，<br>这是人类文明最后的活化石。</p>
+      <a href="#about" class="hero-cta anim-fade" data-delay="800">探索东巴文化</a>
+    </div>
+
+    <div class="hero-scroll-indicator">
+      <span>向下探索</span>
+      <div class="scroll-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Section 2: 东巴文无限滚动横幅 ==================== -->
+  <section class="dongba-marquee" id="dongbaMarquee">
+    <div class="marquee-row marquee-row-left">
+      <div class="marquee-track">
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><circle cx="50" cy="25" r="18" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="50" y1="43" x2="50" y2="85" stroke="#C5A55A" stroke-width="4"/><line x1="25" y1="58" x2="75" y2="58" stroke="#C5A55A" stroke-width="4"/><line x1="30" y1="95" x2="50" y2="85" stroke="#C5A55A" stroke-width="4"/><line x1="70" y1="95" x2="50" y2="85" stroke="#C5A55A" stroke-width="4"/></svg><span>人</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><circle cx="50" cy="30" r="20" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="50" y1="10" x2="50" y2="5" stroke="#C5A55A" stroke-width="3"/><line x1="30" y1="15" x2="35" y2="20" stroke="#C5A55A" stroke-width="3"/><line x1="70" y1="15" x2="65" y2="20" stroke="#C5A55A" stroke-width="3"/></svg><span>太阳</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M15 70 L50 20 L85 70 Z" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="10" y1="75" x2="90" y2="75" stroke="#C5A55A" stroke-width="4"/></svg><span>山</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M10 55 Q30 25 50 40 Q70 55 90 25" fill="none" stroke="#C5A55A" stroke-width="4"/><path d="M10 75 Q30 45 50 60 Q70 75 90 45" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>水</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M50 15 L55 35 L75 35 L60 48 L65 68 L50 55 L35 68 L40 48 L25 35 L45 35 Z" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>星</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M30 80 Q30 40 50 25 Q70 40 70 80" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="25" y1="55" x2="75" y2="55" stroke="#C5A55A" stroke-width="3"/></svg><span>树</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M25 80 Q35 50 50 20 Q65 50 75 80" fill="none" stroke="#C5A55A" stroke-width="4"/><path d="M35 65 Q50 45 65 65" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>火</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M30 20 Q70 20 70 50 Q70 80 50 80 Q30 80 30 60 Q30 40 50 40 Q65 40 65 55" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>鸟</span></div>
+        <!-- 重复一组用于无缝循环 -->
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><circle cx="50" cy="25" r="18" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="50" y1="43" x2="50" y2="85" stroke="#C5A55A" stroke-width="4"/><line x1="25" y1="58" x2="75" y2="58" stroke="#C5A55A" stroke-width="4"/><line x1="30" y1="95" x2="50" y2="85" stroke="#C5A55A" stroke-width="4"/><line x1="70" y1="95" x2="50" y2="85" stroke="#C5A55A" stroke-width="4"/></svg><span>人</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><circle cx="50" cy="30" r="20" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="50" y1="10" x2="50" y2="5" stroke="#C5A55A" stroke-width="3"/><line x1="30" y1="15" x2="35" y2="20" stroke="#C5A55A" stroke-width="3"/><line x1="70" y1="15" x2="65" y2="20" stroke="#C5A55A" stroke-width="3"/></svg><span>太阳</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M15 70 L50 20 L85 70 Z" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="10" y1="75" x2="90" y2="75" stroke="#C5A55A" stroke-width="4"/></svg><span>山</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M10 55 Q30 25 50 40 Q70 55 90 25" fill="none" stroke="#C5A55A" stroke-width="4"/><path d="M10 75 Q30 45 50 60 Q70 75 90 45" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>水</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M50 15 L55 35 L75 35 L60 48 L65 68 L50 55 L35 68 L40 48 L25 35 L45 35 Z" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>星</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M30 80 Q30 40 50 25 Q70 40 70 80" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="25" y1="55" x2="75" y2="55" stroke="#C5A55A" stroke-width="3"/></svg><span>树</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M25 80 Q35 50 50 20 Q65 50 75 80" fill="none" stroke="#C5A55A" stroke-width="4"/><path d="M35 65 Q50 45 65 65" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>火</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M30 20 Q70 20 70 50 Q70 80 50 80 Q30 80 30 60 Q30 40 50 40 Q65 40 65 55" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>鸟</span></div>
+      </div>
+    </div>
+    <div class="marquee-row marquee-row-right">
+      <div class="marquee-track">
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M25 20 Q75 20 75 50 Q75 80 50 80 Q25 80 25 55 Q25 35 50 35 Q70 35 70 50" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>月</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><rect x="20" y="30" width="60" height="50" fill="none" stroke="#C5A55A" stroke-width="4"/><path d="M35 30 L35 15 L65 15 L65 30" fill="none" stroke="#C5A55A" stroke-width="3"/><line x1="50" y1="30" x2="50" y2="15" stroke="#C5A55A" stroke-width="2"/></svg><span>家</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><ellipse cx="50" cy="40" rx="25" ry="15" fill="none" stroke="#C5A55A" stroke-width="3"/><line x1="50" y1="55" x2="50" y2="85" stroke="#C5A55A" stroke-width="4"/><line x1="35" y1="85" x2="65" y2="85" stroke="#C5A55A" stroke-width="3"/></svg><span>鼓</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M20 70 L40 30 L60 50 L80 20" fill="none" stroke="#C5A55A" stroke-width="3"/><line x1="10" y1="80" x2="90" y2="80" stroke="#C5A55A" stroke-width="3"/></svg><span>云</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M50 20 L80 50 L65 50 L65 80 L35 80 L35 50 L20 50 Z" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>上</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M20 30 Q50 10 80 30 Q80 60 50 80 Q20 60 20 30" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>心</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#C5A55A" stroke-width="3"/><circle cx="50" cy="50" r="15" fill="none" stroke="#C5A55A" stroke-width="2"/></svg><span>日</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M30 80 L30 40 Q30 20 50 20 Q70 20 70 40 L70 80" fill="none" stroke="#C5A55A" stroke-width="3"/><line x1="30" y1="55" x2="70" y2="55" stroke="#C5A55A" stroke-width="2"/></svg><span>门</span></div>
+        <!-- 重复 -->
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M25 20 Q75 20 75 50 Q75 80 50 80 Q25 80 25 55 Q25 35 50 35 Q70 35 70 50" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>月</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><rect x="20" y="30" width="60" height="50" fill="none" stroke="#C5A55A" stroke-width="4"/><path d="M35 30 L35 15 L65 15 L65 30" fill="none" stroke="#C5A55A" stroke-width="3"/><line x1="50" y1="30" x2="50" y2="15" stroke="#C5A55A" stroke-width="2"/></svg><span>家</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><ellipse cx="50" cy="40" rx="25" ry="15" fill="none" stroke="#C5A55A" stroke-width="3"/><line x1="50" y1="55" x2="50" y2="85" stroke="#C5A55A" stroke-width="4"/><line x1="35" y1="85" x2="65" y2="85" stroke="#C5A55A" stroke-width="3"/></svg><span>鼓</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M20 70 L40 30 L60 50 L80 20" fill="none" stroke="#C5A55A" stroke-width="3"/><line x1="10" y1="80" x2="90" y2="80" stroke="#C5A55A" stroke-width="3"/></svg><span>云</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M50 20 L80 50 L65 50 L65 80 L35 80 L35 50 L20 50 Z" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>上</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M20 30 Q50 10 80 30 Q80 60 50 80 Q20 60 20 30" fill="none" stroke="#C5A55A" stroke-width="3"/></svg><span>心</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#C5A55A" stroke-width="3"/><circle cx="50" cy="50" r="15" fill="none" stroke="#C5A55A" stroke-width="2"/></svg><span>日</span></div>
+        <div class="marquee-item"><svg width="48" height="48" viewBox="0 0 100 100"><path d="M30 80 L30 40 Q30 20 50 20 Q70 20 70 40 L70 80" fill="none" stroke="#C5A55A" stroke-width="3"/><line x1="30" y1="55" x2="70" y2="55" stroke="#C5A55A" stroke-width="2"/></svg><span>门</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Section 3: 博物馆简介 ==================== -->
+  <section class="about" id="about">
+    <div class="about-container">
+      <div class="about-image anim-slide-left">
+        <div class="about-image-inner" data-parallax="0.15">
+          <div class="placeholder-img placeholder-lijiang"></div>
+        </div>
+      </div>
+      <div class="about-text anim-slide-right">
+        <span class="section-tag">关于项目</span>
+        <h2 class="section-title scroll-reveal-text" data-split data-split-delay="60" data-split-duration="0.7">纳西文化<br>活着的世界遗产</h2>
+        <p class="about-desc">纳西族，一个世代居住在云南丽江的古老民族。他们创造了世界上唯一仍在使用的象形文字——东巴文，传承着千年的东巴宗教与纳西古乐，守护着玉龙雪山下的文明密码。</p>
+        <p class="about-desc">本站致力于以数字化方式保存与传播东巴文化，让每个人都能触摸这段千年文明的温度。</p>
+        <a href="dictionary.html" class="btn-primary">了解更多</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Section 4: 东巴文字专题 ==================== -->
+  <section class="dongba-section" id="dongba">
+    <div class="dongba-bg-pattern"></div>
+    <div class="dongba-container">
+      <div class="dongba-header anim-fade-up">
+        <span class="section-tag section-tag-light">核心展陈</span>
+        <h2 class="section-title section-title-light" data-split data-split-delay="50" data-split-duration="0.6">东巴文<br><span class="title-accent gradient-text">世界唯一活着的象形文字</span></h2>
+        <!-- TrueFocus 沉浸式文字聚焦效果 -->
+        <div class="true-focus" data-blur="4" data-border-color="#C5A55A" data-glow-color="rgba(197,165,90,0.5)" data-duration="2" data-pause="1">
+          <span class="focus-word">象形</span>
+          <span class="focus-word">文字</span>
+          <span class="focus-word">千年</span>
+          <span class="focus-word">传承</span>
+          <div class="focus-frame"></div>
+        </div>
+        <p class="dongba-intro">东巴文是一种兼具表意和表音功能的原始象形文字，至今仍被纳西族东巴祭司使用。它比甲骨文更古老，比古埃及象形文字更鲜活——是人类文字史上的奇迹。</p>
+      </div>
+
+      <div class="dongba-cards">
+        <div class="dongba-card anim-pop" data-delay="0">
+          <div class="dongba-card-symbol">
+            <svg width="120" height="120" viewBox="0 0 100 100">
+              <circle cx="50" cy="30" r="20" fill="none" stroke="#C5A55A" stroke-width="3"/>
+              <line x1="50" y1="8" x2="50" y2="2" stroke="#C5A55A" stroke-width="2.5"/>
+              <line x1="30" y1="14" x2="36" y2="20" stroke="#C5A55A" stroke-width="2.5"/>
+              <line x1="70" y1="14" x2="64" y2="20" stroke="#C5A55A" stroke-width="2.5"/>
+              <line x1="28" y1="30" x2="22" y2="30" stroke="#C5A55A" stroke-width="2.5"/>
+              <line x1="72" y1="30" x2="78" y2="30" stroke="#C5A55A" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <div class="dongba-card-info">
+            <h3>太阳</h3>
+            <p class="dongba-pinyin">/ni³³/</p>
+            <p class="dongba-en">Sun</p>
+            <p class="dongba-desc">东巴文中的太阳，以圆形为核心，向外辐射光芒。在纳西创世神话中，太阳是创世神赐予万物光明的礼物。</p>
+          </div>
+        </div>
+
+        <div class="dongba-card anim-pop" data-delay="150">
+          <div class="dongba-card-symbol">
+            <svg width="120" height="120" viewBox="0 0 100 100">
+              <path d="M15 70 L50 20 L85 70 Z" fill="none" stroke="#C5A55A" stroke-width="3"/>
+              <line x1="10" y1="78" x2="90" y2="78" stroke="#C5A55A" stroke-width="3"/>
+              <path d="M30 70 L50 38 L70 70" fill="none" stroke="#C5A55A" stroke-width="1.5" opacity="0.5"/>
+            </svg>
+          </div>
+          <div class="dongba-card-info">
+            <h3>山</h3>
+            <p class="dongba-pinyin">/dʑy²¹/</p>
+            <p class="dongba-en">Mountain</p>
+            <p class="dongba-desc">三角峰形加底线，象征玉龙雪山。纳西族视雪山为保护神"三朵"的化身，是民族精神的至高象征。</p>
+          </div>
+        </div>
+
+        <div class="dongba-card anim-pop" data-delay="300">
+          <div class="dongba-card-symbol">
+            <svg width="120" height="120" viewBox="0 0 100 100">
+              <path d="M10 50 Q25 25 40 40 Q55 55 70 35 Q85 15 95 40" fill="none" stroke="#C5A55A" stroke-width="3"/>
+              <path d="M5 70 Q20 45 35 58 Q50 72 65 52 Q80 32 95 55" fill="none" stroke="#C5A55A" stroke-width="2.5"/>
+              <path d="M10 88 Q25 63 40 76 Q55 90 70 70 Q85 50 95 72" fill="none" stroke="#C5A55A" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="dongba-card-info">
+            <h3>水</h3>
+            <p class="dongba-pinyin">/dzi³³/</p>
+            <p class="dongba-en">Water</p>
+            <p class="dongba-desc">波浪曲线层层叠叠，象征流水不息。丽江古城以水为魂，黑龙潭泉水穿城而过，滋养千年文明。</p>
+          </div>
+        </div>
+
+        <div class="dongba-card anim-pop" data-delay="450">
+          <div class="dongba-card-symbol">
+            <svg width="120" height="120" viewBox="0 0 100 100">
+              <circle cx="50" cy="22" r="12" fill="none" stroke="#C5A55A" stroke-width="3"/>
+              <line x1="50" y1="34" x2="50" y2="65" stroke="#C5A55A" stroke-width="3"/>
+              <line x1="30" y1="48" x2="70" y2="48" stroke="#C5A55A" stroke-width="3"/>
+              <line x1="35" y1="90" x2="50" y2="65" stroke="#C5A55A" stroke-width="3"/>
+              <line x1="65" y1="90" x2="50" y2="65" stroke="#C5A55A" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="dongba-card-info">
+            <h3>人</h3>
+            <p class="dongba-pinyin">/ɕi³³/</p>
+            <p class="dongba-en">Person</p>
+            <p class="dongba-desc">简笔人形，头身四肢一目了然。纳西族相信人是天地之子，东巴经书中"人"字常与自然符号并列，体现天人合一。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Section 5: 文化展品画廊 ==================== -->
+  <section class="gallery" id="gallery">
+    <div class="gallery-container">
+      <div class="gallery-header anim-fade-up">
+        <span class="section-tag">馆藏珍品</span>
+        <h2 class="section-title" data-split data-split-delay="70" data-split-duration="0.7">触摸千年文明的温度</h2>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-item gallery-item-wide anim-fade-up" data-delay="0">
+          <div class="gallery-img placeholder-dongba-script"></div>
+          <div class="gallery-overlay">
+            <h3>东巴经书</h3>
+            <p>用竹笔蘸墨在自制土纸上书写的宗教典籍，记载了纳西族的创世神话、祭祀仪式与天文历法。</p>
+          </div>
+        </div>
+        <div class="gallery-item anim-fade-up" data-delay="100">
+          <div class="gallery-img placeholder-naxi-music"></div>
+          <div class="gallery-overlay">
+            <h3>纳西古乐</h3>
+            <p>融合道教法事音乐、儒教典礼音乐与唐宋词牌曲的活化石，被誉为"中国音乐的活化石"。</p>
+          </div>
+        </div>
+        <div class="gallery-item anim-fade-up" data-delay="200">
+          <div class="gallery-img placeholder-blue-calico"></div>
+          <div class="gallery-overlay">
+            <h3>扎染</h3>
+            <p>纳西族传统扎染技艺，以靛蓝为底、扎结成纹，图案取材自然，古朴典雅。</p>
+          </div>
+        </div>
+        <div class="gallery-item anim-fade-up" data-delay="100">
+          <div class="gallery-img placeholder-ancient-city"></div>
+          <div class="gallery-overlay">
+            <h3>古城建筑</h3>
+            <p>三坊一照壁、四合五天井，纳西族传统木构建筑融合汉藏风格，巧夺天工。</p>
+          </div>
+        </div>
+        <div class="gallery-item anim-fade-up" data-delay="200">
+          <div class="gallery-img placeholder-silverware"></div>
+          <div class="gallery-overlay">
+            <h3>纳西银器</h3>
+            <p>丽江银器工艺精湛，银壶、银碗、银饰上的东巴纹样，承载着纳西族的审美与信仰。</p>
+          </div>
+        </div>
+        <div class="gallery-item gallery-item-wide anim-fade-up" data-delay="200">
+          <div class="gallery-img placeholder-naxi-costume"></div>
+          <div class="gallery-overlay">
+            <h3>纳西服饰</h3>
+            <p>七星披肩是纳西族女性的标志，七颗星代表北斗七星，背负日月，象征勤劳与智慧。</p>
+          </div>
+        </div>
+        <div class="gallery-item anim-fade-up" data-delay="300">
+          <div class="gallery-img placeholder-dongba-painting"></div>
+          <div class="gallery-overlay">
+            <h3>东巴画</h3>
+            <p>东巴祭司绘制的宗教绘画，色彩浓烈、线条粗犷，描绘神灵鬼怪与创世传说。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 灯箱 -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="关闭">&times;</button>
+    <div class="lightbox-content" id="lightboxContent"></div>
+  </div>
+
+  <!-- ==================== Section 6: 纳西古乐 ==================== -->
+  <section class="music" id="music">
+    <div class="music-bg" data-parallax="0.1"></div>
+    <div class="music-overlay"></div>
+    <div class="music-container">
+      <div class="music-content anim-fade-up">
+        <span class="section-tag section-tag-light">视听体验</span>
+        <h2 class="section-title section-title-light" data-split data-split-delay="80" data-split-duration="0.8">聆听千年回响</h2>
+        <p class="music-desc">纳西古乐融合了道教法事音乐、儒教典礼音乐与唐宋词牌曲，是中华音乐文明的活化石。每一曲，都是穿越时空的对话。</p>
+
+        <div class="music-visualizer" id="musicVisualizer">
+          <svg viewBox="0 0 600 120" class="waveform">
+            <path class="wave wave1" d="M0 60 Q75 20 150 60 Q225 100 300 60 Q375 20 450 60 Q525 100 600 60" fill="none" stroke="rgba(197,165,90,0.6)" stroke-width="2"/>
+            <path class="wave wave2" d="M0 60 Q75 40 150 60 Q225 80 300 60 Q375 40 450 60 Q525 80 600 60" fill="none" stroke="rgba(197,165,90,0.4)" stroke-width="1.5"/>
+            <path class="wave wave3" d="M0 60 Q75 30 150 60 Q225 90 300 60 Q375 30 450 60 Q525 90 600 60" fill="none" stroke="rgba(197,165,90,0.3)" stroke-width="1"/>
+          </svg>
+        </div>
+      
+
+        <button class="music-play-btn" id="musicPlayBtn">
+          <svg width="48" height="48" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#C5A55A" stroke-width="2"/>
+            <polygon points="40,30 40,70 72,50" fill="#C5A55A"/>
+          </svg>
+          <span>聆听古乐</span>
+        </button>
+        <audio id="bgMusic" preload="none" src="素材/纳西古乐/音乐文件/naxi_music_web.mp3"></audio>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Section 7: 东巴文字互动体验 ==================== -->
+  <section class="interactive" id="interactive">
+    <div class="interactive-container">
+      <div class="interactive-header anim-fade-up">
+        <span class="section-tag">互动体验</span>
+        <h2 class="section-title" data-split data-split-delay="60" data-split-duration="0.7">书写象形文字</h2>
+        <p class="interactive-intro">用鼠标或手指在画布上书写东巴象形文字，感受千年文字的笔触与韵律。</p>
+      </div>
+
+      <div class="interactive-body">
+        <div class="interactive-canvas-wrap anim-slide-left">
+          <canvas id="dongbaCanvas" width="700" height="500"></canvas>
+          <div class="canvas-controls">
+            <button class="canvas-btn" id="canvasClear">清除画布</button>
+            <button class="canvas-btn" id="canvasEraser">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:3px;"><path d="M20 20H7L3 16l9-9 8 8-4 4z"/><line x1="6" y1="11" x2="13" y2="18"/></svg>
+              橡皮擦
+            </button>
+            <button class="canvas-btn canvas-btn-ai" id="canvasRecognize">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M12 6v6l4 2"/></svg>
+              AI猜字
+            </button>
+            <div class="brush-sizes">
+              <button class="brush-btn active" data-size="3">细</button>
+              <button class="brush-btn" data-size="6">中</button>
+              <button class="brush-btn" data-size="10">粗</button>
+            </div>
+            <div class="ink-colors">
+              <button class="ink-btn active" data-color="#1A1A18" style="background:#1A1A18"></button>
+              <button class="ink-btn" data-color="#C23B22" style="background:#C23B22"></button>
+              <button class="ink-btn" data-color="#1B3A5C" style="background:#1B3A5C"></button>
+              <button class="ink-btn" data-color="#C5A55A" style="background:#C5A55A"></button>
+            </div>
+          </div>
+          <!-- AI识别结果 -->
+          <div class="ai-result" id="aiResult" style="display:none;">
+            <div class="ai-result-header">
+              <span class="ai-result-tag">AI 识别结果</span>
+              <button class="ai-result-close" id="aiResultClose">&times;</button>
+            </div>
+            <div class="ai-result-list" id="aiResultList"></div>
+          </div>
+        </div>
+
+        <div class="interactive-templates anim-slide-right">
+          <h3>参考模板</h3>
+          <div class="template-grid">
+            <div class="template-card" data-char="人">
+              <svg width="64" height="64" viewBox="0 0 100 100"><circle cx="50" cy="22" r="12" fill="none" stroke="#1B3A5C" stroke-width="3"/><line x1="50" y1="34" x2="50" y2="65" stroke="#1B3A5C" stroke-width="3"/><line x1="30" y1="48" x2="70" y2="48" stroke="#1B3A5C" stroke-width="3"/><line x1="35" y1="90" x2="50" y2="65" stroke="#1B3A5C" stroke-width="3"/><line x1="65" y1="90" x2="50" y2="65" stroke="#1B3A5C" stroke-width="3"/></svg>
+              <span>人</span>
+            </div>
+            <div class="template-card" data-char="太阳">
+              <svg width="64" height="64" viewBox="0 0 100 100"><circle cx="50" cy="30" r="20" fill="none" stroke="#1B3A5C" stroke-width="3"/><line x1="50" y1="8" x2="50" y2="2" stroke="#1B3A5C" stroke-width="2.5"/><line x1="30" y1="14" x2="36" y2="20" stroke="#1B3A5C" stroke-width="2.5"/><line x1="70" y1="14" x2="64" y2="20" stroke="#1B3A5C" stroke-width="2.5"/></svg>
+              <span>太阳</span>
+            </div>
+            <div class="template-card" data-char="山">
+              <svg width="64" height="64" viewBox="0 0 100 100"><path d="M15 70 L50 20 L85 70 Z" fill="none" stroke="#1B3A5C" stroke-width="3"/><line x1="10" y1="78" x2="90" y2="78" stroke="#1B3A5C" stroke-width="3"/></svg>
+              <span>山</span>
+            </div>
+            <div class="template-card" data-char="水">
+              <svg width="64" height="64" viewBox="0 0 100 100"><path d="M10 50 Q25 25 40 40 Q55 55 70 35 Q85 15 95 40" fill="none" stroke="#1B3A5C" stroke-width="3"/><path d="M5 70 Q20 45 35 58 Q50 72 65 52 Q80 32 95 55" fill="none" stroke="#1B3A5C" stroke-width="2.5"/></svg>
+              <span>水</span>
+            </div>
+            <div class="template-card" data-char="火">
+              <svg width="64" height="64" viewBox="0 0 100 100"><path d="M25 80 Q35 50 50 20 Q65 50 75 80" fill="none" stroke="#1B3A5C" stroke-width="3"/><path d="M35 65 Q50 45 65 65" fill="none" stroke="#1B3A5C" stroke-width="2.5"/></svg>
+              <span>火</span>
+            </div>
+            <div class="template-card" data-char="树">
+              <svg width="64" height="64" viewBox="0 0 100 100"><path d="M30 80 Q30 40 50 25 Q70 40 70 80" fill="none" stroke="#1B3A5C" stroke-width="3"/><line x1="25" y1="55" x2="75" y2="55" stroke="#1B3A5C" stroke-width="2.5"/></svg>
+              <span>树</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Section 8: 文化传承故事 ==================== -->
+  <section class="stories" id="stories">
+    <div class="stories-container">
+      <div class="stories-header anim-fade-up">
+        <span class="section-tag">文化传承</span>
+        <h2 class="section-title" data-split data-split-delay="70" data-split-duration="0.8">守护千年不灭的火种</h2>
+      </div>
+
+      <div class="story-block story-block-left anim-fade-up">
+        <div class="story-image" data-parallax="0.1">
+          <div class="placeholder-img placeholder-dongba-ritual"></div>
+        </div>
+        <div class="story-text">
+          <span class="story-number">01</span>
+          <h3>东巴经书的守护与抢救</h3>
+          <p>东巴经书是纳西族东巴祭司用竹笔蘸墨在自制土纸上书写的宗教典籍，内容涵盖创世神话、祭祀仪式、天文历法与医药方术，是研究纳西族文化的核心文献。然而，历经岁月侵蚀与历史动荡，大量珍贵经书散佚损毁。</p>
+          <p>近数十年来，学者与东巴传人携手开展经书的收集、整理与数字化工作，使两万余册东巴经典得以保存，让千年智慧免于湮没。</p>
+          <blockquote>"每一册经书都是一部民族的记忆。抢救经书，就是抢救我们自己的根。"<cite>——和力民，东巴文化研究者</cite></blockquote>
+        </div>
+      </div>
+
+      <div class="story-block story-block-right anim-fade-up">
+        <div class="story-text">
+          <span class="story-number">02</span>
+          <h3>纳西古乐的抢救与重生</h3>
+          <p>上世纪八十年代，纳西古乐濒临失传。在宣科先生的推动下，丽江大研古乐会重新组建，将这支千年古乐从消亡的边缘拉了回来。</p>
+          <p>如今，纳西古乐已成为丽江文化的名片，每天晚上在古城中回响，让世界听到了来自千年前的声音。</p>
+          <blockquote>"古乐不是博物馆里的标本，它是活着的生命。每一次演奏，都是与古人的对话。"<cite>——宣科，纳西古乐传承人</cite></blockquote>
+        </div>
+        <div class="story-image" data-parallax="0.1">
+          <div class="placeholder-img placeholder-naxi-orchestra"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Section 9: 探索更多（导航卡片） ==================== -->
+  <section class="explore-nav" id="explore-nav">
+    <div class="explore-nav-container anim-fade-up">
+      <h2 class="section-title section-title-light" data-split data-split-delay="50" data-split-duration="0.6">踏入千年时光</h2>
+      <p class="explore-nav-subtitle">每一个板块，都是一段穿越千年的旅程</p>
+      <div class="explore-cards">
+        <a href="dictionary.html" class="explore-card anim-pop" data-delay="0">
+          <div class="explore-card-icon">
+            <svg width="48" height="48" viewBox="0 0 100 100"><circle cx="50" cy="22" r="12" fill="none" stroke="#C5A55A" stroke-width="3"/><line x1="50" y1="34" x2="50" y2="65" stroke="#C5A55A" stroke-width="3"/><line x1="30" y1="48" x2="70" y2="48" stroke="#C5A55A" stroke-width="3"/><line x1="35" y1="90" x2="50" y2="65" stroke="#C5A55A" stroke-width="3"/><line x1="65" y1="90" x2="50" y2="65" stroke="#C5A55A" stroke-width="3"/></svg>
+          </div>
+          <h3>东巴文字典</h3>
+          <p>输入中文，转换为东巴象形文字。浏览字符对照表，学习千年文字的奥秘。</p>
+        </a>
+        <a href="music.html" class="explore-card anim-pop" data-delay="100">
+          <div class="explore-card-icon">
+            <svg width="48" height="48" viewBox="0 0 100 100"><ellipse cx="50" cy="40" rx="25" ry="15" fill="none" stroke="#C5A55A" stroke-width="3"/><line x1="50" y1="55" x2="50" y2="85" stroke="#C5A55A" stroke-width="3"/><line x1="35" y1="85" x2="65" y2="85" stroke="#C5A55A" stroke-width="2.5"/><path d="M75 35 Q85 25 85 50 Q85 75 75 70" fill="none" stroke="#C5A55A" stroke-width="2"/></svg>
+          </div>
+          <h3>纳西古乐</h3>
+          <p>聆听千年回响，了解纳西古乐的历史、乐器与乐谱，感受音乐活化石的魅力。</p>
+        </a>
+        <a href="painting.html" class="explore-card anim-pop" data-delay="200">
+          <div class="explore-card-icon">
+            <svg width="48" height="48" viewBox="0 0 100 100"><rect x="15" y="15" width="55" height="70" rx="3" fill="none" stroke="#C5A55A" stroke-width="3"/><path d="M70 15 Q85 15 85 30 Q85 45 70 45" fill="none" stroke="#C5A55A" stroke-width="3"/><circle cx="40" cy="42" r="8" fill="none" stroke="#C5A55A" stroke-width="2"/><path d="M30 58 L50 58" stroke="#C5A55A" stroke-width="2" fill="none"/><path d="M30 65 L45 65" stroke="#C5A55A" stroke-width="1.5" fill="none"/></svg>
+          </div>
+          <h3>东巴画</h3>
+          <p>欣赏纳西族东巴绘画艺术，涵盖卷轴画、神路图与木牌画，色彩浓烈神秘。</p>
+        </a>
+        <a href="gallery.html" class="explore-card anim-pop" data-delay="300">
+          <div class="explore-card-icon">
+            <svg width="48" height="48" viewBox="0 0 100 100"><rect x="15" y="20" width="70" height="60" fill="none" stroke="#C5A55A" stroke-width="3"/><rect x="25" y="30" width="20" height="15" fill="none" stroke="#C5A55A" stroke-width="2"/><line x1="55" y1="35" x2="75" y2="35" stroke="#C5A55A" stroke-width="2"/><line x1="55" y1="45" x2="70" y2="45" stroke="#C5A55A" stroke-width="1.5"/><line x1="25" y1="55" x2="75" y2="55" stroke="#C5A55A" stroke-width="1.5"/><line x1="25" y1="65" x2="60" y2="65" stroke="#C5A55A" stroke-width="1.5"/></svg>
+          </div>
+          <h3>数字展馆</h3>
+          <p>高清展品展示，涵盖东巴经书、纳西古乐、扎染、古城建筑等文化珍品。</p>
+        </a>
+        <a href="explore.html" class="explore-card anim-pop" data-delay="400">
+          <div class="explore-card-icon">
+            <svg width="48" height="48" viewBox="0 0 100 100"><path d="M20 30 Q50 10 80 30 Q80 60 50 80 Q20 60 20 30" fill="none" stroke="#C5A55A" stroke-width="3"/><circle cx="50" cy="40" r="10" fill="none" stroke="#C5A55A" stroke-width="2"/></svg>
+          </div>
+          <h3>文化探索</h3>
+          <p>东巴祭司传承故事、非遗保护纪实，了解纳西文化的前世今生与未来展望。</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Section 10: 页脚 ==================== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a href="#" class="footer-logo">
+          <svg width="32" height="32" viewBox="0 0 100 100"><circle cx="50" cy="20" r="14" fill="none" stroke="#C5A55A" stroke-width="4"/><line x1="50" y1="34" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/><line x1="28" y1="52" x2="72" y2="52" stroke="#C5A55A" stroke-width="4"/><line x1="33" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/><line x1="67" y1="92" x2="50" y2="78" stroke="#C5A55A" stroke-width="4"/></svg>
+          <span>东巴数藏</span>
+        </a>
+        <p class="footer-desc">纳西文化数字馆</p>
+      </div>
+      <div class="footer-nav">
+        <h4>探索</h4>
+        <ul>
+          <li><a href="dictionary.html">东巴文字典</a></li>
+          <li><a href="music.html">纳西古乐</a></li>
+          <li><a href="painting.html">东巴画</a></li>
+          <li><a href="gallery.html">数字展馆</a></li>
+          <li><a href="explore.html">文化探索</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h4>页面</h4>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="dictionary.html">东巴文字典</a></li>
+          <li><a href="music.html">纳西古乐</a></li>
+          <li><a href="painting.html">东巴画</a></li>
+          <li><a href="gallery.html">数字展馆</a></li>
+          <li><a href="explore.html">文化探索</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 丽江文化旅游学院 &middot; 保留所有权利</p>
+    </div>
+  </footer>
+
+  <!-- Scripts — optimized loading order -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/dongba-db.js"></script>
+  <script src="js/animations.js" defer></script>
+  <script src="js/parallax.js" defer></script>
+  <script src="js/marquee.js" defer></script>
+  <script src="js/canvas-draw.js"></script>
+  <script src="js/ai-recognize.js"></script>
+  <script src="js/lightbox.js" defer></script>
+  <script src="js/cursor.js" defer></script>
+  <script src="js/split-text.js" defer></script>
+  <script src="js/grid-motion.js" defer></script>
+  <script src="js/text-type.js" defer></script>
+  <script src="js/true-focus.js" defer></script>
+  <script src="js/scroll-reveal-effect.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/ai-assistant.js" defer></script>
+  <script>
+  (function(){
+    var recognizeBtn = document.getElementById('canvasRecognize');
+    var resultPanel = document.getElementById('aiResult');
+    var resultList = document.getElementById('aiResultList');
+    var resultClose = document.getElementById('aiResultClose');
+    var canvas = document.getElementById('dongbaCanvas');
+    if(!recognizeBtn || !canvas) return;
+
+    function renderResults(results) {
+      if (!results || !results.length) {
+        resultList.innerHTML = '<p style="text-align:center;color:var(--color-stone);padding:1rem;">画布为空或未识别到相似字符，请先在画布上书写东巴文字再试。</p>';
+        resultPanel.style.display = 'block';
+        return;
+      }
+      var html = '';
+      results.forEach(function(r, i) {
+        var pct = Math.round(r.confidence * 100);
+        var barColor = pct > 60 ? 'var(--color-indigo)' : pct > 35 ? 'var(--color-gold)' : 'var(--color-vermilion)';
+        html += '<div class="ai-result-item" style="animation-delay:' + (i * 0.1) + 's">';
+        html += '<div class="ai-result-rank">' + (i + 1) + '</div>';
+        html += '<div class="ai-result-char"><svg viewBox="0 0 100 100" width="60" height="60" style="color:var(--color-indigo)">' + r.svg + '</svg></div>';
+        html += '<div class="ai-result-info">';
+        html += '<h4>' + r.cn + ' <span class="ai-result-pinyin">' + r.pinyin + '</span></h4>';
+        html += '<p class="ai-result-en">' + r.en + '</p>';
+        html += '<div class="ai-confidence-bar"><div class="ai-confidence-fill" style="width:' + pct + '%;background:' + barColor + '"></div></div>';
+        html += '<span class="ai-confidence-text">匹配度 ' + pct + '%</span>';
+        html += '</div></div>';
+      });
+      resultList.innerHTML = html;
+      resultPanel.style.display = 'block';
+    }
+
+    recognizeBtn.addEventListener('click', function() {
+      if (typeof RecognizeDongba === 'undefined') return;
+      RecognizeDongba.recognize(canvas).then(function(results) {
+        if (typeof AiAssistant !== 'undefined') {
+          AiAssistant.showRecognizeResult(results);
+        }
+      }).catch(function() {
+        if (typeof AiAssistant !== 'undefined') {
+          AiAssistant.showRecognizeResult([]);
+        }
+      });
+    });
+
+    if(resultClose){
+      resultClose.addEventListener('click', function(){ resultPanel.style.display = 'none'; });
+    }
+  })();
+  </script>
+
+  <!-- AI助手 -->
+  <!-- 东巴文侧边装饰 -->
+  <div class="dongba-side dongba-side--left">
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="20" cy="20" r="7"/><line x1="20" y1="2" x2="20" y2="9"/><line x1="20" y1="31" x2="20" y2="38"/><line x1="2" y1="20" x2="9" y2="20"/><line x1="31" y1="20" x2="38" y2="20"/><line x1="7.3" y1="7.3" x2="12.2" y2="12.2"/><line x1="27.8" y1="27.8" x2="32.7" y2="32.7"/><line x1="32.7" y1="7.3" x2="27.8" y2="12.2"/><line x1="12.2" y1="27.8" x2="7.3" y2="32.7"/></svg>
+      <span class="dongba-side-label">日</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,36 14,12 20,22 26,8 38,36"/><line x1="1" y1="36" x2="39" y2="36"/></svg>
+      <span class="dongba-side-label">山</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 14c4-4 8 4 12 0s8 4 12 0s8 4 12 0"/><path d="M4 22c4-4 8 4 12 0s8 4 12 0s8 4 12 0"/><path d="M4 30c4-4 8 4 12 0s8 4 12 0s8 4 12 0"/></svg>
+      <span class="dongba-side-label">水</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 4c-2 6-10 10-10 18c0 6 4 12 10 14c6-2 10-8 10-14c0-8-8-12-10-18z"/><path d="M20 22c-1 3-4 5-4 8c0 2 2 4 4 4c2 0 4-2 4-4c0-3-3-5-4-8z"/></svg>
+      <span class="dongba-side-label">火</span>
+    </span>
+  </div>
+  <div class="dongba-side dongba-side--right">
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="20" y1="38" x2="20" y2="18"/><circle cx="20" cy="13" r="9"/><line x1="14" y1="26" x2="20" y2="20"/><line x1="26" y1="26" x2="20" y2="20"/></svg>
+      <span class="dongba-side-label">木</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M24 6C16 6 10 12.3 10 20s6 14 14 14c-4.5-3-7-8-7-14s2.5-11 7-14z"/></svg>
+      <span class="dongba-side-label">月</span>
+    </span>
+    <span class="dongba-side-dot"></span>
+    <span class="dongba-side-symbol">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c4-8 12-8 16 0c4-8 12-8 16 0"/><circle cx="20" cy="20" r="3"/><path d="M20 23l-3 8"/><path d="M20 23l3 8"/></svg>
+      <span class="dongba-side-label">鸟</span>
+    </span>
+  </div>
+
+  <div class="ai-assistant" id="aiAssistant">
+    <div class="ai-assistant-bubble" id="aiBubble">
+      <div class="ai-bubble-text" id="aiBubbleText"></div>
+      <div class="ai-bubble-actions" id="aiBubbleActions" style="display:none;">
+        <button class="ai-btn-correct" id="aiBtnCorrect">猜对了</button>
+        <button class="ai-btn-wrong" id="aiBtnWrong">不对</button>
+      </div>
+      <button class="ai-bubble-close" id="aiBubbleClose">&times;</button>
+    </div>
+    <div class="ai-assistant-avatar" id="aiAvatar">
+      <img src="素材/ai_animation/relax.gif" alt="AI助手" id="aiGif">
+    </div>
+  </div>
+</body>
+</html>
