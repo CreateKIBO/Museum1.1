@@ -1,9 +1,7 @@
-/* ============================================
-   纳西文化博物馆 — 样式系统
-   色彩：纳西蓝染布 / 朱砂红 / 玉龙雪白 / 古城石板灰
-   ============================================ */
+/* 纳西文化博物馆 — 样式系统
+   色彩：纳西蓝染布 / 朱砂红 / 玉龙雪白 / 古城石板灰 */
 
-/* --- CSS Custom Properties --- */
+/* CSS Custom Properties */
 :root {
   --color-indigo: #1B3A5C;
   --color-indigo-dark: #0F2440;
@@ -30,7 +28,7 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* --- Reset & Base --- */
+/* Reset & Base */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -54,12 +52,12 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* --- Performance: contain layout for major sections --- */
+/* Performance: contain layout */
 .hero, .dongba-section, .gallery, .music, .interactive, .stories, .explore-nav {
   contain: layout style;
 }
 
-/* --- Performance: content-visibility for off-screen sections --- */
+/* Performance: content-visibility */
 .about, .dongba-section, .gallery, .music, .interactive, .stories, .explore-nav {
   content-visibility: auto;
   contain-intrinsic-size: auto 800px;
@@ -73,7 +71,7 @@ a {
 
 img { display: block; max-width: 100%; }
 
-/* --- Focus & Accessibility --- */
+/* Focus & Accessibility */
 :focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: 2px;
@@ -83,16 +81,16 @@ button:focus:not(:focus-visible) {
   outline: none;
 }
 
-/* --- Scrollbar --- */
+/* Scrollbar */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--color-cream); }
 ::-webkit-scrollbar-thumb { background: var(--color-mist); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-stone); }
 
-/* --- Selection --- */
+/* Selection */
 ::selection { background: rgba(27,58,92,0.15); color: var(--color-dark); }
 
-/* --- Scroll Progress Bar --- */
+/* Scroll Progress Bar */
 .scroll-progress {
   position: fixed;
   top: 0;
@@ -104,7 +102,7 @@ button:focus:not(:focus-visible) {
   width: 0%;
 }
 
-/* --- Custom Cursor --- */
+/* Custom Cursor */
 .custom-cursor {
   position: fixed;
   width: 24px;
@@ -118,7 +116,7 @@ button:focus:not(:focus-visible) {
 }
 body:hover .custom-cursor { opacity: 0.6; }
 
-/* --- Typography --- */
+/* Typography */
 .section-tag {
   display: inline-block;
   font-family: var(--font-sans);
@@ -153,7 +151,7 @@ body:hover .custom-cursor { opacity: 0.6; }
   color: var(--color-gold);
 }
 
-/* --- Buttons --- */
+/* Buttons */
 .btn-primary {
   display: inline-block;
   font-family: var(--font-sans);
@@ -185,18 +183,8 @@ body:hover .custom-cursor { opacity: 0.6; }
   transform: scaleX(1);
   transform-origin: left;
 }
-.btn-glow {
-  border-color: var(--color-gold);
-  color: var(--color-gold);
-}
-.btn-glow::before {
-  background: var(--color-gold);
-}
-.btn-glow:hover {
-  color: var(--color-dark);
-}
 
-/* --- Navbar --- */
+/* Navbar */
 .navbar {
   position: fixed;
   top: 0;
@@ -328,7 +316,7 @@ body:hover .custom-cursor { opacity: 0.6; }
 }
 .mobile-nav-links a:hover { color: var(--color-gold); }
 
-/* ==================== Section 1: Hero ==================== */
+/* Hero */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -405,20 +393,6 @@ body:hover .custom-cursor { opacity: 0.6; }
 }
 .hero-title-line { display: block; }
 
-/* 打字机效果 */
-.typewriter-cursor {
-  display: inline-block;
-  width: 3px;
-  height: 1em;
-  background: var(--color-gold);
-  margin-left: 4px;
-  vertical-align: text-bottom;
-  animation: cursorBlink 0.7s step-end infinite;
-}
-@keyframes cursorBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
 .hero-desc {
   font-size: 1.05rem;
   color: rgba(248,246,240,0.7);
@@ -463,7 +437,7 @@ body:hover .custom-cursor { opacity: 0.6; }
   50% { transform: translateY(8px); }
 }
 
-/* ==================== Section 2: Marquee ==================== */
+/* Marquee */
 .dongba-marquee {
   background: var(--color-dark);
   padding: 2rem 0;
@@ -535,7 +509,7 @@ body:hover .custom-cursor { opacity: 0.6; }
   opacity: 1;
 }
 
-/* ==================== Section 3: About ==================== */
+/* About */
 .about {
   padding: var(--space-2xl) 0;
 }
@@ -587,7 +561,7 @@ body:hover .custom-cursor { opacity: 0.6; }
   border-bottom: 3px solid var(--color-gold);
 }
 
-/* ==================== Section 4: Dongba ==================== */
+/* Dongba */
 .dongba-section {
   position: relative;
   background: var(--color-indigo-dark);
@@ -677,12 +651,6 @@ body:hover .custom-cursor { opacity: 0.6; }
   color: var(--color-snow);
   margin-bottom: 0.3rem;
 }
-.dongba-pinyin {
-  font-size: 0.8rem;
-  color: var(--color-gold);
-  font-style: italic;
-  margin-bottom: 0.2rem;
-}
 .dongba-en {
   font-size: 0.75rem;
   letter-spacing: 0.1em;
@@ -696,7 +664,7 @@ body:hover .custom-cursor { opacity: 0.6; }
   color: rgba(248,246,240,0.55);
 }
 
-/* ==================== Section 5: Gallery ==================== */
+/* Gallery */
 .gallery {
   padding: var(--space-2xl) 0;
   background: var(--color-snow);
@@ -817,65 +785,14 @@ body:hover .custom-cursor { opacity: 0.6; }
   background-size: cover;
   background-position: center;
 }
-.placeholder-wood-tablet {
-  background: linear-gradient(135deg, #3a2518 0%, #6B4226 50%, #3a2518 100%);
-  background-image: url('../素材/东巴文化/东巴木牌画/东巴木牌画.jpg');
-  background-size: cover;
-  background-position: center;
-}
 .placeholder-silverware {
   background: linear-gradient(135deg, #D4CFC6 0%, #8C8478 50%, #C5A55A 100%);
   background-image: url('../素材/纳西银器/丽江银器.jpg');
   background-size: cover;
   background-position: center;
 }
-.placeholder-stone-bridge {
-  background: linear-gradient(135deg, #8C8478 0%, #1B3A5C 50%, #D4CFC6 100%);
-  background-image: url('../素材/古城建筑/石桥/石桥.jpg');
-  background-size: cover;
-  background-position: center;
-}
 
-/* Lightbox */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.92);
-  z-index: 9998;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s var(--ease-out);
-}
-.lightbox.active {
-  opacity: 1;
-  pointer-events: all;
-}
-.lightbox-close {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  background: none;
-  border: none;
-  color: var(--color-snow);
-  font-size: 2.5rem;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-.lightbox-close:hover { transform: scale(1.2); }
-.lightbox-content {
-  width: 80%;
-  max-width: 900px;
-  aspect-ratio: 16/10;
-  background: var(--color-cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ==================== Section 6: Music ==================== */
+/* Music */
 .music {
   position: relative;
   min-height: 70vh;
@@ -972,7 +889,7 @@ body:hover .custom-cursor { opacity: 0.6; }
   filter: drop-shadow(0 0 15px rgba(197,165,90,0.5));
 }
 
-/* ==================== Section 7: Interactive ==================== */
+/* Interactive */
 .interactive {
   padding: var(--space-2xl) 0;
   background: var(--color-cream);
@@ -1129,12 +1046,6 @@ body:hover .custom-cursor { opacity: 0.6; }
   color: var(--color-dark);
   margin-bottom: 0.2rem;
 }
-.ai-result-pinyin {
-  font-size: 0.75rem;
-  font-style: italic;
-  color: var(--color-gold);
-  font-family: var(--font-sans);
-}
 .ai-result-en {
   font-size: 0.7rem;
   color: var(--color-stone);
@@ -1221,7 +1132,7 @@ body:hover .custom-cursor { opacity: 0.6; }
   color: var(--color-stone);
 }
 
-/* ==================== Section 8: Stories ==================== */
+/* Stories */
 .stories {
   padding: var(--space-2xl) 0;
   background: var(--color-snow);
@@ -1303,7 +1214,7 @@ body:hover .custom-cursor { opacity: 0.6; }
   color: var(--color-gold);
 }
 
-/* ==================== Section 9: Explore Nav Cards ==================== */
+/* Explore Nav Cards */
 .explore-nav {
   position: relative;
   background: var(--color-indigo-dark);
@@ -1384,7 +1295,7 @@ body:hover .custom-cursor { opacity: 0.6; }
 }
 .explore-card:hover p { color: rgba(248,246,240,0.7); }
 
-/* ==================== Sub-page Common ==================== */
+/* Sub-page Common */
 .page-hero {
   position: relative;
   min-height: 45vh;
@@ -1441,7 +1352,7 @@ body:hover .custom-cursor { opacity: 0.6; }
 .breadcrumb a:hover { color: var(--color-indigo); }
 .breadcrumb span { margin: 0 0.5rem; }
 
-/* ==================== Section 10: Footer ==================== */
+/* Footer */
 .footer {
   background: var(--color-dark);
   padding: 3rem 0 1.5rem;
@@ -1497,25 +1408,6 @@ body:hover .custom-cursor { opacity: 0.6; }
 }
 .footer-nav a:hover::after { width: 100%; }
 
-.footer-social h4 {
-  font-family: var(--font-serif);
-  color: var(--color-snow);
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
-}
-.social-icons {
-  display: flex;
-  gap: 1rem;
-}
-.social-icons a {
-  color: rgba(248,246,240,0.4);
-  transition: all 0.3s var(--ease-out);
-}
-.social-icons a:hover {
-  color: var(--color-gold);
-  transform: translateY(-3px);
-}
-
 .footer-bottom {
   max-width: 1400px;
   margin: 1.5rem auto 0;
@@ -1525,7 +1417,7 @@ body:hover .custom-cursor { opacity: 0.6; }
   font-size: 0.8rem;
 }
 
-/* ==================== Animations ==================== */
+/* Animations */
 .anim-fade,
 .anim-fade-up,
 .anim-slide-left,
@@ -1557,45 +1449,10 @@ body:hover .custom-cursor { opacity: 0.6; }
 }
 
 /* 文字聚焦效果 */
-.focus-text-container {
-  display: flex;
-  gap: 0.5em;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.focus-word {
-  font-size: clamp(1.5rem, 4vw, 3rem);
-  font-weight: 700;
-  color: var(--color-snow);
-  transition: filter 0.4s ease, color 0.4s ease;
-  cursor: default;
-}
-.focus-word.blur {
-  filter: blur(4px);
-  opacity: 0.4;
-}
-.focus-word.active {
-  filter: blur(0);
-  opacity: 1;
-  color: var(--color-gold);
-}
-
 /* 滚动揭示动画 */
 .scroll-reveal-text {
   overflow: hidden;
 }
-.scroll-reveal-word {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(40px) rotate(3deg);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.scroll-reveal-word.visible {
-  opacity: 1;
-  transform: translateY(0) rotate(0);
-}
-
 /* 渐变文字效果 */
 .gradient-text {
   background: linear-gradient(135deg, var(--color-gold) 0%, #e8d5a3 50%, var(--color-gold) 100%);
@@ -1610,7 +1467,7 @@ body:hover .custom-cursor { opacity: 0.6; }
   50% { background-position: 100% center; }
 }
 
-/* ==================== Responsive ==================== */
+/* Responsive */
 @media (max-width: 1024px) {
   .dongba-cards { grid-template-columns: repeat(2, 1fr); }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }

@@ -1,0 +1,30 @@
+# Build scripts and data artifacts
+素材/build_dongba_db.py
+素材/build_dongba_db_v2.py
+素材/replace_dongba_svgs.js
+素材/fix_cards_and_pinyin.js
+素材/dongba_svg_data.json
+素材/dongba_entries.json
+素材/dongba_unique_mapping.json
+素材/dongba_descriptions.json
+素材/dongba_update_progress.md
+素材/dongba_svg/
+
+# OCR training data
+素材/tessdata/
+素材/chi_sim.traineddata
+
+# Document scan images
+素材/dongba_doc_images/
+素材/dongba_doc_images_large/
+素材/page*.png
+素材/pdf_page*.png
+素材/page_*.jpg
+素材/page_*.png
+
+# Reference documents
+素材/(整理)东巴文字例释.doc
+素材/纳西象形文字谱.pdf
+
+# Claude Code skills (dev tools, not runtime assets)
+skills/

@@ -1,7 +1,4 @@
-/* true-focus.js — Word focus animation with blur and border frame
- * Pure JS + CSS implementation (no React dependency)
- * Used for cultural section titles to create immersive focus effect
- */
+/* true-focus.js — Word focus animation with blur and border frame */
 
 (function() {
   'use strict';

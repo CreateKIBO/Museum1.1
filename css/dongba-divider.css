@@ -1,6 +1,4 @@
-/* dongba-divider.css — 东巴文装饰符号
- * 侧边栏：固定在页面左右两侧，垂直排列
- */
+/* dongba-divider.css — 东巴文装饰符号 */
 
 .dongba-side {
   position: fixed;
@@ -37,9 +35,10 @@
 .dongba-side--left .dongba-side-symbol:nth-child(3) { animation-delay: 0.19s; }
 .dongba-side--left .dongba-side-symbol:nth-child(4) { animation-delay: 0.26s; }
 
-.dongba-side--right .dongba-side-symbol:nth-child(1) { animation-delay: 0.15s; }
-.dongba-side--right .dongba-side-symbol:nth-child(2) { animation-delay: 0.22s; }
-.dongba-side--right .dongba-side-symbol:nth-child(3) { animation-delay: 0.29s; }
+.dongba-side--right .dongba-side-symbol:nth-child(1) { animation-delay: 0.08s; }
+.dongba-side--right .dongba-side-symbol:nth-child(2) { animation-delay: 0.15s; }
+.dongba-side--right .dongba-side-symbol:nth-child(3) { animation-delay: 0.22s; }
+.dongba-side--right .dongba-side-symbol:nth-child(4) { animation-delay: 0.29s; }
 
 @keyframes sideFadeIn {
   to { opacity: 1; transform: translateY(0); }
@@ -68,10 +67,11 @@
 }
 
 .dongba-side-dot {
-  width: 3px;
-  height: 3px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  background: rgba(197,165,90,0.25);
+  background: #C5A55A;
+  opacity: 0.25;
 }
 
 /* Responsive */

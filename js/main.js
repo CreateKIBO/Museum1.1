@@ -3,7 +3,7 @@
 (function() {
   'use strict';
 
-  // === Scroll Progress Bar (throttled) ===
+  // Scroll Progress Bar
   const progressBar = document.getElementById('scrollProgress');
   if (progressBar) {
     let ticking = false;
@@ -21,7 +21,7 @@
     }, { passive: true });
   }
 
-  // === Navbar scroll behavior (throttled) ===
+  // Navbar scroll behavior
   const navbar = document.getElementById('navbar');
   if (navbar) {
     let navTicking = false;
@@ -41,7 +41,7 @@
     }, { passive: true });
   }
 
-  // === Mobile menu toggle ===
+  // Mobile menu toggle
   const navToggle = document.getElementById('navToggle');
   const mobileMenu = document.getElementById('mobileMenu');
   if (navToggle && mobileMenu) {
@@ -86,7 +86,7 @@
     });
   }
 
-  // === Music play button ===
+  // Music play button
   const musicPlayBtn = document.getElementById('musicPlayBtn');
   const musicVisualizer = document.getElementById('musicVisualizer');
   const bgMusic = document.getElementById('bgMusic');
@@ -106,7 +106,7 @@
     });
   }
 
-  // === Page load animation (Hero elements) ===
+  // Page load animation
   window.addEventListener('load', () => {
     const heroAnims = document.querySelectorAll('.hero .anim-fade');
     heroAnims.forEach((el) => {
@@ -117,7 +117,7 @@
     });
   });
 
-  // === Smooth scroll for anchor links ===
+  // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {
       const targetId = anchor.getAttribute('href');

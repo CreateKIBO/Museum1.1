@@ -216,7 +216,15 @@
         URL.revokeObjectURL(url);
         var imgData = ctx.getImageData(0, 0, NORM_SIZE, NORM_SIZE).data;
         var binary = getBinaryMatrix(imgData, NORM_SIZE, NORM_SIZE);
-        resolve(normalizeBinary(binary));
+        var normMat = normalizeBinary(binary);
+        if (normMat) {
+          // Light morphological close (dilate then erode) to clean up rendering gaps
+          var cleaned = dilate(normMat);
+          cleaned = erode(cleaned);
+          resolve(cleaned);
+        } else {
+          resolve(normMat);
+        }
       };
       img.onerror = function() {
         URL.revokeObjectURL(url);
@@ -268,6 +276,78 @@
 
   //特征提取
 
+  function computeHuMoments(mat) {
+    var m00 = 0, m10 = 0, m01 = 0;
+    for (var y = 0; y < NORM_SIZE; y++) {
+      for (var x = 0; x < NORM_SIZE; x++) {
+        if (mat[y * NORM_SIZE + x]) {
+          m00 += 1; m10 += x; m01 += y;
+        }
+      }
+    }
+    if (m00 === 0) return new Float32Array(7);
+    var cx = m10 / m00, cy = m01 / m00;
+
+    var mu20 = 0, mu11 = 0, mu02 = 0;
+    var mu30 = 0, mu21 = 0, mu12 = 0, mu03 = 0;
+    for (var y = 0; y < NORM_SIZE; y++) {
+      for (var x = 0; x < NORM_SIZE; x++) {
+        if (mat[y * NORM_SIZE + x]) {
+          var dx = x - cx, dy = y - cy;
+          mu20 += dx * dx; mu11 += dx * dy; mu02 += dy * dy;
+          mu30 += dx * dx * dx; mu21 += dx * dx * dy;
+          mu12 += dx * dy * dy; mu03 += dy * dy * dy;
+        }
+      }
+    }
+
+    var e20 = mu20 / Math.pow(m00, 2);
+    var e11 = mu11 / Math.pow(m00, 2);
+    var e02 = mu02 / Math.pow(m00, 2);
+    var e30 = mu30 / Math.pow(m00, 2.5);
+    var e21 = mu21 / Math.pow(m00, 2.5);
+    var e12 = mu12 / Math.pow(m00, 2.5);
+    var e03 = mu03 / Math.pow(m00, 2.5);
+
+    var hu = new Float32Array(7);
+    hu[0] = e20 + e02;
+    hu[1] = (e20 - e02) * (e20 - e02) + 4 * e11 * e11;
+    hu[2] = (e30 - 3 * e12) * (e30 - 3 * e12) + (3 * e21 - e03) * (3 * e21 - e03);
+    hu[3] = (e30 + e12) * (e30 + e12) + (e21 + e03) * (e21 + e03);
+    hu[4] = (e30 - 3 * e12) * (e30 + e12) * ((e30 + e12) * (e30 + e12) - 3 * (e21 + e03) * (e21 + e03))
+          + (3 * e21 - e03) * (e21 + e03) * (3 * (e30 + e12) * (e30 + e12) - (e21 + e03) * (e21 + e03));
+    hu[5] = (e20 - e02) * ((e30 + e12) * (e30 + e12) - (e21 + e03) * (e21 + e03))
+          + 4 * e11 * (e30 + e12) * (e21 + e03);
+    hu[6] = (3 * e21 - e03) * (e30 + e12) * ((e30 + e12) * (e30 + e12) - 3 * (e21 + e03) * (e21 + e03))
+          - (e30 - 3 * e12) * (e21 + e03) * (3 * (e30 + e12) * (e30 + e12) - (e21 + e03) * (e21 + e03));
+
+    for (var i = 0; i < 7; i++) {
+      if (hu[i] !== 0) hu[i] = Math.sign(hu[i]) * Math.log(Math.abs(hu[i]) + 1e-20);
+    }
+    return hu;
+  }
+
+  function estimateStrokeWidth(mat, skel) {
+    var totalDist = 0, count = 0;
+    for (var y = 2; y < NORM_SIZE - 2; y++) {
+      for (var x = 2; x < NORM_SIZE - 2; x++) {
+        if (!skel[y * NORM_SIZE + x]) continue;
+        for (var d = 1; d < 10; d++) {
+          var found = false;
+          for (var dy = -d; dy <= d && !found; dy++) {
+            for (var dx = -d; dx <= d && !found; dx++) {
+              if (y + dy >= 0 && y + dy < NORM_SIZE && x + dx >= 0 && x + dx < NORM_SIZE) {
+                if (!mat[(y + dy) * NORM_SIZE + (x + dx)]) { found = true; }
+              }
+            }
+          }
+          if (found) { totalDist += d; count++; break; }
+        }
+      }
+    }
+    return count > 0 ? totalDist / count : 2;
+  }
+
   function extractFeatures(normMat, skelPrecomputed) {
     if (!normMat) return null;
 
@@ -287,7 +367,8 @@
       crossings: 0,
       contourLen: 0,
       hCross: new Float32Array(NORM_SIZE),
-      vCross: new Float32Array(NORM_SIZE)
+      vCross: new Float32Array(NORM_SIZE),
+      hu: null
     };
 
     var cellW = NORM_SIZE / GRID_SIZE;
@@ -390,6 +471,8 @@
     var bw = bx1 - bx0 + 1, bh = by1 - by0 + 1;
     features.aspectRatio = bh > 0 ? bw / bh : 1;
 
+    features.hu = computeHuMoments(normMat);
+
     return features;
   }
 
@@ -424,12 +507,46 @@
     return denom > 0 ? num / denom : 0;
   }
 
+  function crossCorrelateShifted(a, b, shift) {
+    var len = a.length;
+    var meanA = 0, meanB = 0, count = 0;
+    for (var i = 0; i < len; i++) {
+      var j = i + shift;
+      if (j >= 0 && j < len) { meanA += a[i]; meanB += b[j]; count++; }
+    }
+    if (count === 0) return 0;
+    meanA /= count; meanB /= count;
+    var num = 0, da = 0, db = 0;
+    for (var i = 0; i < len; i++) {
+      var j = i + shift;
+      if (j >= 0 && j < len) {
+        var va = a[i] - meanA;
+        var vb = b[j] - meanB;
+        num += va * vb;
+        da += va * va;
+        db += vb * vb;
+      }
+    }
+    var denom = Math.sqrt(da) * Math.sqrt(db);
+    return denom > 0 ? num / denom : 0;
+  }
+
+  function shiftTolerantCorrelate(a, b, maxShift) {
+    maxShift = maxShift || 4;
+    var bestSim = -1;
+    for (var shift = -maxShift; shift <= maxShift; shift++) {
+      var sim = crossCorrelateShifted(a, b, shift);
+      if (sim > bestSim) bestSim = sim;
+    }
+    return bestSim;
+  }
+
   function computeSimilarity(fDraw, fRef) {
     var densitySim = cosineSim(fDraw.density, fRef.density);
     var density16Sim = cosineSim(fDraw.density16, fRef.density16);
     var density32Sim = cosineSim(fDraw.density32, fRef.density32);
-    var hProjSim = crossCorrelate(fDraw.hProj, fRef.hProj);
-    var vProjSim = crossCorrelate(fDraw.vProj, fRef.vProj);
+    var hProjSim = shiftTolerantCorrelate(fDraw.hProj, fRef.hProj, 4);
+    var vProjSim = shiftTolerantCorrelate(fDraw.vProj, fRef.vProj, 4);
     var radialSim = cosineSim(fDraw.radial, fRef.radial);
     var quadSim = cosineSim(fDraw.quadrants, fRef.quadrants);
 
@@ -442,7 +559,6 @@
     var arDiff = Math.abs(fDraw.aspectRatio - fRef.aspectRatio);
     var arSim = Math.max(0, 1 - arDiff * 0.8);
 
-    // Structural similarity
     var epSim = 1;
     if (fRef.endpoints > 0 || fDraw.endpoints > 0) {
       var epMax = Math.max(fDraw.endpoints, fRef.endpoints, 1);
@@ -454,37 +570,39 @@
       jnSim = 1 - Math.abs(fDraw.junctions - fRef.junctions) / jnMax;
     }
 
-    // Crossing pattern similarity
     var hCrossSim = crossCorrelate(fDraw.hCross, fRef.hCross);
     var vCrossSim = crossCorrelate(fDraw.vCross, fRef.vCross);
 
-    // Contour length similarity
     var contMax = Math.max(fDraw.contourLen, fRef.contourLen, 1);
     var contSim = 1 - Math.abs(fDraw.contourLen - fRef.contourLen) / contMax;
 
+    var huSim = 0;
+    if (fDraw.hu && fRef.hu) huSim = cosineSim(fDraw.hu, fRef.hu);
+
     var score =
-      densitySim   * 0.08 +
-      density16Sim * 0.10 +
-      density32Sim * 0.12 +
+      densitySim   * 0.06 +
+      density16Sim * 0.08 +
+      density32Sim * 0.07 +
       hProjSim     * 0.06 +
       vProjSim     * 0.06 +
       radialSim    * 0.04 +
       quadSim      * 0.03 +
       centroidSim  * 0.03 +
-      densSim      * 0.03 +
-      arSim        * 0.03 + 
-      epSim        * 0.03 +
-      jnSim        * 0.03 +
-      hCrossSim    * 0.04 +
-      vCrossSim    * 0.04 +
-      contSim      * 0.02;
+      densSim      * 0.02 +
+      arSim        * 0.04 +
+      epSim        * 0.06 +
+      jnSim        * 0.06 +
+      hCrossSim    * 0.06 +
+      vCrossSim    * 0.06 +
+      contSim      * 0.04 +
+      huSim        * 0.05;
 
     return score;
   }
 
   //距离变换匹配
 
-  function dtSimilarity(matA, distMapB) {
+  function dtSimilarity(matA, distMapB, densityA) {
     var totalDist = 0;
     var countA = 0;
     for (var i = 0; i < NORM_SIZE * NORM_SIZE; i++) {
@@ -496,19 +614,32 @@
     if (countA === 0) return 0;
 
     var avgDist = totalDist / countA;
-    // Adaptive normalization based on character size
-    var normFactor = NORM_SIZE * 0.15;
+    var normFactor = NORM_SIZE * (0.12 + (densityA || 0.1) * 0.3);
     var sim = Math.max(0, 1 - avgDist / normFactor);
     return sim;
   }
 
-  function bidirectionalDtSim(matA, distMapA, matB, distMapB) {
-    var simAB = dtSimilarity(matA, distMapB);
-    var simBA = dtSimilarity(matB, distMapA);
+  function bidirectionalDtSim(matA, distMapA, matB, distMapB, densityA, densityB) {
+    var simAB = dtSimilarity(matA, distMapB, densityA);
+    var simBA = dtSimilarity(matB, distMapA, densityB);
     return (simAB + simBA) / 2;
   }
 
   //主识别函数
+
+  function chamferSkeletonSim(skelA, distMapB) {
+    var totalDist = 0, countA = 0;
+    for (var i = 0; i < NORM_SIZE * NORM_SIZE; i++) {
+      if (skelA[i]) {
+        totalDist += distMapB[i];
+        countA++;
+      }
+    }
+    if (countA === 0) return 0;
+    var avgDist = totalDist / countA;
+    var normFactor = NORM_SIZE * 0.12;
+    return Math.max(0, 1 - avgDist / normFactor);
+  }
 
   function recognizeDrawing(canvas) {
     if (!canvas || !global.DONGBA_DB) return Promise.resolve([]);
@@ -528,12 +659,22 @@
     var normMat = normalizeBinary(binary);
     if (!normMat) return Promise.resolve([]);
 
-    // Pre-compute drawing features once
-    var drawSkel = skeletonize(normMat);
-    var drawFeatures = extractFeatures(normMat, drawSkel);
+    // Adaptive dilation based on estimated stroke width
+    var origSkel = skeletonize(normMat);
+    var strokeWidth = estimateStrokeWidth(normMat, origSkel);
+    var targetWidth = 12;
+    var dilatePasses = Math.max(0, Math.min(5, Math.round((targetWidth - strokeWidth) / 2)));
+    var dilated = new Uint8Array(normMat);
+    for (var p = 0; p < dilatePasses; p++) {
+      dilated = dilate(dilated);
+    }
+
+    var drawSkel = skeletonize(dilated);
+    var drawFeatures = extractFeatures(dilated, drawSkel);
     if (!drawFeatures) return Promise.resolve([]);
 
-    var drawDistMap = distanceTransform(normMat);
+    var drawDistMap = distanceTransform(dilated);
+    var origDistMap = distanceTransform(normMat);
 
     return ensureCache().then(function(cache) {
       if (!cache) return [];
@@ -541,38 +682,46 @@
       var results = [];
       var keys = Object.keys(cache.data);
 
+      // Pre-compute drawing attributes for coarse pre-filter
+      var drawAR = drawFeatures.aspectRatio;
+      var drawDensity = drawFeatures.totalDensity;
+      var drawEP = drawFeatures.endpoints;
+      var drawJN = drawFeatures.junctions;
+
       for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
         var entry = cache.data[key];
         if (!entry.binary) continue;
 
-        // Use pre-computed features from cache
         var refFeatures = entry.features;
         if (!refFeatures) continue;
 
-        // 1. Feature-level similarity
+        // Coarse pre-filter to skip obviously mismatched candidates
+        if (Math.abs(drawAR - refFeatures.aspectRatio) > 0.6) continue;
+        if (Math.abs(drawDensity - refFeatures.totalDensity) > 0.15) continue;
+        if (Math.abs(drawEP - refFeatures.endpoints) > 3) continue;
+        if (Math.abs(drawJN - refFeatures.junctions) > 3) continue;
+
+        // 1. Feature-level similarity (dilated drawing vs filled reference)
         var featureSim = computeSimilarity(drawFeatures, refFeatures);
 
-        // 2. Bidirectional distance transform matching
-        var dtSim = bidirectionalDtSim(normMat, drawDistMap, entry.binary, entry.distMap);
+        // 2. Bidirectional distance transform matching (adaptive normalization)
+        var dtSim = bidirectionalDtSim(
+          dilated, drawDistMap, entry.binary, entry.distMap,
+          drawFeatures.totalDensity, refFeatures.totalDensity
+        );
 
-        // 3. Skeleton overlap
-        var skelMatch = 0, skelTotal = 0;
-        for (var j = 0; j < NORM_SIZE * NORM_SIZE; j++) {
-          if (drawSkel[j] || entry.skeleton[j]) {
-            skelTotal++;
-            if (drawSkel[j] && entry.skeleton[j]) skelMatch++;
-          }
-        }
-        var skelSim = skelTotal > 0 ? skelMatch / skelTotal : 0;
+        // 3. Bidirectional chamfer skeleton matching (position-tolerant)
+        var skelSimAB = chamferSkeletonSim(origSkel, entry.distMap);
+        var skelSimBA = chamferSkeletonSim(entry.skeleton, origDistMap);
+        var skelSim = (skelSimAB + skelSimBA) / 2;
 
-        // Combined score — DT matching has highest weight
-        var confidence = featureSim * 0.25 + dtSim * 0.45 + skelSim * 0.30;
+        // Combined score — rebalanced weights
+        var confidence = featureSim * 0.25 + dtSim * 0.40 + skelSim * 0.35;
 
-        if (confidence > 0.10) {
+        if (confidence > 0.25) {
           results.push({
             cn: entry.char.cn,
-            pinyin: entry.char.pinyin,
             en: entry.char.en,
             svg: entry.char.svg,
             confidence: confidence,
@@ -592,8 +741,7 @@
   //导出
 
   global.RecognizeDongba = {
-    recognize: recognizeDrawing,
-    ensureCache: ensureCache
+    recognize: recognizeDrawing
   };
 
 })(typeof window !== 'undefined' ? window : global);

@@ -1,7 +1,4 @@
-/* text-type.js — Enhanced typewriter effect with GSAP
- * Replaces the simple setTimeout typewriter with a smoother GSAP-driven version
- * Dependencies: GSAP
- */
+/* text-type.js — Enhanced typewriter effect with GSAP */
 
 (function() {
   'use strict';

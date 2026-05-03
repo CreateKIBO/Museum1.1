@@ -1,13 +1,9 @@
-/* scroll-reveal-effect.js — Enhanced scroll-reveal text animation
- * Pure JS + GSAP implementation
- * Splits text into words and reveals them with blur + opacity on scroll
- */
+/* scroll-reveal-effect.js — Enhanced scroll-reveal text animation */
 
 (function() {
   'use strict';
 
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-    console.warn('ScrollRevealEffect: GSAP or ScrollTrigger not loaded');
     return;
   }
 

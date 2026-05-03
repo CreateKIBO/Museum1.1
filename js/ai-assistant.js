@@ -243,9 +243,9 @@
 
     bubbleText.innerHTML = html;
 
-    if (actions) {
+    if (actions && bubbleActions) {
       bubbleActions.style.display = 'flex';
-    } else {
+    } else if (bubbleActions) {
       bubbleActions.style.display = 'none';
     }
 
@@ -374,7 +374,6 @@
         '<svg class="ai-char-svg" viewBox="0 0 100 100">' + r.svg + '</svg>' +
         '<div class="ai-char-detail">' +
           '<strong class="ai-char-name">' + r.cn + '</strong>' +
-          '<span class="ai-char-pinyin">' + (r.pinyin || '') + '</span>' +
           (r.en ? '<span class="ai-char-en">' + r.en + '</span>' : '') +
         '</div>' +
       '</div>' +
@@ -520,14 +519,8 @@
     }, true);
   }
 
-  //导出 
   global.AiAssistant = {
-    init: init,
-    showRecognizeResult: showRecognizeResult,
-    speak: speak,
-    setGif: setGif,
-    showBubble: showBubble,
-    hideBubble: hideBubble
+    showRecognizeResult: showRecognizeResult
   };
 
   // 自动初始化

@@ -1,7 +1,4 @@
-/* grid-motion.js — Subtle animated grid background for hero
- * Dependencies: GSAP (optional, falls back to CSS)
- * Creates a canvas-based grid that subtly shifts with mouse/scroll
- */
+/* grid-motion.js — Subtle animated grid background for hero */
 
 (function() {
   'use strict';

@@ -1,13 +1,9 @@
-/* split-text.js — 纯JS版SplitText动画
- * 依赖: GSAP + ScrollTrigger
- * 在滚动进入视口时，将标题文字逐字/逐词动画显示
- */
+/* split-text.js — 纯JS版SplitText动画 */
 
 (function() {
   'use strict';
 
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-    console.warn('SplitText: GSAP或ScrollTrigger未加载');
     return;
   }
 
