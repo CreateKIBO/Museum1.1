@@ -1,6 +1,9 @@
 (function(global) {
   'use strict';
 
+  // AI辅助生成：DeepSeek-R4, 2026-04-28 — AI讲解助手整体架构（GIF角色、版块感知讲解、IntersectionObserver）
+  // AI辅助生成：智谱GLM5.0, 2026-04-29 — AI智能助手完善（拖拽定位、气泡对话、识别反馈、重新讲解）
+
   //GIF 路径
   var GIFS = {
     hello:     '素材/ai_animation/hello.gif',
@@ -11,7 +14,7 @@
     wrong:     '素材/ai_animation/wrong.gif'
   };
 
-  //讲解文案
+  //讲解文案 // AI辅助生成：DeepSeek-R4, 2026-04-28
   var SCRIPTS = {
     'index.html': {
       '#about':       { text: '纳西族世代居住在玉龙雪山脚下，创造了灿烂的东巴文化。让我带你走进他们的世界吧！', gif: 'hello' },
@@ -49,7 +52,7 @@
     }
   };
 
-  //状态
+  //状态 // AI辅助生成：智谱GLM5.0, 2026-04-29
   var SESSION_KEY = '__aiAssistantState';
   var POS_KEY = '__aiAssistantPos';
   var state = {
@@ -63,7 +66,7 @@
     lastSpokenDuration: null
   };
 
-  //拖拽
+  //拖拽 // AI辅助生成：智谱GLM5.0, 2026-04-29
   var isMobile = window.innerWidth <= 600;
   var drag = {
     active: false,
@@ -203,7 +206,7 @@
     return true;
   }
 
-  //GIF 切换
+  //GIF 切换 // AI辅助生成：DeepSeek-R4, 2026-04-28
   function setGif(name) {
     if (!gifImg) return;
     state.currentGif = name;
@@ -216,7 +219,7 @@
     }
   }
 
-  //气泡控制
+  //气泡控制 // AI辅助生成：智谱GLM5.0, 2026-04-29
   var bubbleTimer = null;
 
   function adjustBubbleDirection() {
@@ -265,7 +268,7 @@
     clearTimeout(bubbleTimer);
   }
 
-  //讲解逻辑
+  //讲解逻辑 // AI辅助生成：DeepSeek-R4, 2026-04-28
   function getCurrentPage() {
     var path = window.location.pathname;
 
@@ -342,7 +345,7 @@
     });
   }
 
-  //AI 猜字集成
+  //AI 猜字集成 // AI辅助生成：智谱GLM5.0, 2026-04-29
   function showRecognizeResult(results) {
     if (!results || results.length === 0) {
       setGif('wrong');
@@ -409,7 +412,7 @@
     }
   }
 
-  //初始化
+  //初始化 // AI辅助生成：智谱GLM5.0, 2026-04-29
   function init() {
     if (!findElements()) return;
 

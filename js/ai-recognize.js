@@ -1,12 +1,15 @@
 (function(global) {
   'use strict';
 
+  // AI辅助生成：DeepSeek-R4, 2026-04-28 — 整体识别引擎架构（图像预处理、特征提取、相似度匹配）
+  // AI辅助生成：智谱GLM5.0, 2026-04-15 — 优化识别准确率（多特征融合、两级匹配流程）
+
   var GRID_SIZE = 8;
   var NORM_SIZE = 96;
   var NORM_AREA = NORM_SIZE * NORM_SIZE;
   var CACHE_KEY = '__dongbaRenderCache';
 
-  //图像预处理
+  //图像预处理 // AI辅助生成：DeepSeek-R4, 2026-04-28
 
   function getBinaryMatrix(imageData, w, h) {
     var mat = new Uint8Array(w * h);
@@ -55,7 +58,7 @@
     var srcH = binary.h;
     var normMat = new Uint8Array(NORM_AREA);
 
-    // 3x3 supersampling (9 samples) — sufficient quality, 2.8x faster than 5x5
+    // 3x3超采样（9个采样点）— 质量足够，比5x5快2.8倍
     var offsets = [-0.375, 0, 0.375];
 
     for (var ny = 0; ny < NORM_SIZE; ny++) {
@@ -80,7 +83,7 @@
     return normMat;
   }
 
-  // 形态学腐蚀（3x3）— optimized with early exit
+  // 形态学腐蚀（3x3）— 已优化，提前退出
   function erode(mat) {
     var out = new Uint8Array(NORM_AREA);
     for (var y = 1; y < NORM_SIZE - 1; y++) {
@@ -96,13 +99,13 @@
         if (mat[(rowOff + NORM_SIZE) + x - 1]) neighbors++;
         if (mat[(rowOff + NORM_SIZE) + x]) neighbors++;
         if (mat[(rowOff + NORM_SIZE) + x + 1]) neighbors++;
-        if (neighbors >= 4) out[rowOff + x] = 1; // self always =1, so neighbors>=4 means total>=5
+        if (neighbors >= 4) out[rowOff + x] = 1; // 自身恒为1，neighbors>=4即总数>=5
       }
     }
     return out;
   }
 
-  // 形态学膨胀（3x3）— optimized
+  // 形态学膨胀（3x3）— 已优化
   function dilate(mat) {
     var out = new Uint8Array(NORM_AREA);
     for (var y = 1; y < NORM_SIZE - 1; y++) {
@@ -123,7 +126,7 @@
     return out;
   }
 
-  // 骨架化（Zhang-Suen迭代细化）— optimized
+// 骨架化（Zhang-Suen迭代细化）— 已优化 // AI辅助生成：DeepSeek-R4, 2026-04-28
   function skeletonize(mat) {
     var current = new Uint8Array(mat);
     var changed = true;
@@ -181,7 +184,7 @@
     return current;
   }
 
-  // 距离变换 — optimized with precomputed offsets
+  // 距离变换 — 已优化，预计算偏移量 // AI辅助生成：DeepSeek-R4, 2026-04-28
   function distanceTransform(mat) {
     var dist = new Float32Array(NORM_AREA);
     var INF = NORM_SIZE * 2;
@@ -190,7 +193,7 @@
       dist[i] = mat[i] ? 0 : INF;
     }
 
-    // Forward pass
+    // 正向遍历
     for (var y = 0; y < NORM_SIZE; y++) {
       var rowOff = y * NORM_SIZE;
       for (var x = 0; x < NORM_SIZE; x++) {
@@ -216,7 +219,7 @@
       }
     }
 
-    // Backward pass
+    // 反向遍历
     for (var y = NORM_SIZE - 1; y >= 0; y--) {
       var rowOff = y * NORM_SIZE;
       for (var x = NORM_SIZE - 1; x >= 0; x--) {
@@ -245,7 +248,7 @@
     return dist;
   }
 
-  //SVG 渲染
+  //SVG 渲染 // AI辅助生成：DeepSeek-R4, 2026-04-28
 
   function renderSvgToBinary(svgStr) {
     var processedSvg = svgStr.replace(/currentColor/g, '#1A1A18');
@@ -284,7 +287,7 @@
     });
   }
 
-  // 预渲染所有字符（带缓存）— optimized with parallel batch processing
+  // 预渲染所有字符（带缓存）— 已优化，并行批处理 // AI辅助生成：DeepSeek-R4, 2026-04-28
   function ensureCache() {
     if (global[CACHE_KEY] && global[CACHE_KEY]._ready) {
       return Promise.resolve(global[CACHE_KEY]);
@@ -301,7 +304,7 @@
     var cache = { _ready: false, data: {} };
     global[CACHE_KEY] = cache;
 
-    // Process in batches to avoid overwhelming the browser
+    // 分批处理，避免浏览器卡顿
     var BATCH_SIZE = 20;
     var index = 0;
 
@@ -336,9 +339,9 @@
     return processBatch();
   }
 
-  //特征提取
+  //特征提取 // AI辅助生成：DeepSeek-R4, 2026-04-28
 
-  function computeHuMoments(mat) {
+  function computeHuMoments(mat) { // AI辅助生成：DeepSeek-R4, 2026-04-28
     var m00 = 0, m10 = 0, m01 = 0;
     for (var y = 0; y < NORM_SIZE; y++) {
       var rowOff = y * NORM_SIZE;
@@ -397,7 +400,7 @@
   }
 
   function estimateStrokeWidth(mat, skel) {
-    // Use distance transform for efficient stroke width estimation
+    // 使用距离变换高效估算笔画宽度
     var distMap = distanceTransform(mat);
     var totalDist = 0, count = 0;
     for (var y = 2; y < NORM_SIZE - 2; y++) {
@@ -412,7 +415,7 @@
     return count > 0 ? totalDist / count * 2 : 2;
   }
 
-  function extractFeatures(normMat, skelPrecomputed) {
+  function extractFeatures(normMat, skelPrecomputed) { // AI辅助生成：DeepSeek-R4, 2026-04-28
     if (!normMat) return null;
 
     var features = {
@@ -541,7 +544,7 @@
     return features;
   }
 
-  //相似度计算
+  //相似度计算 // AI辅助生成：DeepSeek-R4, 2026-04-28
 
   function cosineSim(a, b) {
     var dot = 0, na = 0, nb = 0;
@@ -608,7 +611,7 @@
     return bestSim;
   }
 
-  function computeSimilarity(fDraw, fRef) {
+  function computeSimilarity(fDraw, fRef) { // AI辅助生成：智谱GLM5.0, 2026-04-15
     var densitySim = cosineSim(fDraw.density, fRef.density);
     var density16Sim = cosineSim(fDraw.density16, fRef.density16);
     var density32Sim = cosineSim(fDraw.density32, fRef.density32);
@@ -646,7 +649,7 @@
     var huSim = 0;
     if (fDraw.hu && fRef.hu) huSim = cosineSim(fDraw.hu, fRef.hu);
 
-    // Rebalanced weights: increased Hu moments and crossing counts (strong discriminators)
+    // 重新平衡权重：提高Hu矩和交叉计数权重（强判别特征）
     var score =
       densitySim   * 0.05 +
       density16Sim * 0.07 +
@@ -668,7 +671,7 @@
     return score;
   }
 
-  //距离变换匹配
+  //距离变换匹配 // AI辅助生成：DeepSeek-R4, 2026-04-28
 
   function dtSimilarity(matA, distMapB, densityA) {
     var totalDist = 0;
@@ -692,7 +695,7 @@
     return (simAB + simBA) * 0.5;
   }
 
-  //主识别函数
+  //主识别函数 // AI辅助生成：DeepSeek-R4, 2026-04-28
 
   function chamferSkeletonSim(skelA, distMapB) {
     var totalDist = 0, countA = 0;
@@ -708,7 +711,7 @@
     return Math.max(0, 1 - avgDist / normFactor);
   }
 
-  function recognizeDrawing(canvas) {
+  function recognizeDrawing(canvas) { // AI辅助生成：DeepSeek-R4, 2026-04-28
     if (!canvas || !global.DONGBA_DB) return Promise.resolve([]);
 
     var ctx = canvas.getContext('2d');
@@ -763,20 +766,20 @@
         var refFeatures = entry.features;
         if (!refFeatures) continue;
 
-        // Enhanced coarse pre-filter with radial and quadrant
+        // 增强粗筛选：加入径向密度和象限密度
         if (Math.abs(drawAR - refFeatures.aspectRatio) > 0.55) continue;
         if (Math.abs(drawDensity - refFeatures.totalDensity) > 0.14) continue;
         if (Math.abs(drawEP - refFeatures.endpoints) > 3) continue;
         if (Math.abs(drawJN - refFeatures.junctions) > 3) continue;
 
-        // Radial density pre-filter (fast structural check)
+        // 径向密度预筛选（快速结构检查）
         var radialDiff = 0;
         for (var r = 0; r < 6; r++) {
           radialDiff += Math.abs(drawRadial[r] - refFeatures.radial[r]);
         }
         if (radialDiff > 0.5) continue;
 
-        // Quadrant density pre-filter
+        // 象限密度预筛选
         var quadDiff = 0;
         for (var q = 0; q < 4; q++) {
           quadDiff += Math.abs(drawQuadrants[q] - refFeatures.quadrants[q]);
@@ -794,7 +797,7 @@
         var skelSimBA = chamferSkeletonSim(entry.skeleton, origDistMap);
         var skelSim = (skelSimAB + skelSimBA) * 0.5;
 
-        // Rebalanced: DT matching most reliable, skeleton second, features third
+        // 重新平衡权重：距离变换匹配最可靠，骨架次之，特征第三
         var confidence = featureSim * 0.25 + dtSim * 0.40 + skelSim * 0.35;
 
         if (confidence > 0.25) {

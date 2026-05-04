@@ -1,4 +1,5 @@
 /* marquee.js — 东巴文无限滚动控制（JS驱动无缝循环） */
+// AI辅助生成：智谱GLM5.0, 2026-04-15 — 跑马灯滚动效果（双轨道无缝循环、悬停暂停）
 
 (function() {
   'use strict';
@@ -10,21 +11,21 @@
   if (!tracks.length) return;
 
   tracks.forEach(function(track, idx) {
-    // Clone children once more for seamless overlap
+    // 克隆子元素一次，实现无缝重叠
     var children = Array.from(track.children);
     children.forEach(function(child) {
       track.appendChild(child.cloneNode(true));
     });
 
-    // Now the track has 4x the original items (original*2 from HTML + cloned*2)
-    // We only need to scroll by the width of the first half-set
-    var speed = idx === 0 ? 0.6 : -0.5; // px per frame, negative = right
+    // 现在轨道有4倍原始项（HTML中2倍 + 克隆2倍）
+// 只需滚动前半部分的宽度即可循环
+    var speed = idx === 0 ? 0.6 : -0.5; // 每帧像素数，负值表示向右
     var pos = 0;
     var halfWidth = 0;
     var paused = false;
 
     function measure() {
-      // Width of the first quarter (original items) × 2 = half of total
+      // 原始项宽度的2倍 = 总宽度的一半
       var total = track.scrollWidth;
       halfWidth = total / 2;
     }
@@ -45,11 +46,11 @@
       requestAnimationFrame(step);
     }
 
-    // Start at a mid-point so content is visible immediately
+    // 从中间位置开始，确保内容立即可见
     pos = halfWidth / 2;
     requestAnimationFrame(step);
 
-    // Pause on hover
+    // 悬停暂停
     var row = track.closest('.marquee-row');
     if (row) {
       row.addEventListener('mouseenter', function() { paused = true; });

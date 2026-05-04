@@ -1,4 +1,3 @@
-/* cursor.js — 自定义光标跟随效果 */
 
 (function() {
   'use strict';
@@ -6,7 +5,7 @@
   const cursor = document.getElementById('customCursor');
   if (!cursor) return;
 
-  // Only show custom cursor on non-touch devices
+  // 仅在非触摸设备显示自定义光标
   if ('ontouchstart' in window) {
     cursor.style.display = 'none';
     return;
@@ -23,7 +22,7 @@
   });
 
   function animateCursor() {
-    // Smooth follow with delay
+    // 平滑跟随，带延迟
     cursorX += (mouseX - cursorX) * 0.12;
     cursorY += (mouseY - cursorY) * 0.12;
 
@@ -35,7 +34,7 @@
 
   animateCursor();
 
-  // Hide cursor when leaving window
+  // 鼠标离开窗口时隐藏光标
   document.addEventListener('mouseleave', () => {
     cursor.style.opacity = '0';
   });
@@ -43,7 +42,7 @@
     cursor.style.opacity = '0.6';
   });
 
-  // Scale cursor on interactive elements
+  // 交互元素上放大光标
   const interactives = document.querySelectorAll('a, button, .gallery-item, .template-card');
   interactives.forEach((el) => {
     el.addEventListener('mouseenter', () => {

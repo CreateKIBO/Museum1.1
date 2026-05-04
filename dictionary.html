@@ -434,13 +434,13 @@
     </div>
   </div>
 
-  <!-- Character Detail Modal -->
+  <!-- 字符详情弹窗 -->
   <div class="char-modal" id="charModal">
     <button class="char-modal-close" id="charModalClose">&times;</button>
     <div class="char-modal-content" id="charModalContent"></div>
   </div>
 
-  <!-- Footer -->
+  <!-- 页脚 -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
@@ -465,7 +465,7 @@
   <script src="js/ai-assistant.js" defer></script>
   <script>
   (function(){
-    // Converter
+    // 中文转东巴文转换器
     var input = document.getElementById('inputText');
     var btn = document.getElementById('convertBtn');
     var result = document.getElementById('convertResult');
@@ -499,7 +499,7 @@
     btn.addEventListener('click', doConvert);
     input.addEventListener('keydown', function(e){ if(e.key==='Enter') doConvert(); });
 
-    // Category browser
+    // 分类浏览器
     var grid = document.getElementById('catGrid');
     var tabs = document.querySelectorAll('.cat-tab');
     var catToggle = document.getElementById('catBrowserToggle');
@@ -531,7 +531,7 @@
 
     renderGrid('all');
 
-    // Character detail modal
+    // 字符详情弹窗
     var modal = document.getElementById('charModal');
     var modalContent = document.getElementById('charModalContent');
     var modalClose = document.getElementById('charModalClose');
@@ -554,7 +554,7 @@
     modal.addEventListener('click', function(e){ if(e.target===modal) modal.classList.remove('active'); });
     document.addEventListener('keydown', function(e){ if(e.key==='Escape') modal.classList.remove('active'); });
 
-    // AI Recognize
+    // AI猜字 // AI辅助生成：DeepSeek-R4, 2026-04-28
     var recognizeBtn = document.getElementById('canvasRecognize');
     var resultPanel = document.getElementById('aiResult');
     var resultList = document.getElementById('aiResultList');

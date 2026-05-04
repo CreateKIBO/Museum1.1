@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="css/dongba-divider.css">
   <link rel="stylesheet" href="css/ai-assistant.css">
   <script>
-    // Font loading optimization
+    // 字体加载优化
     if ('fonts' in document) {
       Promise.race([
         document.fonts.ready,
@@ -529,7 +529,7 @@
     </div>
   </footer>
 
-  <!-- Scripts — optimized loading order -->
+  <!-- Scripts — 优化加载顺序 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/dongba-db.js?v=416"></script>
@@ -547,6 +547,8 @@
   <script src="js/main.js" defer></script>
   <script src="js/ai-assistant.js" defer></script>
   <script>
+  // AI辅助生成：DeepSeek-R4, 2026-04-28 — AI猜字按钮绑定与识别结果渲染
+  // AI辅助生成：智谱GLM5.0, 2026-04-29 — AI助手识别结果反馈集成
   (function(){
     var recognizeBtn = document.getElementById('canvasRecognize');
     var resultPanel = document.getElementById('aiResult');
