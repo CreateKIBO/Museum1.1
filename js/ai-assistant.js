@@ -1,7 +1,6 @@
 (function(global) {
   'use strict';
 
-  // AI辅助生成：DeepSeek-R4, 2026-04-28 — AI讲解助手整体架构（GIF角色、版块感知讲解、IntersectionObserver）
   // AI辅助生成：智谱GLM5.0, 2026-04-29 — AI智能助手完善（拖拽定位、气泡对话、识别反馈、重新讲解）
 
   //GIF 路径
@@ -14,7 +13,6 @@
     wrong:     '素材/ai_animation/wrong.gif'
   };
 
-  //讲解文案 // AI辅助生成：DeepSeek-R4, 2026-04-28
   var SCRIPTS = {
     'index.html': {
       '#about':       { text: '纳西族世代居住在玉龙雪山脚下，创造了灿烂的东巴文化。让我带你走进他们的世界吧！', gif: 'hello' },
