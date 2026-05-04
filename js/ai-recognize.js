@@ -3,6 +3,7 @@
 
   var GRID_SIZE = 8;
   var NORM_SIZE = 96;
+  var NORM_AREA = NORM_SIZE * NORM_SIZE;
   var CACHE_KEY = '__dongbaRenderCache';
 
   //图像预处理
@@ -11,13 +12,14 @@
     var mat = new Uint8Array(w * h);
     var minX = w, minY = h, maxX = -1, maxY = -1;
     for (var y = 0; y < h; y++) {
+      var rowOff = y * w;
       for (var x = 0; x < w; x++) {
-        var idx = (y * w + x) * 4;
+        var idx = (rowOff + x) * 4;
         var brightness = imageData[idx] * 0.299 + imageData[idx+1] * 0.587 + imageData[idx+2] * 0.114;
         if (brightness < 200) {
-          mat[y * w + x] = 1;
+          mat[rowOff + x] = 1;
           if (x < minX) minX = x;
-        if (x > maxX) maxX = x;
+          if (x > maxX) maxX = x;
           if (y < minY) minY = y;
           if (y > maxY) maxY = y;
         }
@@ -42,6 +44,7 @@
 
     var margin = 8;
     var scale = Math.min((NORM_SIZE - margin * 2) / sw, (NORM_SIZE - margin * 2) / sh);
+    var invScale = 1 / scale;
     var dw = sw * scale;
     var dh = sh * scale;
     var dx = (NORM_SIZE - dw) / 2;
@@ -49,68 +52,78 @@
 
     var srcMat = binary.mat;
     var srcW = binary.w;
-    var normMat = new Uint8Array(NORM_SIZE * NORM_SIZE);
+    var srcH = binary.h;
+    var normMat = new Uint8Array(NORM_AREA);
+
+    // 3x3 supersampling (9 samples) — sufficient quality, 2.8x faster than 5x5
+    var offsets = [-0.375, 0, 0.375];
 
     for (var ny = 0; ny < NORM_SIZE; ny++) {
+      var srcYfBase = sy + (ny - dy) * invScale;
       for (var nx = 0; nx < NORM_SIZE; nx++) {
-        var srcXf = sx + (nx - dx) / scale;
-        var srcYf = sy + (ny - dy) / scale;
-        // 5x5 supersampling for better quality
+        var srcXfBase = sx + (nx - dx) * invScale;
         var count = 0;
-        var samples = 0;
-        for (var sy2 = -0.5; sy2 <= 0.5; sy2 += 0.25) {
-          for (var sx2 = -0.5; sx2 <= 0.5; sx2 += 0.25) {
-            var sxi = Math.floor(srcXf + sx2);
-            var syi = Math.floor(srcYf + sy2);
-            samples++;
-            if (sxi >= 0 && sxi < binary.w && syi >= 0 && syi < binary.h) {
-              if (srcMat[syi * srcW + sxi]) count++;
+        for (var si = 0; si < 3; si++) {
+          var syi = Math.floor(srcYfBase + offsets[si]);
+          if (syi < 0 || syi >= srcH) continue;
+          var rowOff = syi * srcW;
+          for (var sj = 0; sj < 3; sj++) {
+            var sxi = Math.floor(srcXfBase + offsets[sj]);
+            if (sxi >= 0 && sxi < srcW) {
+              if (srcMat[rowOff + sxi]) count++;
             }
           }
         }
-        if (count >= samples * 0.3) normMat[ny * NORM_SIZE + nx] = 1;
+        if (count >= 3) normMat[ny * NORM_SIZE + nx] = 1;
       }
     }
     return normMat;
   }
 
-  // 形态学腐蚀（3x3）
+  // 形态学腐蚀（3x3）— optimized with early exit
   function erode(mat) {
-    var out = new Uint8Array(NORM_SIZE * NORM_SIZE);
+    var out = new Uint8Array(NORM_AREA);
     for (var y = 1; y < NORM_SIZE - 1; y++) {
+      var rowOff = y * NORM_SIZE;
       for (var x = 1; x < NORM_SIZE - 1; x++) {
-        if (mat[y * NORM_SIZE + x]) {
-          var neighbors = 0;
-          for (var dy = -1; dy <= 1; dy++) {
-            for (var dx = -1; dx <= 1; dx++) {
-              if (mat[(y+dy) * NORM_SIZE + (x+dx)]) neighbors++;
-            }
-          }
-          if (neighbors >= 5) out[y * NORM_SIZE + x] = 1;
-        }
+        if (!mat[rowOff + x]) continue;
+        var neighbors = 0;
+        if (mat[(rowOff - NORM_SIZE) + x - 1]) neighbors++;
+        if (mat[(rowOff - NORM_SIZE) + x]) neighbors++;
+        if (mat[(rowOff - NORM_SIZE) + x + 1]) neighbors++;
+        if (mat[rowOff + x - 1]) neighbors++;
+        if (mat[rowOff + x + 1]) neighbors++;
+        if (mat[(rowOff + NORM_SIZE) + x - 1]) neighbors++;
+        if (mat[(rowOff + NORM_SIZE) + x]) neighbors++;
+        if (mat[(rowOff + NORM_SIZE) + x + 1]) neighbors++;
+        if (neighbors >= 4) out[rowOff + x] = 1; // self always =1, so neighbors>=4 means total>=5
       }
     }
     return out;
   }
 
-  // 形态学膨胀（3x3）
+  // 形态学膨胀（3x3）— optimized
   function dilate(mat) {
-    var out = new Uint8Array(NORM_SIZE * NORM_SIZE);
+    var out = new Uint8Array(NORM_AREA);
     for (var y = 1; y < NORM_SIZE - 1; y++) {
+      var rowOff = y * NORM_SIZE;
       for (var x = 1; x < NORM_SIZE - 1; x++) {
-        if (mat[y * NORM_SIZE + x]) {
-          for (var dy = -1; dy <= 1; dy++) {
-            for (var dx = -1; dx <= 1; dx++) {
-              out[(y+dy) * NORM_SIZE + (x+dx)] = 1;
-            }
-          }
-        }
+        if (!mat[rowOff + x]) continue;
+        out[(rowOff - NORM_SIZE) + x - 1] = 1;
+        out[(rowOff - NORM_SIZE) + x] = 1;
+        out[(rowOff - NORM_SIZE) + x + 1] = 1;
+        out[rowOff + x - 1] = 1;
+        out[rowOff + x] = 1;
+        out[rowOff + x + 1] = 1;
+        out[(rowOff + NORM_SIZE) + x - 1] = 1;
+        out[(rowOff + NORM_SIZE) + x] = 1;
+        out[(rowOff + NORM_SIZE) + x + 1] = 1;
       }
     }
     return out;
   }
 
-  // 骨架化（Zhang-Suen迭代细化）
+  // 骨架化（Zhang-Suen迭代细化）— optimized
   function skeletonize(mat) {
     var current = new Uint8Array(mat);
     var changed = true;
@@ -121,31 +134,37 @@
       changed = false;
       iterations++;
       var next = new Uint8Array(current);
+      var isOdd = iterations & 1;
 
       for (var y = 1; y < NORM_SIZE - 1; y++) {
+        var rowOff = y * NORM_SIZE;
         for (var x = 1; x < NORM_SIZE - 1; x++) {
-          if (!current[y * NORM_SIZE + x]) continue;
+          if (!current[rowOff + x]) continue;
 
-          var p2 = current[(y-1) * NORM_SIZE + x];
-          var p3 = current[(y-1) * NORM_SIZE + (x+1)];
-          var p4 = current[y * NORM_SIZE + (x+1)];
-          var p5 = current[(y+1) * NORM_SIZE + (x+1)];
-          var p6 = current[(y+1) * NORM_SIZE + x];
-          var p7 = current[(y+1) * NORM_SIZE + (x-1)];
-          var p8 = current[y * NORM_SIZE + (x-1)];
-          var p9 = current[(y-1) * NORM_SIZE + (x-1)];
+          var p2 = current[(rowOff - NORM_SIZE) + x];
+          var p3 = current[(rowOff - NORM_SIZE) + x + 1];
+          var p4 = current[rowOff + x + 1];
+          var p5 = current[(rowOff + NORM_SIZE) + x + 1];
+          var p6 = current[(rowOff + NORM_SIZE) + x];
+          var p7 = current[(rowOff + NORM_SIZE) + x - 1];
+          var p8 = current[rowOff + x - 1];
+          var p9 = current[(rowOff - NORM_SIZE) + x - 1];
 
           var B = p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9;
           if (B < 2 || B > 6) continue;
 
           var transitions = 0;
-          var seq = [p2,p3,p4,p5,p6,p7,p8,p9,p2];
-          for (var i = 0; i < 8; i++) {
-            if (!seq[i] && seq[i+1]) transitions++;
-          }
+          if (!p2 && p3) transitions++;
+          if (!p3 && p4) transitions++;
+          if (!p4 && p5) transitions++;
+          if (!p5 && p6) transitions++;
+          if (!p6 && p7) transitions++;
+          if (!p7 && p8) transitions++;
+          if (!p8 && p9) transitions++;
+          if (!p9 && p2) transitions++;
           if (transitions !== 1) continue;
 
-          if (iterations % 2 === 1) {
+          if (isOdd) {
             if (p2 && p4 && p6) continue;
             if (p4 && p6 && p8) continue;
           } else {
@@ -153,7 +172,7 @@
             if (p2 && p6 && p8) continue;
           }
 
-          next[y * NORM_SIZE + x] = 0;
+          next[rowOff + x] = 0;
           changed = true;
         }
       }
@@ -162,32 +181,64 @@
     return current;
   }
 
-  // 距离变换
+  // 距离变换 — optimized with precomputed offsets
   function distanceTransform(mat) {
-    var dist = new Float32Array(NORM_SIZE * NORM_SIZE);
+    var dist = new Float32Array(NORM_AREA);
     var INF = NORM_SIZE * 2;
 
-    for (var i = 0; i < NORM_SIZE * NORM_SIZE; i++) {
+    for (var i = 0; i < NORM_AREA; i++) {
       dist[i] = mat[i] ? 0 : INF;
     }
 
+    // Forward pass
     for (var y = 0; y < NORM_SIZE; y++) {
+      var rowOff = y * NORM_SIZE;
       for (var x = 0; x < NORM_SIZE; x++) {
-        var idx = y * NORM_SIZE + x;
-        if (y > 0) dist[idx] = Math.min(dist[idx], dist[(y-1)*NORM_SIZE+x] + 1);
-        if (x > 0) dist[idx] = Math.min(dist[idx], dist[y*NORM_SIZE+(x-1)] + 1);
-        if (y > 0 && x > 0) dist[idx] = Math.min(dist[idx], dist[(y-1)*NORM_SIZE+(x-1)] + 1.41);
-        if (y > 0 && x < NORM_SIZE-1) dist[idx] = Math.min(dist[idx], dist[(y-1)*NORM_SIZE+(x+1)] + 1.41);
+        var idx = rowOff + x;
+        var d = dist[idx];
+        if (y > 0) {
+          var v = dist[(rowOff - NORM_SIZE) + x] + 1;
+          if (v < d) d = v;
+        }
+        if (x > 0) {
+          var v = dist[idx - 1] + 1;
+          if (v < d) d = v;
+        }
+        if (y > 0 && x > 0) {
+          var v = dist[(rowOff - NORM_SIZE) + x - 1] + 1.41;
+          if (v < d) d = v;
+        }
+        if (y > 0 && x < NORM_SIZE - 1) {
+          var v = dist[(rowOff - NORM_SIZE) + x + 1] + 1.41;
+          if (v < d) d = v;
+        }
+        dist[idx] = d;
       }
     }
 
+    // Backward pass
     for (var y = NORM_SIZE - 1; y >= 0; y--) {
+      var rowOff = y * NORM_SIZE;
       for (var x = NORM_SIZE - 1; x >= 0; x--) {
-        var idx = y * NORM_SIZE + x;
-        if (y < NORM_SIZE-1) dist[idx] = Math.min(dist[idx], dist[(y+1)*NORM_SIZE+x] + 1);
-        if (x < NORM_SIZE-1) dist[idx] = Math.min(dist[idx], dist[y*NORM_SIZE+(x+1)] + 1);
-        if (y < NORM_SIZE-1 && x < NORM_SIZE-1) dist[idx] = Math.min(dist[idx], dist[(y+1)*NORM_SIZE+(x+1)] + 1.41);
-        if (y < NORM_SIZE-1 && x > 0) dist[idx] = Math.min(dist[idx], dist[(y+1)*NORM_SIZE+(x-1)] + 1.41);
+        var idx = rowOff + x;
+        var d = dist[idx];
+        if (y < NORM_SIZE - 1) {
+          var v = dist[(rowOff + NORM_SIZE) + x] + 1;
+          if (v < d) d = v;
+        }
+        if (x < NORM_SIZE - 1) {
+          var v = dist[idx + 1] + 1;
+          if (v < d) d = v;
+        }
+        if (y < NORM_SIZE - 1 && x < NORM_SIZE - 1) {
+          var v = dist[(rowOff + NORM_SIZE) + x + 1] + 1.41;
+          if (v < d) d = v;
+        }
+        if (y < NORM_SIZE - 1 && x > 0) {
+          var v = dist[(rowOff + NORM_SIZE) + x - 1] + 1.41;
+          if (v < d) d = v;
+        }
+        dist[idx] = d;
       }
     }
 
@@ -218,7 +269,6 @@
         var binary = getBinaryMatrix(imgData, NORM_SIZE, NORM_SIZE);
         var normMat = normalizeBinary(binary);
         if (normMat) {
-          // Light morphological close (dilate then erode) to clean up rendering gaps
           var cleaned = dilate(normMat);
           cleaned = erode(cleaned);
           resolve(cleaned);
@@ -234,7 +284,7 @@
     });
   }
 
-  // 预渲染所有字符（带缓存）
+  // 预渲染所有字符（带缓存）— optimized with parallel batch processing
   function ensureCache() {
     if (global[CACHE_KEY] && global[CACHE_KEY]._ready) {
       return Promise.resolve(global[CACHE_KEY]);
@@ -251,27 +301,39 @@
     var cache = { _ready: false, data: {} };
     global[CACHE_KEY] = cache;
 
-    var promises = unique.map(function(char) {
-      return renderSvgToBinary(char.svg).then(function(binary) {
-        if (binary) {
-          var skeleton = skeletonize(binary);
-          var distMap = distanceTransform(binary);
-          var features = extractFeatures(binary, skeleton);
-          cache.data[char.cn] = {
-            binary: binary,
-            skeleton: skeleton,
-            distMap: distMap,
-            features: features,
-            char: char
-          };
-        }
-      });
-    });
+    // Process in batches to avoid overwhelming the browser
+    var BATCH_SIZE = 20;
+    var index = 0;
 
-    return Promise.all(promises).then(function() {
-      cache._ready = true;
-      return cache;
-    });
+    function processBatch() {
+      var batch = [];
+      for (var b = 0; b < BATCH_SIZE && index < unique.length; b++, index++) {
+        batch.push(unique[index]);
+      }
+      if (batch.length === 0) {
+        cache._ready = true;
+        return Promise.resolve(cache);
+      }
+
+      return Promise.all(batch.map(function(char) {
+        return renderSvgToBinary(char.svg).then(function(binary) {
+          if (binary) {
+            var skeleton = skeletonize(binary);
+            var distMap = distanceTransform(binary);
+            var features = extractFeatures(binary, skeleton);
+            cache.data[char.cn] = {
+              binary: binary,
+              skeleton: skeleton,
+              distMap: distMap,
+              features: features,
+              char: char
+            };
+          }
+        });
+      })).then(processBatch);
+    }
+
+    return processBatch();
   }
 
   //特征提取
@@ -279,8 +341,9 @@
   function computeHuMoments(mat) {
     var m00 = 0, m10 = 0, m01 = 0;
     for (var y = 0; y < NORM_SIZE; y++) {
+      var rowOff = y * NORM_SIZE;
       for (var x = 0; x < NORM_SIZE; x++) {
-        if (mat[y * NORM_SIZE + x]) {
+        if (mat[rowOff + x]) {
           m00 += 1; m10 += x; m01 += y;
         }
       }
@@ -291,23 +354,29 @@
     var mu20 = 0, mu11 = 0, mu02 = 0;
     var mu30 = 0, mu21 = 0, mu12 = 0, mu03 = 0;
     for (var y = 0; y < NORM_SIZE; y++) {
+      var rowOff = y * NORM_SIZE;
+      var dy = y - cy;
+      var dy2 = dy * dy;
       for (var x = 0; x < NORM_SIZE; x++) {
-        if (mat[y * NORM_SIZE + x]) {
-          var dx = x - cx, dy = y - cy;
-          mu20 += dx * dx; mu11 += dx * dy; mu02 += dy * dy;
-          mu30 += dx * dx * dx; mu21 += dx * dx * dy;
-          mu12 += dx * dy * dy; mu03 += dy * dy * dy;
+        if (mat[rowOff + x]) {
+          var dx = x - cx;
+          var dx2 = dx * dx;
+          mu20 += dx2; mu11 += dx * dy; mu02 += dy2;
+          mu30 += dx2 * dx; mu21 += dx2 * dy;
+          mu12 += dx * dy2; mu03 += dy2 * dy;
         }
       }
     }
 
-    var e20 = mu20 / Math.pow(m00, 2);
-    var e11 = mu11 / Math.pow(m00, 2);
-    var e02 = mu02 / Math.pow(m00, 2);
-    var e30 = mu30 / Math.pow(m00, 2.5);
-    var e21 = mu21 / Math.pow(m00, 2.5);
-    var e12 = mu12 / Math.pow(m00, 2.5);
-    var e03 = mu03 / Math.pow(m00, 2.5);
+    var m00sq = m00 * m00;
+    var e20 = mu20 / m00sq;
+    var e11 = mu11 / m00sq;
+    var e02 = mu02 / m00sq;
+    var m00cb = m00 * m00sq;
+    var e30 = mu30 / m00cb;
+    var e21 = mu21 / m00cb;
+    var e12 = mu12 / m00cb;
+    var e03 = mu03 / m00cb;
 
     var hu = new Float32Array(7);
     hu[0] = e20 + e02;
@@ -328,24 +397,19 @@
   }
 
   function estimateStrokeWidth(mat, skel) {
+    // Use distance transform for efficient stroke width estimation
+    var distMap = distanceTransform(mat);
     var totalDist = 0, count = 0;
     for (var y = 2; y < NORM_SIZE - 2; y++) {
+      var rowOff = y * NORM_SIZE;
       for (var x = 2; x < NORM_SIZE - 2; x++) {
-        if (!skel[y * NORM_SIZE + x]) continue;
-        for (var d = 1; d < 10; d++) {
-          var found = false;
-          for (var dy = -d; dy <= d && !found; dy++) {
-            for (var dx = -d; dx <= d && !found; dx++) {
-              if (y + dy >= 0 && y + dy < NORM_SIZE && x + dx >= 0 && x + dx < NORM_SIZE) {
-                if (!mat[(y + dy) * NORM_SIZE + (x + dx)]) { found = true; }
-              }
-            }
-          }
-          if (found) { totalDist += d; count++; break; }
+        if (skel[rowOff + x]) {
+          totalDist += distMap[rowOff + x];
+          count++;
         }
       }
     }
-    return count > 0 ? totalDist / count : 2;
+    return count > 0 ? totalDist / count * 2 : 2;
   }
 
   function extractFeatures(normMat, skelPrecomputed) {
@@ -379,14 +443,16 @@
     var cellH32 = NORM_SIZE / 32;
     var centerX = NORM_SIZE / 2, centerY = NORM_SIZE / 2;
     var maxRadius = Math.sqrt(centerX * centerX + centerY * centerY);
+    var invMaxRadius = 1 / maxRadius;
     var sumX = 0, sumY = 0, totalCount = 0;
     var bx0 = NORM_SIZE, by0 = NORM_SIZE, bx1 = 0, by1 = 0;
 
     var skel = skelPrecomputed || skeletonize(normMat);
 
     for (var y = 0; y < NORM_SIZE; y++) {
+      var rowOff = y * NORM_SIZE;
       for (var x = 0; x < NORM_SIZE; x++) {
-        var v = normMat[y * NORM_SIZE + x];
+        var v = normMat[rowOff + x];
         if (!v) continue;
 
         totalCount++;
@@ -396,23 +462,20 @@
         if (y < by0) by0 = y;
         if (y > by1) by1 = y;
 
-        // 8x8 density grid
         var gx = Math.min(GRID_SIZE - 1, (x / cellW) | 0);
         var gy = Math.min(GRID_SIZE - 1, (y / cellH) | 0);
         features.density[gy * GRID_SIZE + gx] += 1;
 
-        // 16x16 density grid
         var gx16 = Math.min(15, (x / cellW16) | 0);
         var gy16 = Math.min(15, (y / cellH16) | 0);
         features.density16[gy16 * 16 + gx16] += 1;
 
-        // 32x32 density grid
         var gx32 = Math.min(31, (x / cellW32) | 0);
         var gy32 = Math.min(31, (y / cellH32) | 0);
         features.density32[gy32 * 32 + gx32] += 1;
 
         var dx = x - centerX, dy = y - centerY;
-        var dist = Math.sqrt(dx * dx + dy * dy) / maxRadius;
+        var dist = Math.sqrt(dx * dx + dy * dy) * invMaxRadius;
         var ring = Math.min(5, (dist * 6) | 0);
         features.radial[ring] += 1;
 
@@ -422,28 +485,25 @@
         features.hProj[y] += 1;
         features.vProj[x] += 1;
 
-        // Contour detection (border pixels)
         if (x === 0 || x === NORM_SIZE-1 || y === 0 || y === NORM_SIZE-1 ||
-            !normMat[(y-1)*NORM_SIZE+x] || !normMat[(y+1)*NORM_SIZE+x] ||
-            !normMat[y*NORM_SIZE+(x-1)] || !normMat[y*NORM_SIZE+(x+1)]) {
+            !normMat[(rowOff - NORM_SIZE) + x] || !normMat[(rowOff + NORM_SIZE) + x] ||
+            !normMat[rowOff + x - 1] || !normMat[rowOff + x + 1]) {
           features.contourLen++;
         }
 
-        // Horizontal/vertical crossing counts
-        if (x > 0 && !normMat[y * NORM_SIZE + (x-1)] && v) {
+        if (x > 0 && !normMat[rowOff + x - 1]) {
           features.hCross[y]++;
         }
-        if (y > 0 && !normMat[(y-1) * NORM_SIZE + x] && v) {
+        if (y > 0 && !normMat[(rowOff - NORM_SIZE) + x]) {
           features.vCross[x]++;
         }
 
-        // Structural: analyze skeleton neighbors
-        if (skel[y * NORM_SIZE + x] && y > 0 && y < NORM_SIZE-1 && x > 0 && x < NORM_SIZE-1) {
+        if (skel[rowOff + x] && y > 0 && y < NORM_SIZE-1 && x > 0 && x < NORM_SIZE-1) {
           var neighbors = 0;
-          if (skel[(y-1)*NORM_SIZE+x]) neighbors++;
-          if (skel[(y+1)*NORM_SIZE+x]) neighbors++;
-          if (skel[y*NORM_SIZE+(x-1)]) neighbors++;
-          if (skel[y*NORM_SIZE+(x+1)]) neighbors++;
+          if (skel[(rowOff - NORM_SIZE) + x]) neighbors++;
+          if (skel[(rowOff + NORM_SIZE) + x]) neighbors++;
+          if (skel[rowOff + x - 1]) neighbors++;
+          if (skel[rowOff + x + 1]) neighbors++;
           if (neighbors === 1) features.endpoints++;
           else if (neighbors >= 3) features.junctions++;
         }
@@ -452,21 +512,26 @@
 
     if (totalCount === 0) return null;
 
-    // Normalize
     var cellArea = cellW * cellH;
     var cellArea16 = cellW16 * cellH16;
     var cellArea32 = cellW32 * cellH32;
-    for (var i = 0; i < features.density.length; i++) features.density[i] /= cellArea;
-    for (var i = 0; i < features.density16.length; i++) features.density16[i] /= cellArea16;
-    for (var i = 0; i < features.density32.length; i++) features.density32[i] /= cellArea32;
-    for (var i = 0; i < features.hProj.length; i++) features.hProj[i] /= NORM_SIZE;
-    for (var i = 0; i < features.vProj.length; i++) features.vProj[i] /= NORM_SIZE;
-    for (var i = 0; i < features.radial.length; i++) features.radial[i] /= totalCount;
-    for (var i = 0; i < features.quadrants.length; i++) features.quadrants[i] /= totalCount;
+    var invCellArea = 1 / cellArea;
+    var invCellArea16 = 1 / cellArea16;
+    var invCellArea32 = 1 / cellArea32;
+    var invNormSize = 1 / NORM_SIZE;
+    var invTotalCount = 1 / totalCount;
 
-    features.totalDensity = totalCount / (NORM_SIZE * NORM_SIZE);
-    features.cx = sumX / totalCount / NORM_SIZE;
-    features.cy = sumY / totalCount / NORM_SIZE;
+    for (var i = 0; i < features.density.length; i++) features.density[i] *= invCellArea;
+    for (var i = 0; i < features.density16.length; i++) features.density16[i] *= invCellArea16;
+    for (var i = 0; i < features.density32.length; i++) features.density32[i] *= invCellArea32;
+    for (var i = 0; i < features.hProj.length; i++) features.hProj[i] *= invNormSize;
+    for (var i = 0; i < features.vProj.length; i++) features.vProj[i] *= invNormSize;
+    for (var i = 0; i < features.radial.length; i++) features.radial[i] *= invTotalCount;
+    for (var i = 0; i < features.quadrants.length; i++) features.quadrants[i] *= invTotalCount;
+
+    features.totalDensity = totalCount / NORM_AREA;
+    features.cx = sumX * invTotalCount * invNormSize;
+    features.cy = sumY * invTotalCount * invNormSize;
 
     var bw = bx1 - bx0 + 1, bh = by1 - by0 + 1;
     features.aspectRatio = bh > 0 ? bw / bh : 1;
@@ -480,10 +545,11 @@
 
   function cosineSim(a, b) {
     var dot = 0, na = 0, nb = 0;
-    for (var i = 0; i < a.length; i++) {
-      dot += a[i] * b[i];
-      na += a[i] * a[i];
-      nb += b[i] * b[i];
+    for (var i = 0, len = a.length; i < len; i++) {
+      var va = a[i], vb = b[i];
+      dot += va * vb;
+      na += va * va;
+      nb += vb * vb;
     }
     var denom = Math.sqrt(na) * Math.sqrt(nb);
     return denom > 0 ? dot / denom : 0;
@@ -515,7 +581,8 @@
       if (j >= 0 && j < len) { meanA += a[i]; meanB += b[j]; count++; }
     }
     if (count === 0) return 0;
-    meanA /= count; meanB /= count;
+    var invCount = 1 / count;
+    meanA *= invCount; meanB *= invCount;
     var num = 0, da = 0, db = 0;
     for (var i = 0; i < len; i++) {
       var j = i + shift;
@@ -550,7 +617,7 @@
     var radialSim = cosineSim(fDraw.radial, fRef.radial);
     var quadSim = cosineSim(fDraw.quadrants, fRef.quadrants);
 
-    var cDist = Math.sqrt(Math.pow(fDraw.cx - fRef.cx, 2) + Math.pow(fDraw.cy - fRef.cy, 2));
+    var cDist = Math.sqrt((fDraw.cx - fRef.cx) * (fDraw.cx - fRef.cx) + (fDraw.cy - fRef.cy) * (fDraw.cy - fRef.cy));
     var centroidSim = Math.max(0, 1 - cDist * 2);
 
     var densDiff = Math.abs(fDraw.totalDensity - fRef.totalDensity);
@@ -579,23 +646,24 @@
     var huSim = 0;
     if (fDraw.hu && fRef.hu) huSim = cosineSim(fDraw.hu, fRef.hu);
 
+    // Rebalanced weights: increased Hu moments and crossing counts (strong discriminators)
     var score =
-      densitySim   * 0.06 +
-      density16Sim * 0.08 +
-      density32Sim * 0.07 +
-      hProjSim     * 0.06 +
-      vProjSim     * 0.06 +
+      densitySim   * 0.05 +
+      density16Sim * 0.07 +
+      density32Sim * 0.06 +
+      hProjSim     * 0.05 +
+      vProjSim     * 0.05 +
       radialSim    * 0.04 +
       quadSim      * 0.03 +
       centroidSim  * 0.03 +
       densSim      * 0.02 +
       arSim        * 0.04 +
-      epSim        * 0.06 +
-      jnSim        * 0.06 +
-      hCrossSim    * 0.06 +
-      vCrossSim    * 0.06 +
+      epSim        * 0.05 +
+      jnSim        * 0.05 +
+      hCrossSim    * 0.08 +
+      vCrossSim    * 0.08 +
       contSim      * 0.04 +
-      huSim        * 0.05;
+      huSim        * 0.08;
 
     return score;
   }
@@ -605,7 +673,7 @@
   function dtSimilarity(matA, distMapB, densityA) {
     var totalDist = 0;
     var countA = 0;
-    for (var i = 0; i < NORM_SIZE * NORM_SIZE; i++) {
+    for (var i = 0; i < NORM_AREA; i++) {
       if (matA[i]) {
         totalDist += distMapB[i];
         countA++;
@@ -615,21 +683,20 @@
 
     var avgDist = totalDist / countA;
     var normFactor = NORM_SIZE * (0.12 + (densityA || 0.1) * 0.3);
-    var sim = Math.max(0, 1 - avgDist / normFactor);
-    return sim;
+    return Math.max(0, 1 - avgDist / normFactor);
   }
 
   function bidirectionalDtSim(matA, distMapA, matB, distMapB, densityA, densityB) {
     var simAB = dtSimilarity(matA, distMapB, densityA);
     var simBA = dtSimilarity(matB, distMapA, densityB);
-    return (simAB + simBA) / 2;
+    return (simAB + simBA) * 0.5;
   }
 
   //主识别函数
 
   function chamferSkeletonSim(skelA, distMapB) {
     var totalDist = 0, countA = 0;
-    for (var i = 0; i < NORM_SIZE * NORM_SIZE; i++) {
+    for (var i = 0; i < NORM_AREA; i++) {
       if (skelA[i]) {
         totalDist += distMapB[i];
         countA++;
@@ -659,7 +726,6 @@
     var normMat = normalizeBinary(binary);
     if (!normMat) return Promise.resolve([]);
 
-    // Adaptive dilation based on estimated stroke width
     var origSkel = skeletonize(normMat);
     var strokeWidth = estimateStrokeWidth(normMat, origSkel);
     var targetWidth = 12;
@@ -682,11 +748,12 @@
       var results = [];
       var keys = Object.keys(cache.data);
 
-      // Pre-compute drawing attributes for coarse pre-filter
       var drawAR = drawFeatures.aspectRatio;
       var drawDensity = drawFeatures.totalDensity;
       var drawEP = drawFeatures.endpoints;
       var drawJN = drawFeatures.junctions;
+      var drawRadial = drawFeatures.radial;
+      var drawQuadrants = drawFeatures.quadrants;
 
       for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
@@ -696,27 +763,38 @@
         var refFeatures = entry.features;
         if (!refFeatures) continue;
 
-        // Coarse pre-filter to skip obviously mismatched candidates
-        if (Math.abs(drawAR - refFeatures.aspectRatio) > 0.6) continue;
-        if (Math.abs(drawDensity - refFeatures.totalDensity) > 0.15) continue;
+        // Enhanced coarse pre-filter with radial and quadrant
+        if (Math.abs(drawAR - refFeatures.aspectRatio) > 0.55) continue;
+        if (Math.abs(drawDensity - refFeatures.totalDensity) > 0.14) continue;
         if (Math.abs(drawEP - refFeatures.endpoints) > 3) continue;
         if (Math.abs(drawJN - refFeatures.junctions) > 3) continue;
 
-        // 1. Feature-level similarity (dilated drawing vs filled reference)
+        // Radial density pre-filter (fast structural check)
+        var radialDiff = 0;
+        for (var r = 0; r < 6; r++) {
+          radialDiff += Math.abs(drawRadial[r] - refFeatures.radial[r]);
+        }
+        if (radialDiff > 0.5) continue;
+
+        // Quadrant density pre-filter
+        var quadDiff = 0;
+        for (var q = 0; q < 4; q++) {
+          quadDiff += Math.abs(drawQuadrants[q] - refFeatures.quadrants[q]);
+        }
+        if (quadDiff > 0.5) continue;
+
         var featureSim = computeSimilarity(drawFeatures, refFeatures);
 
-        // 2. Bidirectional distance transform matching (adaptive normalization)
         var dtSim = bidirectionalDtSim(
           dilated, drawDistMap, entry.binary, entry.distMap,
           drawFeatures.totalDensity, refFeatures.totalDensity
         );
 
-        // 3. Bidirectional chamfer skeleton matching (position-tolerant)
         var skelSimAB = chamferSkeletonSim(origSkel, entry.distMap);
         var skelSimBA = chamferSkeletonSim(entry.skeleton, origDistMap);
-        var skelSim = (skelSimAB + skelSimBA) / 2;
+        var skelSim = (skelSimAB + skelSimBA) * 0.5;
 
-        // Combined score — rebalanced weights
+        // Rebalanced: DT matching most reliable, skeleton second, features third
         var confidence = featureSim * 0.25 + dtSim * 0.40 + skelSim * 0.35;
 
         if (confidence > 0.25) {
